@@ -4,18 +4,29 @@ import { createClient } from "redis";
 import { unstable_noStore as noStore } from "next/cache";
 
 // 특정 slug 조회수 증가
+// export async function incrementView(slug: string) {
+//   if (!process.env.REDIS_URL) {
+//     return;
+//   }
+
+//   const redis = createClient({ url: process.env.REDIS_URL });
+//   // 캐시 방지
+
+//   noStore();
+//   await redis.connect();
+//   await redis.hIncrBy("views", slug, 1); // 특정 slug 조회수 +1 증가
+//   await redis.disconnect();
+// }
+
 export async function incrementView(slug: string) {
-  if (!process.env.REDIS_URL) {
-    return;
-  }
+  const res = await fetch("/api/increment-view", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ slug }),
+  });
 
-  const redis = createClient({ url: process.env.REDIS_URL });
-  // 캐시 방지
-
-  noStore();
-  await redis.connect();
-  await redis.hIncrBy("views", slug, 1); // 특정 slug 조회수 +1 증가
-  await redis.disconnect();
+  const data = await res.json();
+  console.log(data); // { status: 200, message: "View count incremented" }
 }
 
 // 모든 조회수 가져오기
