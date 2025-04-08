@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
@@ -9,9 +9,7 @@ type Props = {
 };
 
 export const ThemeSwitcher = () => {
-  const [theme, setTheme] = useState<Theme>(
-    (localStorage.getItem("theme") as Theme) || "light"
-  );
+  const [theme, setTheme] = useState<Theme>("light");
   const handleToggle = () => {
     const currentTheme = localStorage.getItem("theme") as Theme;
     if (currentTheme === "light") {
@@ -24,6 +22,13 @@ export const ThemeSwitcher = () => {
       setTheme("light");
     }
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const currentTheme = localStorage.getItem("theme") as Theme;
+      setTheme(currentTheme || "light");
+    }
+  }, []);
 
   return (
     <button onClick={handleToggle}>

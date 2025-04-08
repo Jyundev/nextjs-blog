@@ -1,8 +1,7 @@
-import { notFound } from "next/navigation";
-import { CustomMDX } from "app/components/mdx";
 import { formatDate, getBlogPosts } from "app/blog/utils";
+import { CustomMDX } from "app/components/mdx";
 import { baseUrl } from "app/sitemap";
-import { useState } from "react";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   let posts = getBlogPosts();
@@ -52,9 +51,7 @@ export function generateMetadata({ params }) {
   };
 }
 
-export async function getViewsCount(): Promise<
-  { slug: string; count: number }[]
-> {
+async function getViewsCount(): Promise<{ slug: string; count: number }[]> {
   // if (!process.env.POSTGRES_URL) {
   //   return [];
   // }
