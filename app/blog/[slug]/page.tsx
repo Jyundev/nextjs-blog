@@ -3,6 +3,7 @@ import { CustomMDX } from "app/components/mdx";
 import { baseUrl } from "app/sitemap";
 import { notFound } from "next/navigation";
 
+import { getViewsCount, incrementView } from "app/db/query";
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
@@ -51,25 +52,16 @@ export function generateMetadata({ params }) {
   };
 }
 
-async function getViewsCount(): Promise<{ slug: string; count: number }[]> {
-  // if (!process.env.POSTGRES_URL) {
-  //   return [];
-  // }
-
-  return [{ slug: "vim", count: 1000 }];
-  // return sql`
-  //   SELECT slug, count
-  //   FROM views
-  // `;
-}
-
 export default async function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
-  const views = await getViewsCount();
-  const count = views.find((view) => view.slug === params.slug)?.count;
+  // 조회수 증가
+  incrementView(params.slug);
   if (!post) {
     notFound();
   }
+
+  const view = await getViewsCount(params.slug);
+  const count = view.count;
 
   return (
     <section>
@@ -103,7 +95,7 @@ export default async function Blog({ params }) {
           {formatDate(post.metadata.publishedAt)}
         </p>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {count} view
+          {count != 0 && `${count} view`}
         </p>
       </div>
       <article className="prose">
