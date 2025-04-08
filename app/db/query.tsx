@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "redis";
+import { unstable_noStore as noStore } from "next/cache";
 
 // 특정 slug 조회수 증가
 export async function incrementView(slug: string) {
@@ -9,7 +10,9 @@ export async function incrementView(slug: string) {
   }
 
   const redis = createClient({ url: process.env.REDIS_URL });
+  // 캐시 방지
 
+  noStore();
   await redis.connect();
   await redis.hIncrBy("views", slug, 1); // 특정 slug 조회수 +1 증가
   await redis.disconnect();
@@ -28,6 +31,9 @@ export async function getViewsCount(
   const redis = createClient({ url: process.env.REDIS_URL });
 
   try {
+    // 캐시 방지
+    noStore();
+
     await redis.connect();
 
     const viewsData = await redis.hGetAll("views"); // 해시 데이터 가져오기

@@ -3,7 +3,8 @@ import { CustomMDX } from "app/components/mdx";
 import { baseUrl } from "app/sitemap";
 import { notFound } from "next/navigation";
 
-import { getViewsCount, incrementView } from "app/db/query";
+import { ViewCount } from "app/components/viewCount";
+import { Suspense } from "react";
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
@@ -54,15 +55,9 @@ export function generateMetadata({ params }) {
 
 export default async function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
-  // 조회수 증가
-  incrementView(params.slug);
   if (!post) {
     notFound();
   }
-
-  const view = await getViewsCount(params.slug);
-  const count = view.count;
-
   return (
     <section>
       <script
@@ -94,9 +89,9 @@ export default async function Blog({ params }) {
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {formatDate(post.metadata.publishedAt)}
         </p>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400">
-          {count != 0 && `${count} view`}
-        </p>
+        <Suspense>
+          <ViewCount slug={params.slug} />
+        </Suspense>
       </div>
       <article className="prose">
         <CustomMDX source={post.content} />
