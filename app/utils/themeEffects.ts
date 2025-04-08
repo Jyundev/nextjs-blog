@@ -1,5 +1,4 @@
 export const themeEffect = function () {
-  console.log("themeEffect");
   if (!("theme" in localStorage)) {
     // localStorage에 theme가 없으면 시스템 설정을 따라감
     localStorage.setItem(
