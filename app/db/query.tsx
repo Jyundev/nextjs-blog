@@ -19,14 +19,16 @@ import { unstable_noStore as noStore } from "next/cache";
 // }
 
 export async function incrementView(slug: string) {
-  const res = await fetch("/api/increment-view", {
+  const apiBaseUrl =
+    process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+  const res = await fetch(`${apiBaseUrl}/api/increment-view`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ slug }),
   });
 
   const data = await res.json();
-  console.log(data); // { status: 200, message: "View count incremented" }
+  console.log(data);
 }
 
 // 모든 조회수 가져오기

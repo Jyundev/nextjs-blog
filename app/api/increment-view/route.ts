@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     // 결과 반환
     return NextResponse.json({
       status: 200,
-      message: "View count incremented",
+      message: `View count incremented - ${slug}`,
     });
   } catch (error) {
     console.error("Error incrementing view:", error);
