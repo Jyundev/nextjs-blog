@@ -76,7 +76,7 @@ export default async function Blog({ params }) {
               : `/og?title=${encodeURIComponent(post.metadata.title)}`,
             url: `${baseUrl}/blog/${post.slug}`,
             author: {
-              "@type": "Person",
+              "@type": "Yun",
               name: "My Portfolio",
             },
           }),
