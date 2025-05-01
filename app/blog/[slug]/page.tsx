@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 
 import { ViewCount } from "app/components/viewCount";
 import { Suspense } from "react";
+
+// 정적 경로 생성
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
@@ -13,6 +15,7 @@ export async function generateStaticParams() {
   }));
 }
 
+// 메타데이터 생성
 export function generateMetadata({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
   if (!post) {

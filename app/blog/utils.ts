@@ -1,6 +1,17 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ *
+ * parseFrontmatter | .mdx 파일의 Frontmatter와 콘텐츠 분리
+ * getMDXFiles | 디렉토리 내 .mdx 파일 목록 가져오기
+ * readMDXFile | 특정 파일을 읽고 파싱
+ * getMDXData | 전체 파일의 slug/metadata/content 추출
+ * getBlogPosts | 블로그 글 목록 최종 가져오기
+ * formatDate | 날짜를 사람이 읽기 쉬운 형식으로 출력
+ */
+
+// 각 .mdx 파일 상단의 Frontmatter에 포함되어야 할 필드 타입 정의.
 type Metadata = {
   title: string;
   publishedAt: string;
@@ -9,6 +20,7 @@ type Metadata = {
 };
 
 function parseFrontmatter(fileContent: string) {
+  // ---으로 감싸진 YAML 형식의 Frontmatter 블록을 추출
   let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
   let match = frontmatterRegex.exec(fileContent);
   let frontMatterBlock = match![1];
@@ -19,13 +31,15 @@ function parseFrontmatter(fileContent: string) {
   frontMatterLines.forEach((line) => {
     let [key, ...valueArr] = line.split(": ");
     let value = valueArr.join(": ").trim();
-    value = value.replace(/^['"](.*)['"]$/, "$1"); // Remove quotes
+    // 양쪽에 있는 따옴표(' 또는 ")를 제거
+    value = value.replace(/^['"](.*)['"]$/, "$1");
     metadata[key.trim() as keyof Metadata] = value;
   });
 
   return { metadata: metadata as Metadata, content };
 }
 
+//  .mdx 확장자 파일만 리스트로 가져옴
 function getMDXFiles(dir) {
   return fs.readdirSync(dir).filter((file) => path.extname(file) === ".mdx");
 }
@@ -39,6 +53,7 @@ function getMDXData(dir) {
   let mdxFiles = getMDXFiles(dir);
   return mdxFiles.map((file) => {
     let { metadata, content } = readMDXFile(path.join(dir, file));
+    // 파일 이름에서 확장자를 뺀 값 → URL 경로 등에 사용됨.
     let slug = path.basename(file, path.extname(file));
 
     return {
@@ -49,6 +64,7 @@ function getMDXData(dir) {
   });
 }
 
+// posts 폴더에서 모든 포스트를 불러오는 함수
 export function getBlogPosts() {
   return getMDXData(path.join(process.cwd(), "posts"));
 }
