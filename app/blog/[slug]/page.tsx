@@ -1,10 +1,11 @@
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { CustomMDX } from "app/components/mdx";
-import { baseUrl } from "app/sitemap";
+// import { baseUrl } from "app/sitemap";
 import { notFound } from "next/navigation";
 
 import { ViewCount } from "app/components/viewCount";
 import { Suspense } from "react";
+import { getBaseUrl } from "app/utils/baseUrl";
 
 // 정적 경로 생성
 export async function generateStaticParams() {
@@ -18,6 +19,8 @@ export async function generateStaticParams() {
 // 메타데이터 생성
 export function generateMetadata({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
+  const baseUrl = getBaseUrl();
+
   if (!post) {
     return;
   }
@@ -28,9 +31,14 @@ export function generateMetadata({ params }) {
     summary: description,
     image,
   } = post.metadata;
+
   let ogImage = image
     ? image
     : `${baseUrl}/og?title=${encodeURIComponent(title)}`;
+
+  // let ogImage = `${baseUrl}/api/og?title=${encodeURIComponent(
+  //   title
+  // )}&author=${"JyunDev"}&date=${encodeURIComponent(publishedTime)}`;
 
   return {
     title,
@@ -38,14 +46,14 @@ export function generateMetadata({ params }) {
     openGraph: {
       title,
       description,
-      type: "article",
-      publishedTime,
-      url: `${baseUrl}/blog/${post.slug}`,
       images: [
         {
           url: ogImage,
+          width: 1200,
+          height: 630,
         },
       ],
+      type: "article",
     },
     twitter: {
       card: "summary_large_image",
@@ -58,6 +66,7 @@ export function generateMetadata({ params }) {
 
 export default async function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
+  const baseUrl = getBaseUrl();
   if (!post) {
     notFound();
   }
