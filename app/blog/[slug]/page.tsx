@@ -1,6 +1,6 @@
 import { formatDate, getBlogPosts } from "app/blog/utils";
 import { CustomMDX } from "app/components/mdx";
-// import { baseUrl } from "app/sitemap";
+import { baseUrl } from "app/sitemap";
 import { notFound } from "next/navigation";
 
 import { ViewCount } from "app/components/viewCount";
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 // 메타데이터 생성
 export function generateMetadata({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
-  const baseUrl = getBaseUrl();
+  // const baseUrl = getBaseUrl();
 
   if (!post) {
     return;
@@ -66,7 +66,7 @@ export function generateMetadata({ params }) {
 
 export default async function Blog({ params }) {
   let post = getBlogPosts().find((post) => post.slug === params.slug);
-  const baseUrl = getBaseUrl();
+  // const baseUrl = getBaseUrl();
   if (!post) {
     notFound();
   }
