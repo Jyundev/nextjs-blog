@@ -5,6 +5,7 @@ type Props = {
 };
 export const ViewCount = async ({ slug }: Props) => {
   // 조회수 증가
+  // await incrementView(slug);
   await incrementView(slug);
 
   const view = await getViewsCount(slug);

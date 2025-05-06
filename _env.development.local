@@ -1,0 +1,4 @@
+# Created by Vercel CLI
+REDIS_URL="redis://default:blneJIrkJKiKrVwFUU7L7XSEByh0ajaD@redis-16278.c81.us-east-1-2.ec2.redns.redis-cloud.com:16278"
+
+NEXT_PUBLIC_BASE_URL=https://yuns-blog-chi.vercel.app
