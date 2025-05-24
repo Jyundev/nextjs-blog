@@ -7,7 +7,7 @@ export async function GET(req: Request) {
 
   const title = searchParams.get("title") || "My Blog Post";
   const author = searchParams.get("author") || "Yun";
-  const date = searchParams.get("date") || "2025.05.01";
+  const date = searchParams.get("date") || "";
 
   // 서버에서 직접 이미지 로드
   const imageRes = await fetch(

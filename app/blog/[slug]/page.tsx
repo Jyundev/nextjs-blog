@@ -73,11 +73,15 @@ export default async function Blog({ params }) {
             description: post.metadata.summary,
             image: post.metadata.image
               ? `${baseUrl}${post.metadata.image}`
-              : `/og?title=${encodeURIComponent(post.metadata.title)}`,
+              : `/api/og/?title=${encodeURIComponent(
+                  post.metadata.title
+                )}&author=YUN&date=${encodeURIComponent(
+                  post.metadata.publishedAt
+                )}`,
             url: `${baseUrl}/blog/${post.slug}`,
             author: {
               "@type": "Person",
-              name: "My Portfolio",
+              name: "YUN's blog",
             },
           }),
         }}
