@@ -47,9 +47,10 @@ export async function GET(req: Request) {
             }}
           >
             <img
-              src={`data:image/png;base64,${Buffer.from(imageBuffer).toString(
-                "base64"
-              )}`}
+              // src={`data:image/png;base64,${Buffer.from(imageBuffer).toString(
+              //   "base64"
+              // )}`}
+              src={`${process.env.NEXT_PUBLIC_BASE_URL}/og/my-notion-face-transparent.png`}
               width={100}
               height={100}
               alt="Avatar"
