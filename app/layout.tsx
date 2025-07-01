@@ -1,13 +1,12 @@
-import "./global.css";
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Navbar } from "./components/nav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
+import type { Metadata } from "next";
 import Footer from "./components/footer";
+import { Navbar } from "./components/nav";
+import "./global.css";
 import { baseUrl } from "./sitemap";
-import { themeEffect } from "./utils/themeEffects";
 import { themeInitScript } from "./utils/themeScript";
 
 export const metadata: Metadata = {

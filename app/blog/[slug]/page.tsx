@@ -27,8 +27,11 @@ export function generateMetadata({ params }) {
   } = post.metadata;
   let ogImage = image
     ? image
-    : `${baseUrl}/api/og?title=${encodeURIComponent(title)}&author=YUN`;
+    : `${baseUrl}/api/og?title=${encodeURIComponent(
+        title
+      )}&author=YUN&date=${encodeURIComponent(post.metadata.publishedAt)}`;
 
+  console.log("image ", image);
   return {
     title,
     description,
