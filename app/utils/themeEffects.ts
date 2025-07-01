@@ -1,17 +1,15 @@
 export const themeEffect = function () {
-  if (!("theme" in localStorage)) {
-    // localStorage에 theme가 없으면 시스템 설정을 따라감
-    localStorage.setItem(
-      "theme",
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light"
-    );
-  }
+  try {
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const savedTheme = localStorage.getItem("theme");
 
-  if (localStorage.theme === "dark") {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
+    const theme = savedTheme || (prefersDark ? "dark" : "light");
+
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  } catch (e) {
+    console.warn("Theme effect failed:", e);
   }
 };
