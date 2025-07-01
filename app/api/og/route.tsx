@@ -23,9 +23,10 @@ export async function GET(req: Request) {
           width: "100%",
           height: "100%",
           flexDirection: "column",
-          background: "linear-gradient(to right, #1f2937, #111827)",
+          background:
+            " linear-gradient(90deg,rgba(230, 230, 255, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(255, 230, 252, 1) 0%, rgba(212, 248, 255, 1) 100%)",
           padding: 80,
-          color: "white",
+          color: "black",
           fontFamily: "Arial, sans-serif",
           justifyContent: "space-between",
         }}
@@ -33,11 +34,11 @@ export async function GET(req: Request) {
         <div style={{ fontSize: 64, fontWeight: "bold", lineHeight: 1.3 }}>
           {title}
         </div>
-        <div style={{ display: "flex", alignItems: "center", marginTop: 40 }}>
+        <div style={{ display: "flex", alignItems: "center", marginTop: 20 }}>
           <div
             style={{
-              width: 100,
-              height: 100,
+              width: 160,
+              height: 160,
               borderRadius: "50%", // 원형 배경을 만들기 위해 사용
               overflow: "hidden", // 이미지를 잘라내지 않도록 설정
               backgroundColor: "#ffffff",
@@ -51,8 +52,8 @@ export async function GET(req: Request) {
               //   "base64"
               // )}`}
               src={`${process.env.NEXT_PUBLIC_BASE_URL}/og/my-notion-face-transparent.png`}
-              width={100}
-              height={100}
+              width={160}
+              height={160}
               alt="Avatar"
               style={{ objectFit: "cover" }} // 이미지가 원형 안에 잘 맞게 처리
             />
@@ -61,9 +62,8 @@ export async function GET(req: Request) {
 
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ fontSize: 32 }}>{author}</div>
-          <div style={{ fontSize: 24, color: "#d1d5db" }}>{date}</div>
+          <div style={{ fontSize: 24 }}>{date}</div>
         </div>
-        <div style={{ fontSize: 40 }}>Hello OG Image</div>
       </div>
     ),
     {
