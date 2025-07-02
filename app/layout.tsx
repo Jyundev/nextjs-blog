@@ -12,15 +12,17 @@ import { themeInitScript } from "./utils/themeScript";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Next.js Portfolio Starter",
-    template: "%s | Next.js Portfolio Starter",
+    default: "Yun's Dev Blog",
+    template: "%s | Yun's Dev Blog",
   },
-  description: "This is my portfolio.",
+  description:
+    "Sharing insights, code, and clean solutions from my journey as a frontend developer.",
   openGraph: {
-    title: "My Portfolio",
-    description: "This is my portfolio.",
+    title: "Yun's Dev Blog",
+    description:
+      "Frontend development tips, real-world projects, and insights on React, TypeScript, and more.",
     url: baseUrl,
-    siteName: "My Portfolio",
+    siteName: "Yun's Dev Blog",
     locale: "en_US",
     type: "website",
   },
