@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://cdn.jsdelivr.net/gh/webfontworld/nanum/NanumSquare.css");
 
 ::selection {
   background-color: #47a3f3;
@@ -149,4 +150,8 @@ table {
 
 .title {
   text-wrap: balance;
+}
+
+body {
+  font-family: "NanumSquare", "Noto Sans KR", sans-serif;
 }
