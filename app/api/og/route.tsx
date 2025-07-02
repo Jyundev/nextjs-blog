@@ -20,49 +20,77 @@ export async function GET(req: Request) {
       <div
         style={{
           display: "flex",
+          flexDirection: "column",
           width: "100%",
           height: "100%",
-          flexDirection: "column",
-          background:
-            " linear-gradient(90deg,rgba(230, 230, 255, 1) 0%, rgba(9, 9, 121, 1) 0%, rgba(255, 230, 252, 1) 0%, rgba(212, 248, 255, 1) 100%)",
           padding: 80,
+          background: "linear-gradient(135deg, #e0e7ff 0%, #3b82f6 100%)",
           color: "black",
-          fontFamily: "Arial, sans-serif",
-          justifyContent: "space-between",
+          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          boxSizing: "border-box",
         }}
       >
-        <div style={{ fontSize: 64, fontWeight: "bold", lineHeight: 1.3 }}>
+        <div
+          style={{
+            fontSize: 64,
+            fontWeight: "900",
+            lineHeight: 1.2,
+            color: "#1e293b",
+            textShadow: "2px 2px 6px rgba(0,0,0,0.15)",
+          }}
+        >
           {title}
         </div>
-        <div style={{ display: "flex", alignItems: "center", marginTop: 20 }}>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 40,
+            gap: 24,
+          }}
+        >
           <div
             style={{
               width: 160,
               height: 160,
-              borderRadius: "50%", // 원형 배경을 만들기 위해 사용
-              overflow: "hidden", // 이미지를 잘라내지 않도록 설정
+              borderRadius: "50%",
+              overflow: "hidden",
+              border: "4px solid white",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
               backgroundColor: "#ffffff",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              flexShrink: 0,
             }}
           >
             <img
-              // src={`data:image/png;base64,${Buffer.from(imageBuffer).toString(
-              //   "base64"
-              // )}`}
               src={`${process.env.NEXT_PUBLIC_BASE_URL}/og/my-notion-face-transparent.png`}
+              alt="Avatar"
               width={160}
               height={160}
-              alt="Avatar"
-              style={{ objectFit: "cover" }} // 이미지가 원형 안에 잘 맞게 처리
+              style={{ objectFit: "cover", width: "100%", height: "100%" }}
             />
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 32 }}>{author}</div>
-          <div style={{ fontSize: 24 }}>{date}</div>
+        <div
+          style={{
+            backgroundColor: "rgba(255, 255, 255, 0.85)",
+            borderRadius: 12,
+            padding: "12px 24px",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            color: "#334155",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            marginTop: 12,
+            maxWidth: 400,
+          }}
+        >
+          <div style={{ fontSize: 32, fontWeight: "600" }}>{author}</div>
+          <div style={{ fontSize: 24, marginTop: 4 }}>{date}</div>
         </div>
       </div>
     ),
