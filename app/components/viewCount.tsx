@@ -12,12 +12,13 @@ export const ViewCount = ({ slug }: Props) => {
   useEffect(() => {
     const increment = async () => {
       try {
-        const res = await fetch(`/api/increment-view`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ slug }),
-        });
-        const data = await res.json();
+        if (process.env.NODE_ENV !== "development") {
+          const res = await fetch(`/api/increment-view`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ slug }),
+          });
+        }
 
         const countRes = await fetch(`/api/get-views?slug=${slug}`);
         const countData = await countRes.json();
