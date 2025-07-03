@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://cdn.jsdelivr.net/gh/webfontworld/nanum/NanumSquare.css");
 
 ::selection {
   background-color: #47a3f3;
@@ -9,18 +8,18 @@
 }
 
 :root {
-  --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
-  --sh-sign: #8996a3;
-  --sh-string: #007f7a;
-  --sh-keyword: #e02518;
-  --sh-comment: #a19595;
-  --sh-jsxliterals: #6266d1;
-  --sh-property: #e25a1c;
-  --sh-entity: #e25a1c;
+  --sh-class: #0077b3; /* 클래스, 타입, 인터페이스 */
+  --sh-identifier: #373737; /* 기본 텍스트 */
+  --sh-sign: #424242; /* 연산자, 기호 */
+  --sh-string: #009159; /* 문자열 */
+  --sh-keyword: #f92672; /* 키워드 (if, return 등) */
+  --sh-comment: #646464; /* 주석 */
+  --sh-jsxliterals: #fd971f; /* JSX 리터럴 */
+  --sh-property: #ee5c18; /* 프로퍼티 */
+  --sh-entity: #f92672; /* 엔티티 */
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --sh-class: #4c97f8;
     --sh-identifier: white;
@@ -30,6 +29,19 @@
   html {
     color-scheme: dark;
   }
+} */
+
+/* Tailwind darkMode: 'class' 기반 */
+html.dark {
+  --sh-class: #66d9ef;
+  --sh-identifier: #f8f8f2;
+  --sh-sign: #f8f8f2;
+  --sh-string: #6eff8b;
+  --sh-keyword: #f92672;
+  --sh-comment: #75715e;
+  --sh-jsxliterals: #fd971f;
+  --sh-property: #ff970f;
+  --sh-entity: #f92672;
 }
 
 html {
@@ -150,8 +162,4 @@ table {
 
 .title {
   text-wrap: balance;
-}
-
-body {
-  font-family: "NanumSquare", "Noto Sans KR", sans-serif;
 }
