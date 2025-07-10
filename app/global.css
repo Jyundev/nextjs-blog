@@ -8,11 +8,11 @@
 }
 
 :root {
-  --sh-class: #0077b3; /* 클래스, 타입, 인터페이스 */
-  --sh-identifier: #373737; /* 기본 텍스트 */
+  --sh-class: #379dd0; /* 클래스, 타입, 인터페이스 */
+  --sh-identifier: #987777; /* 기본 텍스트 */
   --sh-sign: #424242; /* 연산자, 기호 */
   --sh-string: #009159; /* 문자열 */
-  --sh-keyword: #f92672; /* 키워드 (if, return 등) */
+  --sh-keyword: #ea558c; /* 키워드 (if, return 등) */
   --sh-comment: #646464; /* 주석 */
   --sh-jsxliterals: #fd971f; /* JSX 리터럴 */
   --sh-property: #ee5c18; /* 프로퍼티 */
