@@ -11,25 +11,37 @@ export function calculateReadingTime(content: string) {
   const minutes = Math.ceil(words / wordsPerMinute);
   return `${minutes} min read`;
 }
+function HeaderCell({ children }) {
+  return (
+    <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">
+      {children}
+    </th>
+  );
+}
+
+function BodyCell({ children }) {
+  return <td className="border border-gray-300 px-4 py-2">{children}</td>;
+}
 
 function Table({ data }) {
-  let headers = data.headers.map((header, index) => (
-    <th key={index}>{header}</th>
-  ));
-  let rows = data.rows.map((row, index) => (
-    <tr key={index}>
-      {row.map((cell, cellIndex) => (
-        <td key={cellIndex}>{cell}</td>
-      ))}
-    </tr>
-  ));
-
   return (
-    <table>
+    <table className="table-auto border-collapse border border-gray-300 w-full">
       <thead>
-        <tr>{headers}</tr>
+        <tr>
+          {data.headers.map((header) => (
+            <HeaderCell key={header}>{header}</HeaderCell>
+          ))}
+        </tr>
       </thead>
-      <tbody>{rows}</tbody>
+      <tbody>
+        {data.rows.map((row, rowIndex) => (
+          <tr key={rowIndex} className="even:bg-gray-50">
+            {row.map((cell, cellIndex) => (
+              <BodyCell key={cellIndex}>{cell}</BodyCell>
+            ))}
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }

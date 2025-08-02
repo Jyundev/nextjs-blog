@@ -8,77 +8,83 @@ export async function GET(req: Request) {
   const title = searchParams.get("title") || "My Blog Post";
   const author = searchParams.get("author") || "Yun";
   const date = searchParams.get("date") || "";
+
   return new ImageResponse(
     (
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           width: "100%",
           height: "100%",
-          padding: "60px 80px",
-          backgroundColor: "#1e1e1e", // 다크 배경
-          color: "#ffffff",
+          padding: "48px 64px",
+          backgroundColor: "#fafafa",
           fontFamily: "'Inter', 'Segoe UI', sans-serif",
           boxSizing: "border-box",
+          color: "#111827", // 다크 그레이
         }}
       >
-        {/* Left: Character image (larger) */}
+        {/* Left: Avatar */}
         <div
           style={{
-            width: 280,
-            height: 280,
+            width: 240,
+            height: 240,
             borderRadius: "50%",
             overflow: "hidden",
-            backgroundColor: "#2c2c2c", // 배경 투명 시 대비용
+            backgroundColor: "#e5e7eb", // 연한 회색 배경
+            flexShrink: 0,
+            boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+            border: "4px solid #3b82f6", // 파란색 테두리
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            flexShrink: 0,
-            border: "6px solid #3b82f6",
-            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.4)",
           }}
         >
           <img
             src={`${process.env.NEXT_PUBLIC_BASE_URL}/og/my-notion-face-transparent.png`}
             alt="Avatar"
-            width={280}
-            height={280}
-            style={{
-              objectFit: "contain",
-              width: "100%",
-              height: "100%",
-            }}
+            width={240}
+            height={240}
+            style={{ objectFit: "cover", width: "100%", height: "100%" }}
           />
         </div>
 
-        {/* Right: Title & Meta */}
+        {/* Right: Text */}
         <div
           style={{
+            marginLeft: 56,
+            maxWidth: 720,
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            maxWidth: 760,
-            marginLeft: 60,
           }}
         >
-          <div
+          <h1
             style={{
-              fontSize: 60,
+              fontSize: 56,
               fontWeight: 700,
-              lineHeight: 1.3,
-              color: "#f4f4f5",
+              lineHeight: 1.2,
+              margin: 0,
+              color: "#111827",
+              letterSpacing: "-0.02em",
             }}
           >
             {title}
-          </div>
+          </h1>
 
-          <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
-            <div style={{ fontSize: 26, fontWeight: 500, color: "#d1d5db" }}>
-              {author}
-            </div>
-            <div style={{ fontSize: 22, color: "#9ca3af" }}>{date}</div>
+          <div
+            style={{
+              marginTop: 24,
+              display: "flex",
+              gap: 24,
+              fontSize: 22,
+              color: "#6b7280", // 중간 그레이
+              fontWeight: 500,
+            }}
+          >
+            <span>{author}</span>
+            {date && <span>· {date}</span>}
           </div>
         </div>
       </div>
