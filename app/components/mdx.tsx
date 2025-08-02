@@ -1,8 +1,37 @@
-import Link from "next/link";
-import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { highlight } from "sugar-high";
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import { highlight } from "sugar-high";
+
+interface ImageWithCaptionProps {
+  src: string;
+  alt?: string;
+  caption?: string;
+  className?: string;
+}
+
+export function ImageWithCaption({
+  src,
+  alt = "",
+  caption,
+  className = "",
+}: ImageWithCaptionProps) {
+  return (
+    <figure className={`my-6 text-center ${className}`}>
+      <img
+        src={src}
+        alt={alt}
+        className="mx-auto max-w-full rounded-lg shadow-md"
+      />
+      {caption && (
+        <figcaption className="mt-2 text-sm text-gray-500">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
 
 // Reading Time 계산 함수
 export function calculateReadingTime(content: string) {
@@ -11,6 +40,7 @@ export function calculateReadingTime(content: string) {
   const minutes = Math.ceil(words / wordsPerMinute);
   return `${minutes} min read`;
 }
+
 function HeaderCell({ children }) {
   return (
     <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">
@@ -135,6 +165,7 @@ let components = {
   a: CustomLink,
   code: Code,
   Table,
+  ImageWithCaption,
 };
 
 export function CustomMDX(props) {
