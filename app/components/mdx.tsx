@@ -43,19 +43,23 @@ export function calculateReadingTime(content: string) {
 
 function HeaderCell({ children }) {
   return (
-    <th className="border border-gray-300 px-4 py-2 bg-gray-100 text-left">
+    <th className="border border-gray-300 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left text-gray-900 dark:text-gray-100">
       {children}
     </th>
   );
 }
 
 function BodyCell({ children }) {
-  return <td className="border border-gray-300 px-4 py-2">{children}</td>;
+  return (
+    <td className="border border-gray-300 px-4 py-2 text-gray-900 dark:text-gray-100">
+      {children}
+    </td>
+  );
 }
 
 function Table({ data }) {
   return (
-    <table className="table-auto border-collapse border border-gray-300 w-full">
+    <table className="table-auto border-collapse border border-gray-300 w-full text-gray-800 dark:text-gray-200">
       <thead>
         <tr>
           {data.headers.map((header) => (
@@ -65,7 +69,7 @@ function Table({ data }) {
       </thead>
       <tbody>
         {data.rows.map((row, rowIndex) => (
-          <tr key={rowIndex} className="even:bg-gray-50">
+          <tr key={rowIndex} className="even:bg-gray-50 dark:even:bg-gray-700">
             {row.map((cell, cellIndex) => (
               <BodyCell key={cellIndex}>{cell}</BodyCell>
             ))}
