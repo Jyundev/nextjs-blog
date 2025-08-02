@@ -1,6 +1,16 @@
 import fs from "fs";
 import path from "path";
 
+/**
+ *
+ * parseFrontmatter | .mdx 파일의 Frontmatter와 콘텐츠 분리
+ * getMDXFiles | 디렉토리 내 .mdx 파일 목록 가져오기
+ * readMDXFile | 특정 파일을 읽고 파싱
+ * getMDXData | 전체 파일의 slug/metadata/content 추출
+ * getBlogPosts | 블로그 글 목록 최종 가져오기
+ * formatDate | 날짜를 사람이 읽기 쉬운 형식으로 출력
+ */
+
 type Metadata = {
   title: string;
   publishedAt: string;

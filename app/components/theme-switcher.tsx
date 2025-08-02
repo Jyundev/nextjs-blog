@@ -11,22 +11,16 @@ type Props = {
 export const ThemeSwitcher = () => {
   const [theme, setTheme] = useState<Theme>("light");
   const handleToggle = () => {
-    const currentTheme = localStorage.getItem("theme") as Theme;
-    if (currentTheme === "light") {
-      localStorage.setItem("theme", "dark");
-      document.documentElement.classList.add("dark");
-      setTheme("dark");
-    } else {
-      localStorage.setItem("theme", "light");
-      document.documentElement.classList.remove("dark");
-      setTheme("light");
-    }
+    const newTheme = theme === "light" ? "dark" : "light";
+    localStorage.setItem("theme", newTheme);
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    setTheme(newTheme);
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const currentTheme = localStorage.getItem("theme") as Theme;
-      setTheme(currentTheme || "light");
+    const current = localStorage.getItem("theme") as Theme | null;
+    if (current) {
+      setTheme(current);
     }
   }, []);
 

@@ -1,26 +1,28 @@
-import "./global.css";
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Navbar } from "./components/nav";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GeistMono } from "geist/font/mono";
+import { GeistSans } from "geist/font/sans";
+import type { Metadata } from "next";
 import Footer from "./components/footer";
+import { Navbar } from "./components/nav";
+import "./global.css";
 import { baseUrl } from "./sitemap";
-import { themeEffect } from "./utils/themeEffects";
+import { themeInitScript } from "./utils/themeScript";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Next.js Portfolio Starter",
-    template: "%s | Next.js Portfolio Starter",
+    default: "Y.devlog",
+    template: "%s | Devlog",
   },
-  description: "This is my portfolio.",
+  description:
+    "Sharing insights, code, and clean solutions from my journey as a frontend developer.",
   openGraph: {
-    title: "My Portfolio",
-    description: "This is my portfolio.",
+    title: "Y.devlog",
+    description:
+      "Frontend development tips, real-world projects, and insights on React, TypeScript, and more.",
     url: baseUrl,
-    siteName: "My Portfolio",
+    siteName: "Y.devlog",
     locale: "en_US",
     type: "website",
   },
@@ -52,13 +54,12 @@ export default function RootLayout({
         GeistSans.variable,
         GeistMono.variable
       )}
+      suppressHydrationWarning
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(
-            ${themeEffect.toString()})()
-              `,
+            __html: themeInitScript,
           }}
         ></script>
       </head>
