@@ -11,6 +11,7 @@ interface ImageWithCaptionProps {
   className?: string;
 }
 
+// 이미지 첨부
 export function ImageWithCaption({
   src,
   alt = "",
@@ -158,6 +159,29 @@ export function extractHeadings(mdxContent) {
   return headings;
 }
 
+interface HighlightProps {
+  children: React.ReactNode;
+  color?: string;
+}
+
+const Highlight = ({
+  children,
+  color = "var(--highlight-text-yellow)",
+}: HighlightProps) => {
+  return (
+    <span
+      style={{
+        backgroundColor: color,
+        padding: "0.2em 0.4em",
+        borderRadius: "4px",
+      }}
+    >
+      {children}
+    </span>
+  );
+};
+
+export default Highlight;
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -170,6 +194,7 @@ let components = {
   code: Code,
   Table,
   ImageWithCaption,
+  Highlight,
 };
 
 export function CustomMDX(props) {

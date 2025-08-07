@@ -12,17 +12,17 @@ import { themeInitScript } from "./utils/themeScript";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Y.devlog",
-    template: "%s | Devlog",
+    default: "CodeYun",
+    template: "%s | CodeYun",
   },
   description:
     "Sharing insights, code, and clean solutions from my journey as a frontend developer.",
   openGraph: {
-    title: "Y.devlog",
+    title: "CodeYun",
     description:
       "Frontend development tips, real-world projects, and insights on React, TypeScript, and more.",
     url: baseUrl,
-    siteName: "Y.devlog",
+    siteName: "CodeYun",
     locale: "en_US",
     type: "website",
   },
