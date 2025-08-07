@@ -57,6 +57,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta
+          name="google-site-verification"
+          content="1GLOHR19P2RGeAsGA7iXphRML6BBrI1cugHHExYfq30"
+        />
         <script
           dangerouslySetInnerHTML={{
             __html: themeInitScript,
