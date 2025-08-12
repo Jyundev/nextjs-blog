@@ -16,7 +16,7 @@ summary: "css 의 기본 grid, flex 알기"
 
 Flex는 한 방향 레이아웃 시스템이고 (1차원) , Grid는 두 방향(가로-세로) 레이아웃 시스템 (2차원) 한번 기억하고 시작하겠다.
 
-## display: flex;
+# display: flex;
 
 Flex 컨테이너에 display: flex;를 적용하는게 시작이에요.
 
@@ -71,6 +71,27 @@ flex-direction, flex-wrap의 순으로 한 칸 떼고 써주시면 됩니다.
 
 <FlexGridJustify />
 
+flex-start (기본값)
+아이템들을 시작점으로 정렬합니다.
+flex-direction이 row(가로 배치)일 때는 왼쪽, column(세로 배치)일 때는 위예요.
+
+flex-end
+아이템들을 끝점으로 정렬합니다.
+flex-direction이 row(가로 배치)일 때는 오른쪽, column(세로 배치)일 때는 아래예요.
+
+center
+아이템들을 가운데로 정렬합니다.
+
+space-between
+아이템들의 “사이(between)”에 균일한 간격을 만들어 줍니다.
+
+space-around
+아이템들의 “둘레(around)”에 균일한 간격을 만들어 줍니다.
+
+space-evenly
+아이템들의 사이와 양 끝에 균일한 간격을 만들어 줍니다.
+주의! IE와 엣지(Edge)에서는 지원되지 않습니다👎
+
 ## align-items
 
 <b>수직축 방향 정렬</b>
@@ -94,3 +115,19 @@ center
 
 baseline
 아이템들을 텍스트 베이스라인 기준으로 정렬합니다.
+
+## align-content;
+
+여러 행 정렬
+
+flex-wrap: wrap;이 설정된 상태에서, 아이템들의 행이 2줄 이상 되었을 때의 수직축 방향 정렬을 결정하는 속성입니다.
+
+<FlexGridAlignContent />
+
+# Flex 아이템에 적용하는 속성들
+
+## flex-basis
+
+flex-basis는 Flex 아이템의 기본 크기를 설정합니다(flex-direction이 row일 때는 너비, column일 때는 높이)
+
+<FlexGridFlexBasis />
