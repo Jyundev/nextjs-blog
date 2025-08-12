@@ -71,23 +71,26 @@ flex-direction, flex-wrap의 순으로 한 칸 떼고 써주시면 됩니다.
 
 <FlexGridJustify />
 
-flex-start (기본값)
+## align-items
+
+<b>수직축 방향 정렬</b>
+
+justify-content와 수직 방향의 정렬이라고 생각하시면 됩니다.
+
+<FlexGridAlignItem />
+stretch (기본값) 아이템들이 수직축 방향으로 끝까지 쭈욱 늘어납니다.( 아이템의 높이가
+지정되어 있지 않을 때만)
+
+flex-start
 아이템들을 시작점으로 정렬합니다.
-flex-direction이 row(가로 배치)일 때는 왼쪽, column(세로 배치)일 때는 위예요.
+flex-direction이 row(가로 배치)일 때는 위, column(세로 배치)일 때는 왼쪽이에요.
 
 flex-end
-아이템들을 끝점으로 정렬합니다.
-flex-direction이 row(가로 배치)일 때는 오른쪽, column(세로 배치)일 때는 아래예요.
+아이템들을 끝으로 정렬합니다.
+flex-direction이 row(가로 배치)일 때는 아래, column(세로 배치)일 때는 오른쪽이에요.
 
 center
 아이템들을 가운데로 정렬합니다.
 
-space-between
-아이템들의 “사이(between)”에 균일한 간격을 만들어 줍니다.
-
-space-around
-아이템들의 “둘레(around)”에 균일한 간격을 만들어 줍니다.
-
-space-evenly
-아이템들의 사이와 양 끝에 균일한 간격을 만들어 줍니다.
-주의! IE와 엣지(Edge)에서는 지원되지 않습니다👎
+baseline
+아이템들을 텍스트 베이스라인 기준으로 정렬합니다.
