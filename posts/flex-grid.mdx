@@ -1,0 +1,64 @@
+---
+title: "flex-grid 기본 알기"
+publishedAt: "2025-08-12"
+summary: "css 의 기본 grid, flex 알기"
+---
+
+프론트엔드 개발을 시작한 뒤로 CSS를 제대로 배운 적이 없다.
+취준할 때 개발자 친구들과 자격증 공부용 웹사이트를 만들었는데, 기능은 괜찮았지만 CSS가 허술해서 아쉬웠다.
+기능만 좋다고 해서 다 되는 게 아니라는 걸 그때 깨달았다.
+
+그래서 이제부터 CSS 기본기를 차근차근 공부해보려고 한다.
+
+개인적으로 CSS에서 가장 헷갈리는 게 뭐냐고 묻는다면, 나는 단연 flex라고 말할 것이다.
+각 요소를 배치하는 방식이 왜 이렇게 헷갈리는지 아직도 잘 모르겠다;;
+그래서 이번 기회에 Flex와 Grid 개념을 확실히 잡고 가려고 한다.
+
+Flex는 한 방향 레이아웃 시스템이고 (1차원) , Grid는 두 방향(가로-세로) 레이아웃 시스템 (2차원) 한번 기억하고 시작하겠다.
+
+## display: flex;
+
+Flex 컨테이너에 display: flex;를 적용하는게 시작이에요.
+
+Flex 아이템들은 가로 방향으로 배치되고, 자신이 가진 내용물의 width 만큼만 차지하게 되지요.
+
+마치 inline 요소들 처럼요. height는 컨테이너의 높이만큼 늘어납니다.
+
+<FlexGridFlex />
+
+## flex-direction;
+
+아이템들이 배치되는 축의 방향을 결정하는 속성입니다
+
+<FlexGridFlexDirection />
+
+## flex-wrap;
+
+줄넘김 처리 설정
+
+nowrap (기본값)
+줄바꿈을 하지 않습니다. 넘치면 그냥 삐져 나가요.
+
+wrap
+줄바꿈을 합니다. float이나 inline-block으로 배치한 요소들과 비슷하게 동작해요.
+
+wrap-reverse
+줄바꿈을 하는데, 아이템을 역순으로 배치해요. 그림을 보면 이해하실 수 있을 거예요.
+
+<FlexGridWrap />
+
+## flex-flow;
+
+flex-direction과 flex-wrap을 한꺼번에 지정할 수 있는 단축 속성이에요.
+flex-direction, flex-wrap의 순으로 한 칸 떼고 써주시면 됩니다.
+
+```React
+.container {
+	flex-flow: row wrap;
+	/* 아래의 두 줄을 줄여 쓴 것 */
+	/* flex-direction: row; */
+	/* flex-wrap: wrap; */
+}
+
+
+```

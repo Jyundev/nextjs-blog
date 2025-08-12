@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { highlight } from "sugar-high";
+import { mdxComponents } from "./mdxComponents";
 
 interface ImageWithCaptionProps {
   src: string;
@@ -181,7 +182,6 @@ const Highlight = ({
   );
 };
 
-export default Highlight;
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -195,6 +195,7 @@ let components = {
   Table,
   ImageWithCaption,
   Highlight,
+  ...mdxComponents,
 };
 
 export function CustomMDX(props) {

@@ -23,18 +23,6 @@
   --highlight-text-light-sky: #f0f9ff;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --sh-class: #4c97f8;
-    --sh-identifier: white;
-    --sh-keyword: #f47067;
-    --sh-string: #0fa295;
-  }
-  html {
-    color-scheme: dark;
-  }
-} */
-
 /* Tailwind darkMode: 'class' 기반 */
 html.dark {
   --sh-class: #66d9ef;
