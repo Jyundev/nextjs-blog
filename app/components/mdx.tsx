@@ -53,7 +53,7 @@ function HeaderCell({ children }) {
 
 function BodyCell({ children }) {
   return (
-    <td className="border border-gray-300 px-4 py-2 text-gray-900 dark:text-gray-100">
+    <td className="border border-gray-300 px-4 py-2 text-gray-900 dark:text-gray-100 whitespace-nowrap">
       {children}
     </td>
   );
@@ -61,24 +61,29 @@ function BodyCell({ children }) {
 
 function Table({ data }) {
   return (
-    <table className="table-auto border-collapse border border-gray-300 w-full text-gray-800 dark:text-gray-200">
-      <thead>
-        <tr>
-          {data.headers.map((header) => (
-            <HeaderCell key={header}>{header}</HeaderCell>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {data.rows.map((row, rowIndex) => (
-          <tr key={rowIndex} className="even:bg-gray-50 dark:even:bg-gray-700">
-            {row.map((cell, cellIndex) => (
-              <BodyCell key={cellIndex}>{cell}</BodyCell>
+    <div className="overflow-x-auto max-h-96 overflow-y-auto rounded-lg  custom-scrollbar">
+      <table className="table-auto border-collapse w-full min-w-max text-gray-800 dark:text-gray-200">
+        <thead>
+          <tr>
+            {data.headers.map((header) => (
+              <HeaderCell key={header}>{header}</HeaderCell>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.rows.map((row, rowIndex) => (
+            <tr
+              key={rowIndex}
+              className="even:bg-gray-50 dark:even:bg-gray-700"
+            >
+              {row.map((cell, cellIndex) => (
+                <BodyCell key={cellIndex}>{cell}</BodyCell>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -94,10 +99,17 @@ function CustomLink(props) {
   }
 
   if (href.startsWith("#")) {
-    return <a {...props} />;
+    return <a className="inline" {...props} />;
   }
 
-  return <a target="_blank" rel="noopener noreferrer" {...props} />;
+  return (
+    <a
+      className="inline"
+      target="_blank"
+      rel="noopener noreferrer"
+      {...props}
+    />
+  );
 }
 
 function RoundedImage(props) {
@@ -190,7 +202,7 @@ let components = {
   h5: createHeading(5),
   h6: createHeading(6),
   Image: RoundedImage,
-  a: CustomLink,
+  Link: CustomLink,
   code: Code,
   Table,
   ImageWithCaption,

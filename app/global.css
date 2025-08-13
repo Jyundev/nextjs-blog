@@ -186,3 +186,42 @@ table {
     animation: aurora 15s ease infinite;
   }
 }
+/* 기본 라이트 모드 */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  cursor: pointer;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #3b82f6; /* 라이트 모드 기본 색 */
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+  cursor: pointer; /* 여기서 커서 변경 */
+  transition: background-color 0.2s;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #2563eb; /* 라이트 모드 호버 색 */
+  cursor: pointer; /* 호버 시에도 적용 */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #e5e7eb; /* 라이트 모드 트랙 */
+  border-radius: 9999px;
+}
+
+/* 다크 모드 */
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #76a7ed;
+  cursor: pointer; /* 호버 시에도 적용 */
+}
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4552a1;
+  cursor: pointer; /* 여기서 커서 변경 */
+  transition: background-color 0.2s;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #555555;
+}

@@ -50,6 +50,9 @@ importers:
       sugar-high:
         specifier: ^0.6.0
         version: 0.6.0
+      tailwind-scrollbar:
+        specifier: ^4.0.2
+        version: 4.0.2(react@18.2.0)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.11.17)(typescript@5.3.3)))
     devDependencies:
       autoprefixer:
         specifier: ^10.4.21
@@ -486,6 +489,9 @@ packages:
   '@types/node@20.11.17':
     resolution: {integrity: sha512-QmgQZGWu1Yw9TDyAP9ZzpFJKynYNeOvwMJmaxABfieQoVoiVOS6MN1WSpqpRcbeA5+RW82kraAVxCCJg+780Qw==}
 
+  '@types/prismjs@1.26.5':
+    resolution: {integrity: sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ==}
+
   '@types/prop-types@15.7.11':
     resolution: {integrity: sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==}
 
@@ -638,6 +644,10 @@ packages:
 
   client-only@0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
 
   cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
@@ -1256,6 +1266,11 @@ packages:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
     engines: {node: ^10 || ^12 || >=14}
 
+  prism-react-renderer@2.4.1:
+    resolution: {integrity: sha512-ey8Ls/+Di31eqzUxC46h8MksNuGx/n0AAC8uKpwFau4RPDYLuE3EXTp8N8G2vX2N7UC/+IXeNUnlWBGGcAG+Ig==}
+    peerDependencies:
+      react: '>=16.0.0'
+
   property-information@6.4.1:
     resolution: {integrity: sha512-OHYtXfu5aI2sS2LWFSN5rgJjrQ4pCy8i1jubJLe2QvMF8JJ++HXTUIVWFLfXJoaOfvYYjk2SN8J2wFUWIGXT4w==}
 
@@ -1391,6 +1406,12 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  tailwind-scrollbar@4.0.2:
+    resolution: {integrity: sha512-wAQiIxAPqk0MNTPptVe/xoyWi27y+NRGnTwvn4PQnbvB9kp8QUBiGl/wsfoVBHnQxTmhXJSNt9NHTmcz9EivFA==}
+    engines: {node: '>=12.13.0'}
+    peerDependencies:
+      tailwindcss: 4.x
 
   tailwindcss@3.4.17:
     resolution: {integrity: sha512-w33E2aCvSDP0tW9RZuNXadXlkHXqFzSkQew/aIa2i/Sj8fThxwovwlXHSPXTbAHwEIhBFXAedUhP2tueAKP8Og==}
@@ -1845,6 +1866,8 @@ snapshots:
     dependencies:
       undici-types: 5.26.5
 
+  '@types/prismjs@1.26.5': {}
+
   '@types/prop-types@15.7.11': {}
 
   '@types/react-dom@18.2.19':
@@ -1967,6 +1990,8 @@ snapshots:
       fsevents: 2.3.3
 
   client-only@0.0.1: {}
+
+  clsx@2.1.1: {}
 
   cluster-key-slot@1.1.2: {}
 
@@ -2756,6 +2781,12 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
+  prism-react-renderer@2.4.1(react@18.2.0):
+    dependencies:
+      '@types/prismjs': 1.26.5
+      clsx: 2.1.1
+      react: 18.2.0
+
   property-information@6.4.1: {}
 
   queue-microtask@1.2.3: {}
@@ -2898,6 +2929,13 @@ snapshots:
   sugar-high@0.6.0: {}
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  tailwind-scrollbar@4.0.2(react@18.2.0)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.11.17)(typescript@5.3.3))):
+    dependencies:
+      prism-react-renderer: 2.4.1(react@18.2.0)
+      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@20.11.17)(typescript@5.3.3))
+    transitivePeerDependencies:
+      - react
 
   tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.11.17)(typescript@5.3.3)):
     dependencies:
