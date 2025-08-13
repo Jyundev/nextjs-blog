@@ -26,46 +26,66 @@ const alignItemsOptions = [
   },
 ];
 
-export default function AlignItem() {
+export default function AlignSelf() {
   const [index, setIndex] = useState(0);
   const current = alignItemsOptions[index];
 
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
+    <div className="max-w-xl mx-auto p-6 space-y-6 ">
       <button
         onClick={() => setIndex((i) => (i + 1) % alignItemsOptions.length)}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition "
       >
         align-items: {current.value}
       </button>
 
       <div
-        className="flex bg-gray-100 dark:bg-gray-900 rounded transition"
+        className="flex bg-gray-100 dark:bg-gray-900 rounded transition h-40"
         style={{
-          height: "200px",
           alignItems: current.value as React.CSSProperties["alignItems"],
         }}
       >
-        <div className="w-20 bg-gray-300 dark:bg-gray-700 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2">
-          Item 1
+        <div
+          className="w-20 bg-gray-300 dark:bg-gray-700 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2"
+          style={{
+            alignSelf: "auto",
+          }}
+        >
+          auto
         </div>
         <div
           className="w-20 bg-gray-400 dark:bg-gray-600 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2"
-          style={{ height: "50px" }}
+          style={{ alignSelf: "stretch" }}
         >
-          Item 2
+          stretch
         </div>
         <div
           className="w-20 bg-gray-300 dark:bg-gray-700 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2"
-          style={{ height: "100px" }}
+          style={{ alignSelf: "center" }}
         >
-          Item 3
+          center
+        </div>
+        <div
+          className="w-20 bg-gray-300 dark:bg-gray-700 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2"
+          style={{
+            alignSelf: "flex-end",
+          }}
+        >
+          flex-end
         </div>
         <div
           className="w-20 bg-gray-400 dark:bg-gray-600 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2"
-          style={{ fontSize: "24px" }}
+          style={{ alignSelf: "flex-start;" }}
         >
-          Item 4
+          flex-start
+        </div>
+        <div
+          className="w-20 bg-gray-300 dark:bg-gray-700 p-4 text-gray-900 dark:text-gray-100 flex items-center justify-center rounded m-2 break-all"
+          style={{
+            alignSelf: "baseline",
+          }}
+        >
+          baseline
         </div>
       </div>
 

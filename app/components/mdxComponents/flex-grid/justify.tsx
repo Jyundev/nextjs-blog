@@ -97,7 +97,7 @@ export default function JustifyContentVisualizer() {
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <button
         onClick={() => setIndex((i) => (i + 1) % justifyContents.length)}
-        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
       >
         justifyContent: {justifyContent}
       </button>

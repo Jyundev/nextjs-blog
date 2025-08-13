@@ -1,27 +1,25 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-const basisValues = ["0", "100px", "150px", "200px", "25%", "auto"];
+const growValues = [0, 1, 2, 3];
 const directions: ("row" | "column")[] = ["row", "column"];
 
-export default function FlexBasisWithDirection() {
-  const [basisIndex, setBasisIndex] = useState(0);
+export default function FlexGrowWithDirection() {
+  const [growIndex, setGrowIndex] = useState(1);
   const [dirIndex, setDirIndex] = useState(0);
 
-  const flexBasis = basisValues[basisIndex];
+  const flexGrow = growValues[growIndex];
   const flexDirection = directions[dirIndex];
 
   return (
     <div className="space-y-4 p-6">
       <div className="flex gap-2">
         <button
-          onClick={() =>
-            setBasisIndex((prev) => (prev + 1) % basisValues.length)
-          }
+          onClick={() => setGrowIndex((prev) => (prev + 1) % growValues.length)}
           className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
         >
-          flex-basis: {flexBasis}
+          flex-grow: {flexGrow} (Item 2)
         </button>
 
         <button
@@ -33,20 +31,19 @@ export default function FlexBasisWithDirection() {
       </div>
 
       <div
-        className="flex gap-4 p-4 bg-gray-100 dark:bg-gray-900 rounded"
+        className="flex gap-4 p-4 bg-gray-100 dark:bg-gray-900 rounded "
         style={{
           flexDirection,
           width: flexDirection === "row" ? "700px" : "auto",
-          height: flexDirection === "column" ? "500px" : "auto",
+          height: flexDirection === "column" ? "400px" : "auto",
         }}
       >
-        {[...Array(3)].map((_, i) => (
+        {[0, 1, 2].map((i) => (
           <div
             key={i}
             className="flex items-center justify-center bg-gray-400 dark:bg-gray-600 p-4 text-gray-900 dark:text-gray-100 rounded"
             style={{
-              flexBasis,
-              flexGrow: 0,
+              flexGrow: i === 1 ? flexGrow : 1, // 두 번째 아이템만 값 변경
               flexShrink: 0,
             }}
           >
@@ -56,12 +53,10 @@ export default function FlexBasisWithDirection() {
       </div>
 
       <p className="text-sm text-gray-700 dark:text-gray-300">
-        <b>flex-basis</b>는 <code>flex-direction</code>의 주축(main axis) 크기를
-        결정합니다.
+        <b>flex-grow</b>는 주축(main axis)에서 남는 공간을 얼마나 차지할지
+        비율로 결정합니다.
         <br />
-        <code>row</code> → 너비 기준
-        <br />
-        <code>column</code> → 높이 기준
+        <code>row</code> → 가로 기준 / <code>column</code> → 세로 기준
       </p>
     </div>
   );

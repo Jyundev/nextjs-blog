@@ -159,3 +159,30 @@ table {
 .title {
   text-wrap: balance;
 }
+
+@layer utilities {
+  @keyframes aurora {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .aurora-bg {
+    background: linear-gradient(
+      270deg,
+      #a5d8ff,
+      #d0bfff,
+      #ffd6a5,
+      #caffbf,
+      #9bf6ff
+    );
+    background-size: 1000% 1000%;
+    animation: aurora 15s ease infinite;
+  }
+}
