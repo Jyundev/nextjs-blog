@@ -17,19 +17,11 @@
   --sh-jsxliterals: #fd971f; /* JSX 리터럴 */
   --sh-property: #ee5c18; /* 프로퍼티 */
   --sh-entity: #f92672; /* 엔티티 */
+  --highlight-text-gray: #f3f4f6;
+  --highlight-text-yellow: #fffacc;
+  --highlight-text-sky: #d9edf7;
+  --highlight-text-light-sky: #f0f9ff;
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --sh-class: #4c97f8;
-    --sh-identifier: white;
-    --sh-keyword: #f47067;
-    --sh-string: #0fa295;
-  }
-  html {
-    color-scheme: dark;
-  }
-} */
 
 /* Tailwind darkMode: 'class' 기반 */
 html.dark {
@@ -42,6 +34,10 @@ html.dark {
   --sh-jsxliterals: #fd971f;
   --sh-property: #ff970f;
   --sh-entity: #f92672;
+  --highlight-text-gray: #2d2f45;
+  --highlight-text-yellow: #3c3f5a;
+  --highlight-text-sky: #264f78;
+  --highlight-text-light-sky: #3b3f4c;
 }
 
 html {
@@ -162,4 +158,31 @@ table {
 
 .title {
   text-wrap: balance;
+}
+
+@layer utilities {
+  @keyframes aurora {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .aurora-bg {
+    background: linear-gradient(
+      270deg,
+      #a5d8ff,
+      #d0bfff,
+      #ffd6a5,
+      #caffbf,
+      #9bf6ff
+    );
+    background-size: 1000% 1000%;
+    animation: aurora 15s ease infinite;
+  }
 }

@@ -1,0 +1,187 @@
+---
+title: "CSS Flex 기본 알기"
+publishedAt: "2025-08-12"
+summary: "css 의 기본 flex 살펴보기"
+---
+
+문득, 프론트엔드 개발을 시작한 뒤로 CSS를 제대로 배운 적이 없다는 생각이 들었다.
+취준할 때는 다른 직무를 준비하느라 프론트엔드 기본기를 충분히 다지지 못했고,
+그래서인지 당시 만든 웹사이트도 기능은 괜찮았지만 ‘보는 맛’이 없었다.
+
+회사에서는 퍼블리셔분이 CSS를 전담하다 보니, 굳이 내가 공부해야겠다는 생각도 들지 않았다.
+
+그런데 최근 혼자 프로젝트를 구상하면서 깨달았다. GPT 도움 없이는 내 CSS 실력이 너무 허접하다는 것…
+
+그래서 이번에는 Flex와 Grid를 중심으로, CSS 기본기를 차근차근 다져보려 한다.
+
+<i>모든 내용은 [1분코딩](https://studiomeal.com/archives/197) 을 참고한다.</i>
+
+<br />
+<br />
+
+---
+
+## 1. display: flex
+
+Flex 컨테이너의 시작은 `display: flex;`다.
+
+기본적으로 **아이템들이 가로(row) 방향**으로 배치되며, 각 아이템은 내용물의 width만큼만 차지한다. height는 컨테이너 높이에 맞춰 늘어난다.
+
+<FlexGridFlex />
+
+## 2. flex-direction
+
+아이템이 배치되는 **축 방향**을 결정한다.
+
+- `row` (기본) : 가로 → 방향
+- `row-reverse` : 가로 ← 방향
+- `column` : 세로 ↓ 방향
+- `column-reverse` : 세로 ↑ 방향
+
+<br />
+
+<FlexGridFlexDirection />
+
+## 3. flex-wrap
+
+줄바꿈 처리 여부를 정한다.
+
+- `nowrap` (기본) : 줄바꿈 안 함, 넘치면 삐져나감
+- `wrap` : 줄바꿈 함
+- `wrap-reverse` : 줄바꿈 + 역순 배치
+
+<br />
+
+<FlexGridWrap />
+
+## 4. flex-flow
+
+`flex-direction`과 `flex-wrap`을 한 줄로 지정하는 축약형.
+
+```css
+.container {
+  flex-flow: row wrap;
+  /* flex-direction: row; */
+  /* flex-wrap: wrap; */
+}
+```
+
+## 5. justify-content
+
+메인축 방향 정렬.
+
+- flex-start (기본) : 시작점 정렬
+
+- flex-end : 끝점 정렬
+
+- center : 가운데 정렬
+
+- space-between : 사이 간격 균등
+
+- space-around : 둘레 간격 균등
+
+- space-evenly : 모든 간격 균등 (IE/Edge 미지원)
+
+<FlexGridJustify />
+
+## 6. align-items
+
+수직축 방향 정렬.
+
+- stretch (기본) : 끝까지 늘림 (height 미지정 시)
+
+- flex-start : 위쪽 정렬
+
+- flex-end : 아래쪽 정렬
+
+- center : 수직 가운데
+
+- baseline : 텍스트 기준선 맞춤
+
+<FlexGridAlignItem />
+
+## 7. align-content
+
+여러 줄(행)일 때의 수직축 방향 정렬.
+
+flex-wrap: wrap; 상태에서만 동작.
+
+<FlexGridAlignContent />
+
+## 8. 아이템 속성
+
+- flex-basis : 아이템의 기본 크기
+
+- flex-grow : 남은 공간을 차지할 비율
+
+- flex-shrink : 공간 부족 시 줄어드는 비율
+
+- flex : grow shrink basis 축약형
+
+- align-self : 개별 아이템 수직 정렬
+
+- order : 시각적 배치 순서
+
+- z-index : Z축(위/아래) 배치
+
+## flex-basis
+
+<FlexGridFlexBasis />
+
+## flex-grow
+
+<FlexGridFlexGrow />
+
+## flex-shrink
+
+<FlexGridFlexShrink />
+
+## flex
+
+```css
+.item {
+  flex: 1;
+  /* flex-grow: 1; flex-shrink: 1; flex-basis: 0%; */
+  flex: 2 1 0;
+  /* flex-grow: 2; flex-shrink: 1; flex-basis: 0; */
+  flex: 1 150px;
+  /* flex-grow: 1; flex-shrink: 1; flex-basis: 150px; */
+}
+```
+
+<FlexGridFlexShort />
+
+## align-self
+
+개별 아이템의 수직축 정렬을 지정한다.
+
+align-items가 컨테이너의 모든 아이템 정렬을 제어한다면, align-self는 해당 아이템만 개별적으로 정렬한다.
+
+기본값은 auto이며, 컨테이너의 align-items 값을 그대로 따른다.
+
+<FlexGridAlignSelf />
+
+## order
+
+아이템의 시각적 배치 순서를 결정하는 속성이다. 숫자가 작을수록 먼저 배치된다.
+
+단, 이는 화면에서 보이는 순서만 바꾸는 것이며, HTML 구조 자체는 변하지 않는다. 따라서 접근성 측면에서 주의가 필요하다.
+
+<FlexGridOrder />
+
+## z-index
+
+z-index를 사용하면 요소의 Z축(앞뒤) 순서를 조정할 수 있다.
+값이 클수록 더 위에 표시된다.
+
+<FlexGridZIndex />
+
+## 간단한 블로그 Open Graph 만들기
+
+블로그를 SNS에 공유할 때 썸네일로 보여줄 Open Graph 이미지를 만들어 봤다.
+
+이미지와 텍스트가 간단하게 배치된 형태다.
+
+<OgOgCardNew />
+
+실제 썸네일은 이미지 형태라 배경이 이렇게 화려하진 않지만, 나름 깔끔한 배치로 완성했다. 이제는 확실히 flex 정렬 개념이 잡힌 것 같다. ^-^
