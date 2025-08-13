@@ -34,8 +34,8 @@ const OGImageContent = ({
       <div
         style={{
           display: "flex",
-          width: "280px",
-          height: "280px",
+          width: "420px",
+          height: "420px",
           overflow: "hidden",
           borderRadius: "50%",
         }}
@@ -43,8 +43,8 @@ const OGImageContent = ({
         <img
           src={avatarUrl}
           alt="Avatar"
-          width={280}
-          height={280}
+          width={420}
+          height={420}
           style={{
             objectFit: "cover",
             width: "100%",
@@ -65,7 +65,7 @@ const OGImageContent = ({
       >
         <h1
           style={{
-            fontSize: "52px",
+            fontSize: "80px",
             color: "#1f2937",
             fontWeight: 600,
             margin: 0,
@@ -84,7 +84,7 @@ const OGImageContent = ({
         >
           <span
             style={{
-              fontSize: "32px",
+              fontSize: "64px",
               color: "#111827",
               backgroundColor: "#bdc6ff",
               padding: "4px 12px",
