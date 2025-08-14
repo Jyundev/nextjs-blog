@@ -25,7 +25,7 @@ Flex 컨테이너의 시작은 `display: flex;`다.
 
 기본적으로 **아이템들이 가로(row) 방향**으로 배치되며, 각 아이템은 내용물의 width만큼만 차지한다. height는 컨테이너 높이에 맞춰 늘어난다.
 
-<FlexGridFlex />
+<FlexFlex />
 
 ## 2. flex-direction
 
@@ -38,7 +38,7 @@ Flex 컨테이너의 시작은 `display: flex;`다.
 
 <br />
 
-<FlexGridFlexDirection />
+<FlexFlexDirection />
 
 ## 3. flex-wrap
 
@@ -50,7 +50,7 @@ Flex 컨테이너의 시작은 `display: flex;`다.
 
 <br />
 
-<FlexGridWrap />
+<FlexWrap />
 
 ## 4. flex-flow
 
@@ -80,7 +80,7 @@ Flex 컨테이너의 시작은 `display: flex;`다.
 
 - space-evenly : 모든 간격 균등 (IE/Edge 미지원)
 
-<FlexGridJustify />
+<FlexJustify />
 
 ## 6. align-items
 
@@ -96,7 +96,7 @@ Flex 컨테이너의 시작은 `display: flex;`다.
 
 - baseline : 텍스트 기준선 맞춤
 
-<FlexGridAlignItem />
+<FlexAlignItem />
 
 ## 7. align-content
 
@@ -104,7 +104,7 @@ Flex 컨테이너의 시작은 `display: flex;`다.
 
 flex-wrap: wrap; 상태에서만 동작.
 
-<FlexGridAlignContent />
+<FlexAlignContent />
 
 ## 8. 아이템 속성
 
@@ -124,15 +124,15 @@ flex-wrap: wrap; 상태에서만 동작.
 
 ## flex-basis
 
-<FlexGridFlexBasis />
+<FlexFlexBasis />
 
 ## flex-grow
 
-<FlexGridFlexGrow />
+<FlexFlexGrow />
 
 ## flex-shrink
 
-<FlexGridFlexShrink />
+<FlexFlexShrink />
 
 ## flex
 
@@ -147,7 +147,7 @@ flex-wrap: wrap; 상태에서만 동작.
 }
 ```
 
-<FlexGridFlexShort />
+<FlexFlexShort />
 
 ## align-self
 
@@ -157,7 +157,7 @@ align-items가 컨테이너의 모든 아이템 정렬을 제어한다면, align
 
 기본값은 auto이며, 컨테이너의 align-items 값을 그대로 따른다.
 
-<FlexGridAlignSelf />
+<FlexAlignSelf />
 
 ## order
 
@@ -165,14 +165,14 @@ align-items가 컨테이너의 모든 아이템 정렬을 제어한다면, align
 
 단, 이는 화면에서 보이는 순서만 바꾸는 것이며, HTML 구조 자체는 변하지 않는다. 따라서 접근성 측면에서 주의가 필요하다.
 
-<FlexGridOrder />
+<FlexOrder />
 
 ## z-index
 
 z-index를 사용하면 요소의 Z축(앞뒤) 순서를 조정할 수 있다.
 값이 클수록 더 위에 표시된다.
 
-<FlexGridZIndex />
+<FlexZIndex />
 
 ## 간단한 블로그 Open Graph 만들기
 
@@ -182,4 +182,4 @@ z-index를 사용하면 요소의 Z축(앞뒤) 순서를 조정할 수 있다.
 
 <OgOgCardNew />
 
-실제 썸네일은 이미지 형태라 배경이 이렇게 화려하진 않지만, 나름 깔끔한 배치로 완성했다. 이제는 확실히 flex 정렬 개념이 잡힌 것 같다. ^-^
+실제 썸네일은 이미지 형태라 배경이 이렇게 화려하진 않지만, 나름 깔끔한 배치로 완성했다. 이제는 확실히 flex 정렬 개념이 잡힌 것 같다.

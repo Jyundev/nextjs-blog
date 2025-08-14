@@ -5,19 +5,23 @@ import React from "react";
 import { highlight } from "sugar-high";
 import { mdxComponents } from "./mdxComponents";
 
-interface ImageWithCaptionProps {
+// 이미지 첨부
+type ImageWithCaptionProps = {
   src: string;
   alt?: string;
   caption?: string;
   className?: string;
-}
+  sourceUrl?: string; // 출처 URL
+  sourceLabel?: string; // 출처 표시 텍스트
+};
 
-// 이미지 첨부
 export function ImageWithCaption({
   src,
   alt = "",
   caption,
   className = "",
+  sourceUrl,
+  sourceLabel,
 }: ImageWithCaptionProps) {
   return (
     <figure className={`my-6 text-center ${className}`}>
@@ -26,11 +30,23 @@ export function ImageWithCaption({
         alt={alt}
         className="mx-auto max-w-full rounded-lg shadow-md"
       />
-      {caption && (
+      {
         <figcaption className="mt-2 text-sm text-gray-500">
           {caption}
+          {sourceUrl && (
+            <>
+              <a
+                href={sourceUrl}
+                className="inline text-blue-500 underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {sourceLabel || "출처"}
+              </a>
+            </>
+          )}
         </figcaption>
-      )}
+      }
     </figure>
   );
 }

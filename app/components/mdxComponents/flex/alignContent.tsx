@@ -68,8 +68,8 @@ export default function AlignContentVisualizer() {
             key={i}
             className="bg-gray-300 dark:bg-gray-700 border border-gray-500 rounded flex items-center justify-center"
             style={{
-              width: itemWidth,
-              height: itemHeight,
+              width: alignContent !== "stretch" ? itemWidth : undefined,
+              height: alignContent !== "stretch" ? itemHeight : undefined,
             }}
           >
             Item {i + 1}
