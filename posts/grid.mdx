@@ -1,0 +1,142 @@
+---
+title: "CSS Grid 기본 알기"
+publishedAt: "2025-08-13"
+summary: "css 의 기본 grid 살펴보기"
+---
+
+Flex에 대한 기본기를 어느 정도 다졌으니, 이제 Grid를 공부해보자.
+
+<i>모든 내용은 [1분코딩](https://studiomeal.com/archives/533) 을 참고한다.</i>
+
+<br />
+<br />
+
+---
+
+Flex는 한 방향 레이아웃 시스템이고 (1차원)
+Grid는 두 방향(가로-세로) 레이아웃 시스템 (2차원)
+
+Flex보다 더 복합적인 레이아웃 표현이 가능
+
+## Grid 속성
+
+<ImageWithCaption
+  src="/images/grid.png"
+  alt="grid container"
+  sourceUrl="https://studiomeal.com/archives/533"
+  caption="출처 : "
+  sourceLabel="1분코딩"
+/>
+
+- 그리드 컨테이너 (Grid Container)
+  - display: grid를 적용하는, Grid의 전체 영역입니다. Grid 컨테이너 안의 요소들이 Grid 규칙의 영향을 받아 정렬된다고 생각하면 됩니다. 위 코드 `<div class=”container”></div>`가 Grid 컨테이너예요.
+- 그리드 아이템 (Grid Item)
+
+  - Grid 컨테이너의 자식 요소들입니다. 바로 이 아이템들이 Grid 규칙에 의해 배치되는 거예요. 위 코드에서 `<div class=”item”></div>`들이 Grid 아이템입니다.
+
+- 그리드 트랙 (Grid Track)
+  - Grid의 행(Row) 또는 열(Column)
+- 그리드 셀 (Grid Cell)
+  - Grid의 한 칸을 가리키는 말이에요. `<div>`같은 실제 html 요소는 그리드 아이템이고, 이런 Grid 아이템 하나가 들어가는 “가상의 칸(틀)”이라고 생각하면 됩니다.
+- 그리드 라인(Grid Line)
+  - Grid 셀을 구분하는 선입니다.
+- 그리드 번호(Grid Number)
+  - Grid 라인의 각 번호입니다.
+- 그리드 갭(Grid Gap)
+  - Grid 셀 사이의 간격입니다.
+- 그리드 영역(Grid Area)
+  - Grid 라인으로 둘러싸인 사각형 영역으로, 그리드 셀의 집합이에요.
+
+Grid의 속성들은 Flex와 마찬가지로, 컨테이너에 적용하는 속성 아이템에 적용하는 속성 이렇게 두 가지로 나뉘어요.
+
+## 그리드 형태 정의
+
+- grid-template-rows
+- grid-template-columns
+
+  grid-template-rows는 행(row)의 배치
+  grid-template-columns는 열(column)의 배치
+
+```
+grid-template-columns: 200px 200px 500px;
+```
+
+는 column을 200px, 200px, 500px로 만들겠다는 의미예요.
+
+```
+grid-template-columns: 1fr 1fr 1fr;
+는 column을 200px, 200px, 500px로 만들겠다는 의미예요.
+```
+
+fr은 fraction(뜻은 여기로)인데요, 숫자 비율대로 트랙의 크기를 나눕니다.
+즉 위의 1fr 1fr 1fr은 균일하게 1:1:1 비율인 3개의 column을 만들겠다는 의미예요.
+
+<GridBasic />
+
+1. 100px 100px 300px
+
+무슨 뜻
+3개의 트랙을 고정 픽셀 너비/높이로 만듭니다.
+
+컬럼: 첫 번째 100px, 두 번째 100px, 세 번째 300px
+
+로우: 첫 번째 100px, 두 번째 100px, 세 번째 300px
+
+컨테이너 크기와 무관하게 항상 같은 크기.
+
+콘텐츠가 더 크면 오버플로우(넘침) 발생 가능.
+
+반응형(리플로우)에 덜 유연.
+
+2. 1fr 1fr 1fr
+
+가용 공간을 3등분해서 동일 비율로 분배합니다.
+
+컬럼: 3열이 각각 컨테이너의 남는 너비를 동일 비율로 가짐
+
+로우: 3행이 컨테이너의 남는 높이를 동일 비율로 가짐(컨테이너에 명확한 높이가 있을 때 체감)
+
+반응형에 유리: 컨테이너 크기가 바뀌면 자동으로 재분배.
+
+3. 200px 1fr
+
+첫 번째 트랙은 고정 200px, 두 번째 트랙이 나머지 공간을 전부 가집니다.
+
+컬럼: 왼쪽 200px 고정 + 오른쪽 가변
+
+로우: 상단 200px 고정 + 하단 가변(컨테이너 높이가 있을 때)
+
+“고정 + 가변”의 전형적인 2분할.
+
+콘텐츠가 많은 쪽에 1fr을 주면 자연스럽게 확장.
+
+템플릿에 2개 트랙만 정의했는데 아이템이 더 많으면 암시적(implicit) 트랙이 생깁니다.
+이때 크기는 grid-auto-columns/grid-auto-rows(기본 auto)의 규칙을 따릅니다.
+필요하면 grid-auto-rows: 1fr 같은 추가 설정을 고려하세요.
+
+4. 100px 200px auto
+
+1·2번째는 고정 픽셀, 3번째는 auto입니다.
+
+컬럼: auto는 보통 콘텐츠 크기를 기준으로 잡되, 남는 공간이 있으면 채워서 늘어날 수 있습니다.
+
+로우: auto는 콘텐츠 높이만큼 늘어납니다(컨테이너에 여유 높이가 있어도 항상 남는 공간을 나눠 가지는 건 아님).
+
+컬럼에서 auto는 “컨텐츠에 맞춤 + 남으면 채움”에 가까움.
+
+로우에서 auto는 “컨텐츠 높이만큼”이 기본이기 때문에 남는 세로 공간을 확실히 채우려면 1fr가 더 직관적입니다.
+
+## Repeat, MinMax
+
+repeat는 반복되는 값을 자동으로 처리할 수 있는 함수입니다.
+repeat(반복횟수, 반복값)
+
+```
+.container {
+grid-template-columns: repeat(5, 1fr);
+/_ grid-template-columns: 1fr 1fr 1fr 1fr 1fr _/
+}
+
+```
+
+<GridRepeat />
