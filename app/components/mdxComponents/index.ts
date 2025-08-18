@@ -1,31 +1,35 @@
-import FlexGridAlignContent from "./flex-grid/alignContent";
-import FlexGridAlignItem from "./flex-grid/alignItem";
-import FlexGridAlignSelf from "./flex-grid/alignSelf";
-import FlexGridFlex from "./flex-grid/flex";
-import FlexGridFlexBasis from "./flex-grid/flexBasis";
-import FlexGridFlexDirection from "./flex-grid/flexDirection";
-import FlexGridFlexGrow from "./flex-grid/flexGrow";
-import FlexGridFlexShort from "./flex-grid/flexShort";
-import FlexGridFlexShrink from "./flex-grid/flexShrink";
-import FlexGridJustify from "./flex-grid/justify";
-import FlexGridOrder from "./flex-grid/order";
-import FlexGridWrap from "./flex-grid/wrap";
-import FlexGridZIndex from "./flex-grid/zIndex";
+import FlexAlignContent from "./flex/alignContent";
+import FlexAlignItem from "./flex/alignItem";
+import FlexAlignSelf from "./flex/alignSelf";
+import FlexFlex from "./flex/flex";
+import FlexFlexBasis from "./flex/flexBasis";
+import FlexFlexDirection from "./flex/flexDirection";
+import FlexFlexGrow from "./flex/flexGrow";
+import FlexFlexShort from "./flex/flexShort";
+import FlexFlexShrink from "./flex/flexShrink";
+import FlexJustify from "./flex/justify";
+import FlexOrder from "./flex/order";
+import FlexWrap from "./flex/wrap";
+import FlexZIndex from "./flex/zIndex";
+import GridBasic from "./grid/basic";
+import GridRepeat from "./grid/repeat";
 import OgOgCardNew from "./og/ogCardNew";
 
 export const mdxComponents = {
-FlexGridAlignContent,
-FlexGridAlignItem,
-FlexGridAlignSelf,
-FlexGridFlex,
-FlexGridFlexBasis,
-FlexGridFlexDirection,
-FlexGridFlexGrow,
-FlexGridFlexShort,
-FlexGridFlexShrink,
-FlexGridJustify,
-FlexGridOrder,
-FlexGridWrap,
-FlexGridZIndex,
+FlexAlignContent,
+FlexAlignItem,
+FlexAlignSelf,
+FlexFlex,
+FlexFlexBasis,
+FlexFlexDirection,
+FlexFlexGrow,
+FlexFlexShort,
+FlexFlexShrink,
+FlexJustify,
+FlexOrder,
+FlexWrap,
+FlexZIndex,
+GridBasic,
+GridRepeat,
 OgOgCardNew,
 };
