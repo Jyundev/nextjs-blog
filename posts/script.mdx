@@ -1,12 +1,12 @@
 ---
-title: "MDX와 커스텀 컴포넌트 자동 관리하기"
+title: "MDX에서 커스텀 컴포넌트 자동 관리하기"
 publishedAt: "2025-08-18"
 summary: "mdx를 효율적으로 사용하는 법"
 ---
 
 MDX의 가장 큰 장점은 내가 만든 React 컴포넌트를 자유롭게 문서 안에서 활용할 수 있다는 점이다.
 
-예를 들어 작성했던 CSS Flex 기본 알기 글을 보면, 중간중간 인터랙티브한 요소들이 들어가 있다. 이러한 요소들은 모두 MDX에서 불러와 사용하는 커스텀 컴포넌트다.
+예를 들어 작성했던 [CSS Flex 기본 알기](https://yuns-blog-chi.vercel.app/blog/flex) 글을 보면, 중간중간 인터랙티브한 요소들이 들어가 있다. 이러한 요소들은 모두 MDX에서 불러와 사용하는 커스텀 컴포넌트다.
 
 ## 기존 방식: mdx.tsx에서 직접 관리
 
@@ -55,8 +55,7 @@ export const mdxComponents = {
 
 ## 자동화 스크립트: generateMdxIndex
 
-mdxComponents는 자동화 스크립트를 통해 채워진다.
-해당 스크립트는 모든 컴포넌트를 탐색해 index.ts 파일을 생성한다.
+mdxComponents는 자동화 스크립트를 통해 모든 컴포넌트를 탐색해 index.ts 파일을 생성하는 방식으로 채워진다.
 
 ```ts
 function toPascalCase(str: string) {
@@ -124,4 +123,11 @@ export const mdxComponents = {
 
 ```
 
-정리하자면, mdx.tsx에서 컴포넌트를 직접 관리하는 수고를 줄일 수 있고, 스크립트를 통해 자동화하여 유지보수성을 크게 높일 수 있다.
+<br />
+<br />
+
+## 정리
+
+기존 Ruby 기반의 Jekyll 블로그에서 React 기반 Next.js + MDX 블로그로 옮긴 뒤, 가장 큰 장점은 바로 이 부분이 아닐까 싶다.
+
+스크립트를 통해 자동화를 적용함으로써 mdx.tsx에서 컴포넌트를 직접 관리하는 수고를 줄일 수 있고, 동시에 유지보수성까지 크게 높일 수 있다.
