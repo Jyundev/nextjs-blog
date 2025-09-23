@@ -24,7 +24,7 @@ export default function NotesLayout({ children }: Props) {
       "
     >
       {/* 좌측 태그 사이드바 (col 1) */}
-      <aside className="hidden md:block md:sticky md:top-16 md:h-[calc(100dvh-6rem)] md:overflow-y-auto">
+      <aside className="hidden md:block md:sticky md:top-16 md:self-start md:max-h-[calc(100dvh-6rem)] md:overflow-y-auto">
         <div className="mb-3 text-xs font-medium uppercase text-neutral-500">
           Tags
         </div>

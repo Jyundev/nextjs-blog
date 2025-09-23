@@ -98,7 +98,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
         </div>
 
         <Suspense fallback={null}>
-          <ViewCount slug={params.slug} />
+          {/* <ViewCount slug={params.slug} /> */}
         </Suspense>
       </div>
 
