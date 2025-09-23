@@ -1,4 +1,3 @@
-// app/(site)/notes/layout.tsx
 import { ReactNode } from "react";
 import { getNotePosts } from "@/utils/blog";
 import Link from "next/link";
@@ -31,7 +30,7 @@ export default function NotesLayout({ children }: Props) {
         </div>
         <nav className="space-y-1">
           <Link
-            href="/notes"
+            href="/note"
             className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
             <span>All</span>
@@ -42,7 +41,7 @@ export default function NotesLayout({ children }: Props) {
           {entries.map(([tag, count]) => (
             <Link
               key={tag}
-              href={`/notes/tag/${encodeURIComponent(tag)}`}
+              href={`/note/tag/${encodeURIComponent(tag)}`}
               className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             >
               <span className="truncate">#{tag}</span>
@@ -67,7 +66,7 @@ export default function NotesLayout({ children }: Props) {
         </summary>
         <div className="mt-2 max-h-72 space-y-1 overflow-y-auto rounded-lg border p-2">
           <Link
-            href="/notes"
+            href="/note"
             className="block rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
             All <span className="ml-2 text-xs opacity-70">({total})</span>
@@ -75,7 +74,7 @@ export default function NotesLayout({ children }: Props) {
           {entries.map(([tag, count]) => (
             <Link
               key={tag}
-              href={`/notes/tag/${encodeURIComponent(tag)}`}
+              href={`/note/tag/${encodeURIComponent(tag)}`}
               className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             >
               <span className="truncate">#{tag}</span>

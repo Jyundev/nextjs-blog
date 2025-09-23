@@ -12,14 +12,14 @@ export function TagNav({
 }) {
   const pathname = usePathname();
 
-  const isAll = pathname === "/notes";
+  const isAll = pathname === "";
   const isActive = (tag: string) =>
-    pathname === `/notes/tag/${encodeURIComponent(tag)}`;
+    pathname === `/note/tag/${encodeURIComponent(tag)}`;
 
   return (
     <div className="space-y-1">
       <Link
-        href="/notes"
+        href="/note"
         aria-current={isAll ? "page" : undefined}
         className={[
           "flex items-center justify-between rounded-lg px-3 py-2 text-sm",
@@ -45,7 +45,7 @@ export function TagNav({
         return (
           <Link
             key={tag}
-            href={`/notes/tag/${encodeURIComponent(tag)}`}
+            href={`/note/tag/${encodeURIComponent(tag)}`}
             aria-current={active ? "page" : undefined}
             className={[
               "flex items-center justify-between rounded-lg px-3 py-2 text-sm",
