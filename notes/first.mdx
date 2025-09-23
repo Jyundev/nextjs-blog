@@ -1,0 +1,104 @@
+---
+title: "Next.js로 직접 블로그 만들기"
+publishedAt: "2025-07-30"
+summary: "Next.js 기반의 Vercel Portfolio Starter Kit으로 개인 블로그를 구축해보자."
+tags: [nextjs, "react", "mdx"]
+---
+
+# Vercel의 Portfolio Starter Kit
+
+[Portfolio Starter Kit](https://vercel.com/templates/next.js/portfolio-starter-kit)은 Next.js 기반의 개인 포트폴리오와 블로그를 빠르게 만들 수 있는 공식 템플릿이다.
+이 템플릿을 기반으로 블로그를 새로 구축할 예정이다.
+
+기존에 [Jekyll + GitHub Actions 블로그](https://jyundev.github.io/)가 있었지만, Next.js
+공부도 할 겸 직접 만들어보고 싶었다.
+
+## 기술 스택 차이
+
+<Table
+  data={{
+    headers: ["구분", "Jekyll + GitHub Actions", "Vercel Portfolio Starter Kit (Next.js)"],
+    rows: [
+      ["정적 생성기", "Ruby 기반 Jekyll", "React 기반 Next.js + MDX"],
+      ["템플릿 언어", "Liquid 템플릿", "React 컴포넌트, JSX, MDX"],
+      ["스타일링", "보통 SASS/SCSS, CSS", "Tailwind CSS"],
+      ["스크립트", "제한적 (JS 직접 삽입 가능)", "완전한 React 및 JavaScript/TypeScript 지원"],
+    ],
+
+}}
+/>
+
+## MDX 란?
+
+MDX는 Markdown과 JSX를 합친 문서 포맷이다. Markdown 문법 안에 React 컴포넌트(JSX)를 바로 넣을 수 있게 해준다.
+
+MDX를 사용하면 컴포넌트 기반으로 블로그를 작성할 수 있다는 점이 가장 큰 장점이다.
+
+현재 이 테이블도 컴포넌트를 활용해 구현한 예시이다.
+
+<Table
+  data={{
+    headers: ["구분", "Markdown", "MDX"],
+    rows: [
+      [
+        "문법",
+        "텍스트 기반, # 제목, *기울임 등",
+        "Markdown 문법 + JSX 태그/컴포넌트 가능",
+      ],
+      [
+        "확장성",
+        "제한적, 기본 텍스트 스타일링 위주	",
+        "React 컴포넌트를 포함해 동적 UI 가능",
+      ],
+      [
+        "사용",
+        "블로그, 문서, README 등",
+        "블로그, 문서, 컴포넌트 기반 UI 문서화",
+      ],
+    ],
+  }}
+/>
+
+<p> </p>
+
+```React
+<Table
+  data={{
+    headers: ["구분", "Markdown", "MDX"],
+    rows: [
+      [
+        "문법",
+        "텍스트 기반, # 제목, *기울임 등",
+        "Markdown 문법 + JSX 태그/컴포넌트 가능",
+      ],
+      [
+        "확장성",
+        "제한적, 기본 텍스트 스타일링 위주	",
+        "React 컴포넌트를 포함해 동적 UI 가능",
+      ],
+      [
+        "사용",
+        "블로그, 문서, README 등",
+        "블로그, 문서, 컴포넌트 기반 UI 문서화",
+      ],
+    ],
+  }}
+/>
+```
+
+---
+
+## SEO 최적화
+
+Next.js의 서버사이드 렌더링과 동적 메타 태그 설정 기능을 활용해 SEO(검색엔진 최적화)가 잘 되어 있다.
+
+페이지마다 동적으로 제목, 설명, Open Graph 이미지 등을 설정할 수 있어서 검색 결과에서 노출이 잘 되고, SNS 공유 시에도 내가 커스텀한 이미지를 보여준다.
+
+<ImageWithCaption src="/images/go.png" alt="open graph" />
+
+---
+
+## 앞으로의 계획
+
+요즘 블로그에 좀 소홀했는데, 직접 블로그를 만들면서 내가 원하는 스타일과 기능을 갖춘 기술 블로그로 점차 발전시킬 계획이다.
+Next.js와 Tailwind CSS 공부도 함께 하면서 꾸준히 개선해 나갈 생각이다.

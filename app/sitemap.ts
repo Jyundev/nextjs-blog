@@ -1,4 +1,4 @@
-import { getBlogPosts } from "app/blog/utils";
+import { getBlogPosts } from "@/utils/blog";
 
 export const baseUrl =
   process.env.NEXT_PUBLIC_BASE_URL || "https://yuns-blog-chi.vercel.app";

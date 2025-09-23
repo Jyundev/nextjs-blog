@@ -12,17 +12,17 @@ import { themeInitScript } from "./utils/themeScript";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "CodeYun",
-    template: "%s | CodeYun",
+    default: "codedByYun",
+    template: "%s | codedByYun",
   },
   description:
     "Sharing insights, code, and clean solutions from my journey as a frontend developer.",
   openGraph: {
-    title: "CodeYun",
+    title: "codedByYun",
     description:
       "Frontend development tips, real-world projects, and insights on React, TypeScript, and more.",
     url: baseUrl,
-    siteName: "CodeYun",
+    siteName: "codedByYun",
     locale: "en_US",
     type: "website",
   },
@@ -61,20 +61,26 @@ export default function RootLayout({
           name="google-site-verification"
           content="1GLOHR19P2RGeAsGA7iXphRML6BBrI1cugHHExYfq30"
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: themeInitScript,
-          }}
-        ></script>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="antialiased max-w-xl mx-4 mt-8 lg:mx-auto">
-        <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0">
-          <Navbar />
-          {children}
-          <Footer />
-          <Analytics />
-          <SpeedInsights />
-        </main>
+
+      <body className="antialiased min-h-dvh flex flex-col">
+        {/* 헤더 */}
+        <header className="w-full">
+          <div className="max-w-xl w-full mx-4 lg:mx-auto mt-8">
+            <Navbar />
+          </div>
+        </header>
+        {/* 메인(가변) */}
+        <main className="flex-1 w-full">{children}</main>
+        <footer className="w-full">
+          <div className="max-w-xl w-full mx-4 lg:mx-auto px-2 md:px-0">
+            <Footer />
+          </div>
+        </footer>
+
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
