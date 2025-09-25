@@ -190,26 +190,34 @@ export function extractHeadings(mdxContent) {
 
 interface HighlightProps {
   children: React.ReactNode;
-  color?: string;
+  bgColor?: string; // 배경색
+  textColor?: string; // 글자색
+  className?: string; // Tailwind/전역 CSS 클래스
+  style?: React.CSSProperties; // 인라인 스타일 확장
 }
 
-const Highlight = ({
+export const Highlight = ({
   children,
-  color = "var(--highlight-text-yellow)",
+  bgColor = "var(--highlight-text-yellow)",
+  textColor = "inherit",
+  className = "",
+  style = {},
 }: HighlightProps) => {
   return (
     <span
+      className={className}
       style={{
-        backgroundColor: color,
+        backgroundColor: bgColor,
+        color: textColor,
         padding: "0.2em 0.4em",
         borderRadius: "4px",
+        ...style,
       }}
     >
       {children}
     </span>
   );
 };
-
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
