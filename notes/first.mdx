@@ -1,0 +1,49 @@
+---
+title: "Day.js에서 timezone 사용"
+publishedAt: "2025-09-23"
+summary: "렌더링 전략을 한눈에 보는 간단 메모"
+tags: ["frontend"]
+---
+
+## dayjs.tz(str, tz) vs dayjs(str).tz(tz) 차이
+
+```
+dayjs.tz(str, tz)
+dayjs(str).tz(tz)
+
+```
+
+둘 다 **타임존 적용** 처럼 보이지만, 파싱 방식이 다르다. 잘못 쓰면 하루가 밀리거나 당겨지는 버그가 생길 수 있다.
+
+### dayjs(str).tz(tz)
+
+먼저 str을 일반 Day.js로 파싱 → 문자열에 오프셋(+0000, Z)이 있으면 적용 후 .tz(tz)로 지정한 타임존에 맞게 변환한다.
+
+**ISO + 오프셋 포함 값을 다룰 때 안전하다.**
+
+### dayjs.tz(str, tz)
+
+str을 해당 타임존의 로컬 시각으로 해석 → 문자열 속 오프셋(+0000 등)을 무시
+
+결과적으로 실제와 다른 날짜로 잘못 읽힐 수 있다.
+
+**순수 날짜(YYYY-MM-DD)나 시간(HH:mm) 문자열**을 특정 타임존 기준으로 읽고 싶을 때만 사용해야 한다.
+
+```js
+const isoUtc = "2025-09-24T23:35:18+0000";
+const tz = "Asia/Seoul";
+
+// 오프셋 적용
+console.log(dayjs(isoUtc).tz(tz).format());
+// → 2025-09-25T08:35:18+09:00
+
+// 오프셋 무시
+console.log(dayjs.tz(isoUtc, tz).format());
+// → 2025-09-24T23:35:18+09:00
+```
+
+## 정리
+
+ISO + 오프셋(+0000, Z) 포함 값 → <Highlight>dayjs(str).tz(tz)</Highlight> 사용
+
+순수 날짜/시간(YYYY-MM-DD, HH:mm) → <Highlight>dayjs.tz(str, tz)</Highlight> 사용

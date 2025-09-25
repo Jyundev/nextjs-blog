@@ -12,7 +12,7 @@ const OGImageContent = () => {
           CSS Flex 기본 알기
         </h1>
         <div className="flex flex-row items-center gap-4 mt-6">
-          <span className="text-lg  text-gray-900 rounded-lg ">by YUN</span>
+          <span className="text-lg  text-gray-900 rounded-lg ">codeByYun</span>
         </div>
       </div>
     </div>
