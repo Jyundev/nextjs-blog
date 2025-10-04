@@ -218,6 +218,33 @@ export const Highlight = ({
     </span>
   );
 };
+
+type Props = { title?: string; children: React.ReactNode; className?: string };
+
+export const Info = ({ children, className }: Props) => (
+  <blockquote className={`prose callout info ${className ?? ""}`}>
+    <span className="title">💡 {children}</span>
+  </blockquote>
+);
+
+export const Tip = ({ children, className }: Props) => (
+  <blockquote className={`prose callout tip ${className ?? ""}`}>
+    <span className="title">🧩 {children}</span>
+  </blockquote>
+);
+
+export const Warn = ({ children, className }: Props) => (
+  <blockquote className={`prose callout warn ${className ?? ""}`}>
+    <span className="title">⚠️ {children}</span>
+  </blockquote>
+);
+
+export const QA = ({ children, className }: Props) => (
+  <blockquote className={`prose callout qa ${className ?? ""}`}>
+    <span className="title">❓ {children}</span>
+  </blockquote>
+);
+
 let components = {
   h1: createHeading(1),
   h2: createHeading(2),
@@ -231,6 +258,10 @@ let components = {
   Table,
   ImageWithCaption,
   Highlight,
+  Info,
+  Tip,
+  Warn,
+  QA,
   ...mdxComponents,
 };
 
