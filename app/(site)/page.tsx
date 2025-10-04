@@ -5,12 +5,11 @@ export default function Page() {
   return (
     <section className="space-y-10">
       <header className="space-y-2">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-balance">
-          개발 블로그
+        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight">
+          <span className="bg-gradient-to-r from-cyan-400 via-sky-500 to-indigo-500 bg-clip-text text-transparent">
+            Dev Blog
+          </span>
         </h1>
-        <p className="text-sm md:text-base text-neutral-600 dark:text-neutral-400">
-          배운 것들을 기록합니다.
-        </p>
       </header>
 
       {/* Blog */}

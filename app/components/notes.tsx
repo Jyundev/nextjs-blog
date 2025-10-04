@@ -17,7 +17,7 @@ export function NotePosts({ count }: { count?: number }) {
         .map((post) => (
           <Link
             key={post.slug}
-            href={`/blog/${post.slug}`}
+            href={`/note/${post.slug}`}
             className="group flex flex-col space-y-1 mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 rounded"
           >
             <div className="w-full flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
