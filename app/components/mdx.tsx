@@ -219,29 +219,41 @@ export const Highlight = ({
   );
 };
 
-type Props = { title?: string; children: React.ReactNode; className?: string };
+type Props = {
+  isIcon?: boolean;
+  children: React.ReactNode;
+  className?: string;
+};
 
-export const Info = ({ children, className }: Props) => (
+export const Info = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout info ${className ?? ""}`}>
-    <span className="title">💡 {children}</span>
+    <span className="title">
+      {isIcon ? "💡" : ""} {children}
+    </span>
   </blockquote>
 );
 
-export const Tip = ({ children, className }: Props) => (
+export const Tip = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout tip ${className ?? ""}`}>
-    <span className="title">🧩 {children}</span>
+    <span className="title">
+      {isIcon ? "🧩" : ""} {children}
+    </span>
   </blockquote>
 );
 
-export const Warn = ({ children, className }: Props) => (
+export const Warn = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout warn ${className ?? ""}`}>
-    <span className="title">⚠️ {children}</span>
+    <span className="title">
+      {isIcon ? "⚠️" : ""} {children}
+    </span>
   </blockquote>
 );
 
-export const QA = ({ children, className }: Props) => (
+export const QA = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout qa ${className ?? ""}`}>
-    <span className="title">❓ {children}</span>
+    <span className="title">
+      {isIcon ? "❓" : ""} {children}
+    </span>
   </blockquote>
 );
 
