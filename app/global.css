@@ -272,10 +272,6 @@ table {
   white-space: nowrap;
 }
 
-.title {
-  text-wrap: balance;
-}
-
 @layer utilities {
   @keyframes aurora {
     0% {

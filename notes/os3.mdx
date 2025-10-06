@@ -1,0 +1,87 @@
+---
+title: "Context Switching"
+publishedAt: "2025-10-06"
+summary: "운영체제의 Context Switching"
+tags: ["CS", "OS"]
+---
+
+_하루에 하나씩 정리하는 CS 지식_
+
+---
+
+<br></br>
+
+## 운영체제의 Context Switching
+
+### 1. 핵심
+
+운영체제(OS)는 CPU를 여러 프로세스와 스레드가 공유해서 사용하도록 스케줄링함.
+
+이 과정에서 실행 중이던 작업의 상태(레지스터, 프로그램 카운터 등)를 저장하고, 다른 작업의 상태를 불러오는 과정을 Context Switching이라 함.
+
+즉, `동시에 여러 프로그램이 실행되는 것처럼 보이게 만드는 핵심 원리`.
+
+### 2. Issue
+
+프론트엔드 앱은 싱글 스레드 환경(JS 엔진 + 이벤트 루프)에서 동작한다.
+
+비동기 작업이나 무거운 연산이 많아질수록, OS 차원에서의 스케줄링과 Context Switching이 잦아진다.
+
+그 결과로 다음과 같은 문제가 발생한다:
+
+- CPU 오버헤드 증가 → 성능 저하
+
+- JS 이벤트 루프 지연 → 화면 렌더링 끊김
+
+- 사용자 입력 반응이 늦어짐
+
+### 3. 해결책
+
+- 무거운 연산 분리
+
+  - Web Worker 사용 → 백그라운드 스레드로 오프로드
+
+- 작업을 작은 청크로 나누기
+
+  - requestIdleCallback, setTimeout(0) 활용 → 메인 스레드 블로킹 방지
+
+- 렌더링 최적화
+
+  - React: Virtual DOM diff 최소화, useMemo, useCallback 사용
+
+- 네트워크 요청 관리
+
+  - 불필요한 API 호출 줄이고, 캐싱 활용
+
+### 4. 면접 질문 정리
+
+<QA children="브라우저의 이벤트 루프는 어떻게 동작하며, 태스크 큐와 마이크로태스크 큐의 차이점은 무엇인가요?" />
+
+**브라우저는 크게 세 영역으로 구성됩니다.**
+
+- **Call Stack**: 실행 중인 코드
+- **Task Queue**: 비동기 작업(setTimeout, setInterval, DOM 이벤트) 대기
+- **Microtask Queue**: 우선순위가 높은 비동기(Promise, MutationObserver) 대기
+
+**즉, Promise의 콜백은 setTimeout보다 항상 먼저 실행됩니다.**
+
+<QA>JS 이벤트 루프와 OS의 Context Switching이 개념적으로 어떻게 다른가?</QA>
+
+OS의 Context Switching은 CPU가 프로세스를 교체하는 <Highlight>**하드웨어 수준 스케줄링**</Highlight> 이고, JS의 Event Loop는 단일 스레드 내에서 태스크를 순차 처리하는 <Highlight>**소프트웨어 수준 스케줄링**</Highlight> 이다.
+
+<QA>Microtask가 너무 많을 때 어떤 문제가 생길까?</QA>
+
+**Microtask가 모두 끝나야 렌더링이 시작된다.**
+
+Microtask는 빠르지만, 너무 많으면 렌더링이 지연되고 브라우저가 “화면을 그릴 시간”을 잃는다.
+
+따라서 Microtask는 짧고, 빠르고, 꼭 필요한 곳에만 사용해야 하며 렌더링과 병렬로 실행되는 느낌을 줄 땐 requestAnimationFrame 같은 Task 기반 접근이 더 안정적이다.
+
+<br></br>
+
+<Info isIcon={false}>
+  Context Switching은 운영체제가 여러 작업을 번갈아 실행하기 위한 핵심
+  메커니즘이다. 프론트엔드에서는 CPU 오버헤드와 이벤트 루프 지연으로 이어질 수
+  있으며, Web Worker, 청크 분할, 렌더링 최적화, 네트워크 효율화를 통해 완화할 수
+  있다.
+</Info>
