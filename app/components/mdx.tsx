@@ -205,7 +205,7 @@ export const Highlight = ({
 }: HighlightProps) => {
   return (
     <span
-      className={className}
+      className={` my-2 p-2 rounded ${className}`}
       style={{
         backgroundColor: bgColor,
         color: textColor,
