@@ -59,30 +59,19 @@ export function calculateReadingTime(content: string) {
   return `${minutes} min read`;
 }
 
-function HeaderCell({ children }) {
-  return (
-    <th className="border border-gray-300 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-left text-gray-900 dark:text-gray-100">
-      {children}
-    </th>
-  );
-}
-
-function BodyCell({ children }) {
-  return (
-    <td className="border border-gray-300 px-4 py-2 text-gray-900 dark:text-gray-100 whitespace-nowrap">
-      {children}
-    </td>
-  );
-}
-
 function Table({ data }) {
   return (
-    <div className="overflow-x-auto max-h-96 overflow-y-auto rounded-lg  custom-scrollbar">
-      <table className="table-auto border-collapse w-full min-w-max text-gray-800 dark:text-gray-200">
-        <thead>
+    <div className="overflow-x-auto overflow-y-auto max-h-96 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm ">
+      <table className="min-w-full border-collapse text-sm text-gray-800 dark:text-gray-100 custom-scrollbar">
+        <thead className="sticky top-0 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left">
           <tr>
             {data.headers.map((header) => (
-              <HeaderCell key={header}>{header}</HeaderCell>
+              <th
+                key={header}
+                className="px-4 py-3 font-semibold border-b border-gray-200 dark:border-gray-700"
+              >
+                {header}
+              </th>
             ))}
           </tr>
         </thead>
@@ -90,10 +79,15 @@ function Table({ data }) {
           {data.rows.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className="even:bg-gray-50 dark:even:bg-gray-700"
+              className="even:bg-gray-50 dark:even:bg-gray-900/40 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
               {row.map((cell, cellIndex) => (
-                <BodyCell key={cellIndex}>{cell}</BodyCell>
+                <td
+                  key={cellIndex}
+                  className="px-4 py-2 border-b border-gray-100 dark:border-gray-700 align-top"
+                >
+                  {cell}
+                </td>
               ))}
             </tr>
           ))}
