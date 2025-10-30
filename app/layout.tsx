@@ -67,14 +67,14 @@ export default function RootLayout({
       <body className="antialiased min-h-dvh flex flex-col">
         {/* 헤더 */}
         <header className="w-full">
-          <div className="max-w-xl w-full mx-4 lg:mx-auto mt-8">
+          <div className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto px-4 mt-8">
             <Navbar />
           </div>
         </header>
         {/* 메인(가변) */}
         <main className="flex-1 w-full">{children}</main>
         <footer className="w-full">
-          <div className="max-w-xl w-full mx-4 lg:mx-auto px-2 md:px-0">
+          <div className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl mx-auto px-4">
             <Footer />
           </div>
         </footer>
