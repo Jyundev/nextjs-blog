@@ -61,8 +61,8 @@ export function calculateReadingTime(content: string) {
 
 function Table({ data }) {
   return (
-    <div className="overflow-x-auto overflow-y-auto max-h-96 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm ">
-      <table className="min-w-full border-collapse text-sm text-gray-800 dark:text-gray-100 custom-scrollbar">
+    <div className="overflow-x-auto overflow-y-auto max-h-96 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm custom-scrollbar">
+      <table className="min-w-full border-collapse text-sm text-gray-800 dark:text-gray-100 ">
         <thead className="sticky top-0 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left">
           <tr>
             {data.headers.map((header) => (
