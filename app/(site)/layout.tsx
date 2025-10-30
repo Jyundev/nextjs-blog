@@ -3,5 +3,5 @@ export default function SiteLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="mx-4 lg:mx-auto mt-6 px-2 md:px-0">{children}</div>;
+  return <div className="mx-auto max-w-3xl px-4">{children}</div>;
 }
