@@ -19,23 +19,68 @@ export default function NotesLayout({ children }: Props) {
     <div
       className="
         mx-auto max-w-6xl px-4
-        grid grid-cols-1 gap-6
-        md:grid-cols-[240px_minmax(0,720px)_240px] md:gap-10
+        grid grid-cols-1 gap-8
+        md:grid-cols-[230px_minmax(0,720px)_1fr] md:gap-12
       "
     >
-      {/* 좌측 태그 사이드바 (col 1) */}
-      <aside className="hidden md:block md:sticky md:top-16 md:self-start md:max-h-[calc(100dvh-6rem)] md:overflow-y-auto">
-        <div className="mb-3 text-xs font-medium uppercase text-neutral-500">
+      {/* ─────────────── Left Sidebar (Tags) ─────────────── */}
+      <aside className="hidden md:block md:sticky md:top-20 md:self-start md:max-h-[calc(100dvh-8rem)] md:overflow-y-auto">
+        <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
           Tags
         </div>
-        <nav className="space-y-1">
+        <nav className="space-y-1.5">
+          {/* All */}
           <Link
             href="/note"
-            className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors duration-200
+              hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
-            <span>All</span>
-            <span className="ml-3 inline-flex min-w-6 items-center justify-center rounded-md bg-black/5 px-1.5 text-xs dark:bg-white/10">
+            <span className="font-medium group-hover:text-sky-600 dark:group-hover:text-sky-400">
+              All
+            </span>
+            <span className="ml-3 inline-flex min-w-6 items-center justify-center rounded-md bg-neutral-200/60 px-1.5 text-xs dark:bg-neutral-700/50">
               {total}
+            </span>
+          </Link>
+
+          {/* Each Tag */}
+          {entries.map(([tag, count]) => (
+            <Link
+              key={tag}
+              href={`/note/tag/${encodeURIComponent(tag)}`}
+              className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors duration-200
+                hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            >
+              <span className="truncate group-hover:text-sky-600 dark:group-hover:text-sky-400">
+                #{tag}
+              </span>
+              <span className="ml-3 inline-flex min-w-6 items-center justify-center rounded-md bg-neutral-200/60 px-1.5 text-xs dark:bg-neutral-700/50">
+                {count}
+              </span>
+            </Link>
+          ))}
+        </nav>
+      </aside>
+
+      {/* ─────────────── Main Content ─────────────── */}
+      <main className="min-w-0">{children}</main>
+
+      {/* ─────────────── Right Spacer (for centering) ─────────────── */}
+      <div aria-hidden className="hidden md:block" />
+
+      {/* ─────────────── Mobile Tag Dropdown ─────────────── */}
+      <details className="md:hidden">
+        <summary className="cursor-pointer select-none rounded-lg border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-sm font-medium">
+          태그 필터
+        </summary>
+        <div className="mt-2 max-h-72 space-y-1 overflow-y-auto rounded-lg border border-neutral-200 dark:border-neutral-700 p-2">
+          <Link
+            href="/note"
+            className="block rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+          >
+            All{" "}
+            <span className="ml-2 text-xs text-neutral-500 dark:text-neutral-400">
+              ({total})
             </span>
           </Link>
           {entries.map(([tag, count]) => (
@@ -45,40 +90,7 @@ export default function NotesLayout({ children }: Props) {
               className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
             >
               <span className="truncate">#{tag}</span>
-              <span className="ml-3 inline-flex min-w-6 items-center justify-center rounded-md bg-black/5 px-1.5 text-xs dark:bg-white/10">
-                {count}
-              </span>
-            </Link>
-          ))}
-        </nav>
-      </aside>
-
-      {/* 가운데 본문 (col 2) — 다른 페이지처럼 중앙 정렬 폭 유지 */}
-      <div className="min-w-0">{children}</div>
-
-      {/* 우측 스페이서(눈에 보이지 않지만 중앙 정렬을 위해 필요, col 3) */}
-      <div aria-hidden className="hidden md:block" />
-
-      {/* 모바일에서는 상단에 접히는 태그 패널 */}
-      <details className="md:hidden">
-        <summary className="cursor-pointer select-none rounded-lg border px-3 py-2 text-sm">
-          태그 필터
-        </summary>
-        <div className="mt-2 max-h-72 space-y-1 overflow-y-auto rounded-lg border p-2">
-          <Link
-            href="/note"
-            className="block rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-          >
-            All <span className="ml-2 text-xs opacity-70">({total})</span>
-          </Link>
-          {entries.map(([tag, count]) => (
-            <Link
-              key={tag}
-              href={`/note/tag/${encodeURIComponent(tag)}`}
-              className="flex items-center justify-between rounded-lg px-3 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
-            >
-              <span className="truncate">#{tag}</span>
-              <span className="ml-3 inline-flex min-w-6 items-center justify-center rounded-md bg-black/5 px-1.5 text-xs dark:bg-white/10">
+              <span className="ml-3 inline-flex min-w-6 items-center justify-center rounded-md bg-neutral-200/60 px-1.5 text-xs dark:bg-neutral-700/50">
                 {count}
               </span>
             </Link>

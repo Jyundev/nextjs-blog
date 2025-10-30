@@ -157,9 +157,8 @@ html {
 }
 
 .prose > :first-child {
-  /* Override removing top margin, causing layout shift */
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
+  margin-top: 0.75em !important;
+  margin-bottom: 0.75em !important;
 }
 
 pre::-webkit-scrollbar {

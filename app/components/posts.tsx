@@ -2,31 +2,38 @@ import { formatDate, getBlogPosts } from "@/utils/blog";
 import Link from "next/link";
 
 export function BlogPosts({ count }: { count?: number }) {
-  let allBlogs = getBlogPosts();
+  const allBlogs = getBlogPosts();
 
   return (
-    <div>
+    <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
       {[...allBlogs]
-        .sort((a, b) => {
-          const da = new Date(a.metadata.publishedAt).getTime();
-          const db = new Date(b.metadata.publishedAt).getTime();
-          if (da === db) return 0;
-          return db - da; // 최신순
-        })
-        .slice(0, count ?? Infinity) // 개수 제한
+        .sort(
+          (a, b) =>
+            new Date(b.metadata.publishedAt).getTime() -
+            new Date(a.metadata.publishedAt).getTime()
+        )
+        .slice(0, count ?? Infinity)
         .map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}
-            className="group flex flex-col space-y-1 mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60 rounded"
+            className="group block py-4 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900/40 rounded-lg"
           >
-            <div className="w-full flex flex-col md:flex-row md:items-baseline gap-1 md:gap-2">
-              <p className="text-neutral-600 dark:text-neutral-400 w-[100px] tabular-nums shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3">
+              <p className="text-sm text-neutral-500 dark:text-neutral-400 w-[110px] tabular-nums shrink-0">
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
-              <p className="text-neutral-900 dark:text-neutral-100 tracking-tight group-hover:underline">
-                {post.metadata.title}
-              </p>
+
+              <div className="flex flex-col">
+                <h3 className="text-base sm:text-lg font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
+                  {post.metadata.title}
+                </h3>
+                {post.metadata.summary && (
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                    {post.metadata.summary}
+                  </p>
+                )}
+              </div>
             </div>
           </Link>
         ))}
