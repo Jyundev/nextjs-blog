@@ -14,26 +14,25 @@ function getNoteTagCounts() {
 
 export default function NotesLayout({ children }: Props) {
   const { entries, total } = getNoteTagCounts();
-
   return (
-    <div
-      className="
-        mx-auto max-w-6xl px-4
-        grid grid-cols-1 gap-8
-        md:grid-cols-[230px_minmax(0,720px)_1fr] md:gap-12
-      "
-    >
-      {/* ─────────────── Left Sidebar (Tags) ─────────────── */}
-      <aside className="hidden md:block md:sticky md:top-20 md:self-start md:max-h-[calc(100dvh-8rem)] md:overflow-y-auto">
-        <div className="mb-4 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+    <div className="relative w-full">
+      {/* ─────────────── Aside (왼쪽 고정) ─────────────── */}
+      <aside
+        className="
+          hidden md:block
+          fixed left-[calc(50%-680px)] top-24
+          w-[200px]
+          max-h-[calc(100dvh-8rem)]
+          overflow-y-auto
+        "
+      >
+        <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
           Tags
         </div>
         <nav className="space-y-1.5">
-          {/* All */}
           <Link
             href="/note"
-            className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors duration-200
-              hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
           >
             <span className="font-medium group-hover:text-sky-600 dark:group-hover:text-sky-400">
               All
@@ -42,14 +41,11 @@ export default function NotesLayout({ children }: Props) {
               {total}
             </span>
           </Link>
-
-          {/* Each Tag */}
           {entries.map(([tag, count]) => (
             <Link
               key={tag}
               href={`/note/tag/${encodeURIComponent(tag)}`}
-              className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors duration-200
-                hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              className="group flex items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors duration-200 hover:bg-neutral-100 dark:hover:bg-neutral-800"
             >
               <span className="truncate group-hover:text-sky-600 dark:group-hover:text-sky-400">
                 #{tag}
@@ -62,14 +58,11 @@ export default function NotesLayout({ children }: Props) {
         </nav>
       </aside>
 
-      {/* ─────────────── Main Content ─────────────── */}
-      <main className="min-w-0">{children}</main>
-
-      {/* ─────────────── Right Spacer (for centering) ─────────────── */}
-      <div aria-hidden className="hidden md:block" />
+      {/* ─────────────── Main Content (중앙 정렬) ─────────────── */}
+      <main className="mx-auto max-w-3xl px-4">{children}</main>
 
       {/* ─────────────── Mobile Tag Dropdown ─────────────── */}
-      <details className="md:hidden">
+      <details className="md:hidden mx-4 mt-4">
         <summary className="cursor-pointer select-none rounded-lg border border-neutral-200 dark:border-neutral-700 px-3 py-2 text-sm font-medium">
           태그 필터
         </summary>
