@@ -1,0 +1,190 @@
+---
+title: "CSR vs SSR, 어떻게 다를까?"
+publishedAt: "2025-11-10"
+summary: "서버와 브라우저가 HTML을 언제, 어디서 만드는가?"
+tags: ["Frontend"]
+---
+
+렌더링은 브라우저가 HTML, CSS, JS를 받아서 화면에 그려주는 과정이다.그렇다면 이 HTML은 언제, 어디서 만들어질까?
+
+이 질문을 이해하려면 렌더링 방식(**CSR** , **SSR**) 의 차이를 알아야 한다.
+
+이번 글에서는 그중에서도 **CSR** 과 **SSR** 을 중심으로 살펴보자.
+
+## CSR (Client Side Rendering)
+
+### 동작 과정
+
+> 1.  브라우저가 서버에서 비어 있는 HTML과 JS 번들 파일을 받는다.
+> 2.  JS가 실행되며 React/Vue 등 라이브러리가 DOM을 구성한다.
+> 3.  이후 API 요청을 통해 데이터를 받아 화면을 완성한다.
+
+---
+
+### 코드 예제
+
+```
+export default function ClientDemo() {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/slow?delay=1500")
+      .then((r) => r.json())
+      .then((d) => setData(d))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-[40vh] grid place-items-center">
+        <p>⏳ JS 로드 후 데이터 가져오는 중… (CSR)</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      <h2 className="text-xl font-semibold">CSR 페이지</h2>
+      <pre className="p-3 rounded bg-gray-100 border">
+        {JSON.stringify(data, null, 2)}
+      </pre>
+      <button
+        onClick={() => alert("이건 JS가 로드된 뒤에만 동작해요!")}
+        className="px-3 py-2 rounded bg-gray-800 text-white"
+      >
+        클릭 인터랙션
+      </button>
+    </div>
+  );
+}
+
+```
+
+실행해보면 이런 느낌이다.
+
+<ImageWithCaption
+  src="/images/csr-ssr-ssg/csr-demo.gif"
+  alt="client side rendering"
+/>
+
+- 처음엔 로딩 문구(⏳ JS 로드 후 데이터 가져오는 중…)만 보인다.
+
+- JS가 다운로드되고 fetch 요청이 끝나야 화면이 완성된다.
+
+- JS가 꺼져 있으면 화면도, 버튼도 아무것도 작동하지 않는다.
+
+이게 바로 CSR의 핵심이다.
+
+> JS 실행 → 데이터 요청 → DOM 업데이트 순서로 브라우저가 직접 모든 걸 그린다.
+
+정리하자면
+
+FCP(첫 화면 표시) 속도는 느리지만, 한 번 로드된 후엔 페이지 전환이 매우 빠르다.
+
+즉, 한 번만 참으면 이후에는 앱처럼 부드럽게 동작한다.
+
+<Table
+  data={{
+    headers: ["구분", "전달 방식", "특징"],
+    rows: [
+      ["HTML", "비어 있음", "JS 실행 전에는 아무것도 표시되지 않음"],
+      ["JS 실행 후", "Virtual DOM 생성", "useEffect로 데이터 요청"],
+      ["완성 시점", "API 응답 이후", "DOM 업데이트 후 렌더링 완료"],
+    ],
+  }}
+/>
+
+## SSR (Server Side Rendering)
+
+### 동작 과정
+
+> 1. 브라우저가 페이지 요청을 보냄
+> 2. 서버에서 React 컴포넌트를 실행해 HTML을 완성
+> 3. 완성된 HTML을 브라우저로 전송 → 즉시 화면 표시
+> 4. 이후 JS가 로드되며 Hydration 과정을 통해 인터랙션 활성화
+
+---
+
+### 직접 구현 해보기
+
+```
+async function getData() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/slow?delay=1500`,
+    {
+      cache: "no-store",
+    }
+  );
+  if (!res.ok) {
+    const relative = await fetch("/api/slow?delay=1500", { cache: "no-store" });
+    return relative.json();
+  }
+  return res.json();
+}
+
+export default async function SSRPage() {
+  const data = await getData();
+
+  return (
+    <main className="p-6 space-y-4">
+      <h1 className="text-2xl font-bold mb-2">🟥 SSR 데모</h1>
+      <p className="text-gray-600 mb-4">
+        서버에서 HTML을 다 만들어 보내므로 브라우저는 즉시 내용을 볼 수
+        있습니다.
+      </p>
+
+      <pre className="p-3 rounded bg-gray-100 border mb-4">
+        {JSON.stringify(data, null, 2)}
+      </pre>
+
+      <InteractiveArea />
+    </main>
+  );
+}
+
+```
+
+실행해보면 이런 느낌이다
+
+<ImageWithCaption
+  src="/images/csr-ssr-ssg/ssr-demo.gif"
+  alt="client side rendering"
+/>
+
+- 화면이 즉시 그려진다.
+
+- 서버에서 getData()가 이미 데이터를 가져와 HTML 안에 넣어두었기 때문이다.
+
+- DevTools → Network → Doc → Response 를 보면,
+  - `<pre>` 태그 안에 데이터가 이미 포함되어 있다.
+
+JS가 로드된 이후엔 InteractiveArea의 버튼처럼 이벤트 핸들러가 연결되면서 상호작용이 가능해진다.
+
+SSR에서는 JS가 없어도 “내용(데이터)”은 보인다. 단, 버튼 클릭이나 인터랙션은 안 된다.
+
+> SSR은 브라우저가 JS를 기다리지 않아도 이미 완성된 HTML을 즉시 받아 화면을 그린다.
+
+<Table
+  data={{
+    headers: ["장점", "단점"],
+    rows: [
+      ["초기 로딩이 매우 빠름 (HTML 즉시 표시)", "서버 부하 있음"],
+      ["SEO에 강함 (검색엔진이 HTML 읽기 쉬움)", "요청마다 렌더링 발생"],
+      ["최신 데이터 반영 용이", "서버 환경 설정이 필요"],
+    ],
+  }}
+/>
+
+---
+
+## 정리
+
+CSR은 브라우저가 모든 걸 스스로 만들어내는 방식이라, 첫 화면은 느리지만 이후엔 앱처럼 빠르고 부드럽다.
+JS가 모든 걸 주도하기 때문에, 리액트 개발자는 이 구조에 익숙해지는 게 거의 필수라고 느꼈다.
+
+반면 SSR은 서버가 한 번 완성된 HTML을 만들어 보내주는 방식이라 초기 속도가 훨씬 빠르고, 검색 엔진도 HTML 내용을 바로 읽을 수 있다.
+대신 서버가 렌더링을 담당하다 보니 요청이 많아질수록 부하가 생기고, 인프라 구성이 조금 더 복잡해진다.
+
+Next.js 같은 프레임워크는 CSR과 SSR을 상황에 맞게 섞어 쓸 수 있기 때문에,
+각 렌더링 방식의 원리를 이해하고 “이 화면은 SSR, 이 화면은 CSR”처럼 구분할 줄 아는 역량이 프론트엔드 개발자에게 꼭 필요한 기본기라고 생각한다.

@@ -24,11 +24,13 @@ export function ImageWithCaption({
   sourceLabel,
 }: ImageWithCaptionProps) {
   return (
-    <figure className={`my-6 text-center ${className}`}>
+    <figure
+      className={`flex flex-col items-center my-6 text-center ${className}`}
+    >
       <img
         src={src}
         alt={alt}
-        className="mx-auto max-w-full rounded-lg shadow-md"
+        className="mx-auto max-w-[75%] rounded-lg shadow-md"
       />
       {
         <figcaption className="mt-2 text-sm text-gray-500">
