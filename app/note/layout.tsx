@@ -15,16 +15,17 @@ function getNoteTagCounts() {
 export default function NotesLayout({ children }: Props) {
   const { entries, total } = getNoteTagCounts();
   return (
-    <div className="relative w-full">
+    <div className="relative flex justify-center w-full">
       {/* ─────────────── Aside (왼쪽 고정) ─────────────── */}
       <aside
         className="
-          hidden md:block
-          fixed left-[calc(50%-680px)] top-24
-          w-[200px]
-          max-h-[calc(100dvh-8rem)]
-          overflow-y-auto
-        "
+   hidden md:block
+      sticky self-start
+      top-24
+      w-[200px]
+      mr-8
+      mt-[calc(3rem)] 
+       "
       >
         <div className="mb-3 text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
           Tags
@@ -59,7 +60,7 @@ export default function NotesLayout({ children }: Props) {
       </aside>
 
       {/* ─────────────── Main Content (중앙 정렬) ─────────────── */}
-      <main className="mx-auto max-w-3xl px-4">{children}</main>
+      <main className="max-w-3xl w-full px-4">{children}</main>
 
       {/* ─────────────── Mobile Tag Dropdown ─────────────── */}
       <details className="md:hidden mx-4 mt-4">
