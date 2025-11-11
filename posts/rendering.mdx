@@ -1,0 +1,140 @@
+---
+title: "렌더링에 대한 이해 (feat. 크롬 개발자 도구)"
+publishedAt: "2025-11-09"
+summary: "웹 브라우저 렌더링에 대해서 알아보자"
+tags: ["Frontend"]
+---
+
+## 렌더링(Rendering)
+
+렌더링(Rendering)은 사용자가 실제로 보는 화면을 브라우저가 그려내는 과정이다.
+즉, 브라우저가 서버로부터 HTML, CSS, JavaScript 파일을 받아 해석하고 화면에 출력하기까지의 전 과정을 의미한다.
+
+> HTML, CSS, JS를 받아 → DOM과 CSSOM을 만들고 → Render Tree를 구성 → Layout(배치) → Paint(그리기) → Composite(합성)
+
+<ImageWithCaption
+  src="/images/rendering/rendering.gif"
+  alt="rendering"
+  sourceUrl="https://til.younho9.dev/log/2020/201108/"
+  caption="출처 : "
+  sourceLabel="Today I Learned"
+/>
+## 1. Parsing: HTML 파싱 → DOM 생성
+
+1. 브라우저가 서버로부터 **HTML 문서**를 받음
+2. HTML을 한 줄씩 읽으며 **DOM(Document Object Model)** 트리를 생성한다.
+3. **DOM**은 HTML 요소를 **객체 형태로 표현한 트리 구조**이다.
+
+HTML 파싱 결과는 크롬 개발자 도구의 Elements 탭에서 확인할 수 있다.
+
+브라우저가 HTML을 파싱하여 만든 **문서 구조 트리(DOM 트리)** 를 시각적으로 볼 수 있다.
+
+- `<html>`이 루트(root) 노드
+
+- 그 안에 `<head>`와 `<body>`가 자식 노드로 존재한다.
+
+- `<body>` 안에는 `<div>`, `<main>`, `<footer>` 등 다양한 요소가 계층적으로 연결되어 있다.
+
+<ImageWithCaption src="/images/rendering/dom-tree.png" alt="rendering" />
+
+---
+
+## 2. CSS 파싱 → CSSOM 생성
+
+1. 브라우저는`<link>`나 `<style>`에 정의된 **CSS 파일을 파싱한다.**
+2. 파싱된 정보를 기반으로 **CSSOM (CSS Object Model)** 트리를 생성한다.
+
+CSSOM은 각 HTML 요소에 어떤 스타일이 적용되어야 하는지를 표현한 트리 구조의 데이터 모델이다.
+즉, DOM이 문서의 구조를 나타낸다면, CSSOM은 문서의 스타일 정보를 표현하는 모델이다.
+
+크롬 개발자 도구의 Styles 탭을 통해 각 요소에 적용된 CSS 속성을 확인할 수 있다.
+
+<ImageWithCaption src="/images/rendering/cssom.png" alt="CSSOM" />
+
+---
+
+## 3. Render Tree 생성
+
+1. **DOM + CSSOM → Render Tree** 로 결합한다.
+2. 시각적으로 표현 가능한 노드만 포함한다. (예: `display:none`은 제외)
+3. 각 요소에 최종 스타일이 적용된 상태로 구성된다.
+
+---
+
+## 4. Layout (Reflow)
+
+Render Tree의 각 노드가 화면에서의 위치와 크기를 계산하는 단계이다.
+
+브라우저의 뷰포트 크기, 폰트 메트릭, padding / border / margin, 박스 모델을 고려해 레이아웃을 산출한다.
+
+이 과정을 **Layout** 또는 **Reflow**라고 부른다.
+
+More tools → Rendering 패널의 Paint flashing(페인트 깜빡임) 옵션을 켠 뒤 페이지를 상호작용하면, 그려지는 영역을 시각적으로 확인할 수 있다.
+
+<ImageWithCaption src="/images/rendering/reflow.gif" alt="CSSOM" />
+
+**Reflow가 다시 발생하면 성능에 영향을 준다.**
+
+다음과 같은 조작은 **Forced Reflow** 를 유발할 수 있으므로 주의한다.
+
+- 레이아웃 정보를 즉시 요구하는 API: offsetWidth, offsetHeight, getBoundingClientRect(), scrollTop 등
+
+- DOM을 읽고(측정) 곧바로 쓰기(스타일 변경)를 반복하는 패턴
+
+---
+
+## 5. Painting (Rasterization)
+
+Layout이 완료된 후, 브라우저는 각 노드의 색상, 그림자, 배경, 테두리 등 시각적 요소를 실제 픽셀로 변환한다.
+이 단계를 Painting(그리기) 또는 Rasterization(래스터화) 라고 부른다.
+
+- 이 시점부터 GPU가 관여하기 시작한다.
+
+- Paint 결과는 Layer(레이어) 단위로 관리된다.
+
+  - position: fixed, transform, opacity 등이 적용된 요소는 새로운 레이어를 생성한다.
+
+  - 레이어는 이후 합성(Compositing) 단계에서 GPU가 조합하는 단위가 된다.
+
+---
+
+## 6. Compositing (합성)
+
+브라우저는 여러 개의 레이어를 GPU를 통해 합성(Compositing) 하여 최종 화면을 구성한다.
+스크롤이나 애니메이션 시에는 GPU가 이 레이어들을 다시 조합해 부드러운 렌더링을 수행한다.
+
+브라우저의 렌더링 파이프라인은 다음과 같은 전체 흐름을 가진다.
+
+<ImageWithCaption src="/images/rendering/pipeline.png" alt="렌더링 과정" />
+
+<Table
+  data={{
+    headers: ["색상", "의미", "역할"],
+    rows: [
+      ["노랑 (Scripting)", "JS 실행 시간", "DOM 조작, 이벤트 처리"],
+      ["보라 (Rendering)", "Layout 계산 ", "위치/크기 재계산 (Reflow)"],
+      ["초록 (Painting)", "화면에 픽셀로 그림", "실제 시각화 단계"],
+      ["파랑 (Loading)", "리소스 다운로드", "HTML/CSS/JS 요청"],
+      ["회색 (System)", "시스템 내부 연산", "브라우저 관리 등"],
+
+    ],
+
+}}
+/>
+
+### 세로선(LCP, DCL 등) 지표
+
+렌더링 타임라인 상의 세로선은 브라우저 성능 지표를 나타낸다.
+
+- DCL (DOMContentLoaded): HTML 파싱이 완료되어 DOM 트리가 완성된 시점
+
+- LCP (Largest Contentful Paint): 사용자가 “화면이 떴다”고 인식하는 시점
+  → 주요 이미지나 텍스트 콘텐츠가 렌더링된 순간이다.
+
+---
+
+<br> </br>
+
+렌더링 과정을 알고 있다고 생각했지만, 실제로 DOM, CSSOM, Layout, Paint, Composite 단계를 하나씩 정리하면서 브라우저가 화면을 그리는 흐름을 조금 더 명확하게 이해할 수 있었다.
+
+지금까지는 기능 완성에 초점을 맞췄다면, 이제는 성능 개선과 최적화에 대해 고민하며 개발 할 시점인 것 같다.

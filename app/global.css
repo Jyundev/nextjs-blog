@@ -21,8 +21,8 @@
   --highlight-text-yellow: #fffacc;
   --highlight-text-sky: #d9edf7;
   --highlight-text-light-sky: #f0f9ff;
-  --callout-accent: #22d3ee; /* cyan-400 */
-  --callout-bg: #ecfeff; /* cyan-50 */
+  --callout-accent: #2e2e2e; /* cyan-400 */
+  --callout-bg: #f1f1f1; /* cyan-50 */
   --callout-fg: #0f172a; /* slate-900 */
 
   --callout-info: #3b82f6; /* blue-500 */
@@ -105,6 +105,10 @@ html {
   @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
 }
 
+.prose hr {
+  @apply my-8 border-t border-[#b7b7b7] dark:border-[#555];
+}
+
 .prose code {
   @apply px-1 py-0.5 rounded-lg;
 }
@@ -175,10 +179,11 @@ pre {
   color: var(--callout-fg);
   padding: 0.5rem 1rem; /* 기존 0.2rem → 0.75rem */
   border-radius: 0.5rem;
-  font-style: italic;
+  /* font-style: italic; */
   transition: all 0.2s ease;
   line-height: 1.7; /* 가독성 향상 */
   margin: 1.25rem 0; /* 문단 리듬 */
+  font-weight: 500;
 }
 .prose blockquote > :first-child {
   margin-top: 0;
