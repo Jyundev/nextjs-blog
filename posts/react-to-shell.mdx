@@ -1,0 +1,109 @@
+---
+title: "RSC 취약점 React2shell(CVE-2025-55182)"
+publishedAt: "2025-12-16"
+summary: "리액트 애플리케이션에서 상태(state)를 효율적으로 관리하는 방법과 주요 도구들을 정리합니다."
+---
+
+Next.js, React 기반 서비스를 운영하는 개발자라면 최근 공개된 이번 이슈를 한 번쯤은 접했을 것이다.
+
+실제 운영 중인 프로젝트에서도 해당 취약점의 영향 가능성을 확인하고, 신속하게 보안 패치를 적용했다.
+
+이번 글에서는 보안 취약점 등급 중 가장 높은 점수를 받은 React2Shell(CVE-2025-55182)에 대해 정리해본다.
+
+## React2Shell 취약점 공개 타임라인
+
+취약점 보고부터 공식 패치 배포까지 불과 4일이 소요되었는데, 이는 해당 문제가 단순한 버그가 아니라 광범위한 서비스에 즉각적인 영향을 줄 수 있는 치명적인 보안 취약점이었음을 보여준다.
+
+<ImageWithCaption
+  src="/images/react-to-shell/timeline.png"
+  alt="React2shell"
+  caption="React2shell Timeline "
+/>
+
+- **11월 29일** : 라클란 데이비슨이 [메타 버그 바운티를](https://bugbounty.meta.com/) 통해 보안 취약점을 보고했습니다 .
+
+- **11월 30일** : Meta 보안 연구원들이 해당 문제를 확인하고 React 팀과 협력하여 수정 작업을 시작했습니다.
+
+- **12월 1일** : 수정 사항이 만들어졌고 React 팀은 영향을 받는 호스팅 제공업체 및 오픈 소스 프로젝트와 협력하여 수정 사항을 검증하고 완화책을 구현하고 수정 사항을 출시하기 시작했습니다.
+
+- **12월 3일** : 수정 사항이 npm에 게시되었고 **CVE-2025-55182** 라는 이름으로 대중에 공개되었습니다.
+
+## React2shell 이란?
+
+React2Shell은 React Server Components(RSC)의 Flight 프로토콜 역직렬화 과정에서 발생한 치명적인 보안 취약점이다.
+
+Flight 프로토콜은 원래 서버가 생성한 React 컴포넌트 트리를 클라이언트로 전달하기 위한 내부 통신 규약이지만, 서버 측에서 해당 데이터를 역직렬화할 때 입력값에 대한 검증이 충분하지 않았다.
+
+그 결과, 공격자가 조작한 Flight Payload가 정상적인 React 내부 데이터처럼 처리되었고, React Server Components 실행 경로를 따라 서버에서 의도하지 않은 코드가 실행될 수 있는 구조가 만들어졌다.
+
+이 취약점은 **비인증 공격이 가능**하다. 즉, 로그인이나 토큰 없이도 외부에서 직접 악의적인 요청을 보낼 수 있다.
+
+또한 Next.js 13부터 15 버전까지는 React Server Components가 **기본 활성화**되어 있기 때문에, 별도의 설정을 하지 않은 경우에도 공격 지점이 외부에 노출될 수 있는 구조였다.
+
+<ImageWithCaption
+  src="/images/react-to-shell/rce.png"
+  alt="flight protocol"
+  caption="출처 : https://www.codeant.ai/blogs/react-server-components-rce-cve-2025-55182"
+/>
+
+조작된 Flight Payload가 검증 없이 디코딩되면, React Server Components 실행 흐름을 타고 인증 절차 없이 서버 코드가 실행될 수 있다.
+
+이로 인해 Node.js 런타임 전체가 악성 파일 다운로드 및 실행, 임의 프로세스 종료와 같은 원격 코드 실행(RCE) 공격에 노출될 수 있다.
+
+이러한 특성으로 인해 React2Shell은 공식적으로 **CVSS 10.0**, 즉 보안 취약점 등급에서 부여될 수 있는 가장 높은 점수로 평가되었다.
+
+해당 취약점이 CVSS 10.0으로 평가된 이유는 다음 조건을 모두 만족하기 때문이다.
+
+- 네트워크를 통한 원격 공격 가능
+- 인증 불필요 (Unauthenticated)
+- 사용자 상호작용 불필요
+- 서버 권한 내 임의 코드 실행 가능
+- 영향 범위가 애플리케이션 전체(Node.js 런타임)에 해당
+
+## 정상적인 Flight 처리 흐름 vs 취약한 처리 흐름
+
+React Flight 프로토콜은 React 18부터 본격적으로 도입된 서버 컴포넌트(Server Components) 를 클라이언트로 전송하기 위한 통신 규약(protocol) 이다.
+
+기존 SSR(Server Side Rendering)은 HTML 문자열을 반환하는 방식으로, 컴포넌트 경계나 상태 정보를 유지할 수 없다는 한계가 있었다. 또한 CSR(Client Side Rendering)은 초기 로딩 시 불필요한 JavaScript 번들을 모두 다운로드해야 하는 문제가 있었다.
+
+React Flight 프로토콜은 이러한 문제를 해결하기 위해, 서버에서 실행된 컴포넌트의 **렌더링 결과** 를 HTML이 아닌 구조화된 데이터 형태로 전송한다.
+이 과정에서 React는 해당 데이터를 **서버가 직접 생성한 신뢰 가능한 내부 데이터**라고 가정한다.
+
+<Table
+  data={{
+    headers: ["구분", "정상 동작", "React2Shell 취약 상황"],
+    rows: [
+      ["Flight Payload 출처", "서버 내부에서 생성", "외부 공격자가 조작"],
+      ["디코딩 전제", "신뢰된 데이터", "신뢰 경계 붕괴"],
+      ["참조 대상", "UI 컴포넌트", "서버 내부 코드"],
+      ["실행 결과", "렌더링", "서버 코드 실행"],
+      ["보안 영향", "없음", "RCE"],
+
+    ],
+
+}}
+/>
+
+## React2Shell 패치에서 변경된 점
+
+React 팀은 React2Shell 취약점을 해결하기 위해 React Server Components의 Flight 프로토콜 처리 과정을 전반적으로 점검하고, 서버 측 역직렬화 과정에서 발생할 수 있는 의도치 않은 코드 실행 경로를 차단하는 방향으로 패치를 적용했다.
+
+또한 렌더링을 목적으로 설계된 Flight 디코딩 경로가 서버 코드 실행으로 악용되지 않도록 보안 경계를 강화했다.
+
+이후 추가로 발견된 DoS 및 Source Code Exposure 취약점에 대해서도 후속 패치를 통해 보완하며, React Server Components 전반의 보안 안정성을 재정비했다.
+
+## 정리
+
+이번 React2Shell 이슈는 단일 취약점 대응으로 끝나는 문제가 아니라, 운영 환경 전반의 보안 설정과 프레임워크 기본 동작을 다시 점검하는 계기가 되었다.
+
+Next.js 및 React 기반 서비스를 운영하고 있다면, 관련 패키지 버전을 확인하고 보안 패치를 신속하게 적용하는 것만으로도 대부분의 위험을 예방할 수 있다.
+
+<br />
+<br />
+
+---
+
+[참고자료]
+
+- [Critical Security Vulnerability in React Server Components](https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components)
+- [Denial of Service and Source Code Exposure in React Server Components](https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components)
