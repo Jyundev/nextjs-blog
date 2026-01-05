@@ -1,70 +1,68 @@
 ---
 title: "Next.js에서 Server Action과 API(route.ts), 언제 어떻게 써야 할까?"
 publishedAt: "2026-01-04"
-summary: "Next.js App Router에서 서버 로직을 URL 노출 기준으로 정리해본 경험"
+summary: "Next.js App Router에서 서버 로직을 역할 기준으로 정리해본 경험"
 tags: ["Next.js", "Frontend", "Architecture"]
 ---
 
 프로젝트 아키텍처를 리팩토링하다가 문득 이런 생각이 들었다.
 
-> “우리는 왜 이렇게 `/api`를 많이 만들고 있지?”
+> **“우리는 왜 Server Action과 `/api`를 이렇게 기준 없이 섞어 쓰고 있지?”**
 
-처음 Next.js를 쓸 때는 REST API 서버를 먼저 만들고, 그 위에 프론트를 얹는 방식이 너무 익숙했다.
+처음 Next.js를 사용할 때는 REST API 서버를 먼저 만들고, 그 위에 프론트를 얹는 방식이 너무 익숙했다.
 
-그래서 자연스럽게 **무언가 서버 로직이 필요하면 `/api`부터 만들고 있었다.**
+그 영향으로 App Router를 사용하면서도 **서버 로직이 필요하면 습관적으로 `/api`를 만들고, 어떤 곳에서는 Server Action을 사용하는 상태**가 되어 있었다.
 
-하지만 App Router를 제대로 쓰기 시작하면서 이 방식이 오히려 구조를 복잡하게 만들고 있다는 걸 느꼈다.
+문제는 이 선택들이 명확한 기준 없이 이루어지고 있었다는 점이다.
 
-그래서 이번에 아키텍처를 정리하면서 **Server Action과 API(route.ts)의 역할을 다시 정의**해보기로 했다.
-
----
-
-## Next.js 서버 로직
-
-App Router 기준으로 보면 서버 로직을 작성하는 방법은 크게 세 가지가 있다.
-
-- **Server Component**
-- **Server Action (`"use server"`)**
-- **Route Handler (`app/api/ .. /route.ts`)**
-
-문제는 이 셋이 기능적으로 겹치는 부분이 많아서 “이건 뭐로 해야 하지?”라는 고민이 계속 생긴다는 점이다.
-
-그래서 나는 기준을 하나로 줄였다.
-
-> "이 로직은 URL로 노출돼야 하는가?”
-
-이 질문 하나로 대부분의 선택이 정리된다.
-
-- **URL로 직접 호출돼야 한다 → `route.ts`**
-- **URL로 노출될 필요가 없다 → Server Action / Server Component**
-
-CRUD 기준보다 이 기준이 훨씬 덜 헷갈린다.
+이번에 아키텍처를 정리하면서 **Server Component, Server Action, route.ts를 “언제 무엇을 써야 하는지” 기준부터 다시 정리**해보기로 했다.
 
 ---
 
-## Route Handler(`route.ts`)
+## Next.js App Router의 서버 로직 3가지
 
-`app/api/**/route.ts`는 **URL을 가진 서버 엔드포인트**를 만든다.
+App Router 기준으로 서버 로직을 작성하는 방법은 크게 세 가지다.
+
+- <b>Server Component</b>
+- <b> Server Action (`"use server"`)</b>
+- <b> Route Handler (`app/api/**/route.ts`) </b>
+
+내가 헷갈렸던 점은 이 셋이 모두 **“서버에서 실행된다”** 는 공통점 때문에 서로 대체 가능한 것처럼 느껴진다는 점이다.
+
+그래서 처음에는 나름대로 이런 기준을 세워봤다.
+
+> **“이 로직은 URL로 노출돼야 할까?”**
+
+이 기준만으로도 `route.ts`를 써야 할지 말지는 어느 정도 정리되는 것 같았다.
+
+그런데 정리했다고 생각한 순간, Server Action이랑 Server Component를 두고 또 헷갈리기 시작했다.
+
+둘 다 URL로는 노출되지 않는데, 막상 써보니 **역할이 완전히 다른데도 같은 기준으로 판단하고 있었다.**
+
+---
+
+## Route Handler (`route.ts`)
+
+`app/api/**/route.ts`는 **URL을 가진 HTTP 엔드포인트**를 만든다.
 
 ```text
-GET  /api/home/summary
+GET  /api/auth/confirm
 POST /api/webhook/payment
-
 ```
 
-즉, 이 주소는 브라우저나 외부 시스템에서 직접 호출할 수 있다.
+이 URL은 브라우저, 외부 서비스, 혹은 다른 클라이언트에서 직접 호출될 수 있다.
 
-그래서 route.ts는 다음 같은 경우에만 사용하는 게 좋다.
+언제 route.ts를 써야 할까?
 
-### 1. 외부 시스템이 호출해야 할 때
+### 1️. 외부 시스템이 우리 서버를 호출해야 할 때
 
 - OAuth / SSO callback
 
 - 결제, 알림 Webhook
 
-이건 URL이 없으면 아예 동작하지 않는다.
+이 경우에는 URL 자체가 외부와의 계약이기 때문에 route.ts가 필수다.
 
-### 2. Next.js 앱 외부의 클라이언트가 호출해야 할 때
+### 2️. Next.js 앱 외부의 클라이언트가 호출해야 할 때
 
 - 모바일 앱
 
@@ -72,47 +70,45 @@ POST /api/webhook/payment
 
 - 다른 레포의 웹 애플리케이션
 
-이처럼 **Next.js 앱 밖에 있는 클라이언트가 URL을 통해 호출해야 하는 경우**에는 `route.ts` 기반 API가 필요하다.
+즉, HTTP API로서 명확한 인터페이스가 필요할 때다.
 
-### 3. BFF(Backend For Frontend)가 필요할 때
+### 3️. URL 단위의 제어가 필요할 때
 
-하나의 화면에 필요한 데이터를 서버에서 모아서 내려주고 싶은 경우다. route.ts는 프론트엔드 전용 백엔드(BFF) 역할을 한다.
+- HTTP status code 제어 (401 / 403 / 429)
 
-#### 1. 화면 기준으로 데이터가 묶일 때
+- header 제어
 
-- 홈 화면
-- 대시보드
+- redirect 처리
 
-#### 2. 여러 소스를 조합해야 할 때
+- 명시적인 캐싱 규칙
 
-- DB + 외부 API
-- 사용자 정보 + 통계
-- 권한/상태에 따른 조건 분기
+이런 경우는 Server Action이나 Server Component로는 표현하기 어렵다.
 
-#### 3. 캐싱/리밸리데이션을 화면 단위로 하고 싶을 때
+---
 
-예를 들어 홈 화면은 사용자 정보, 오늘의 다이어리, 포인트 상태 등 여러 데이터를 한 번에 보여준다.
+## Server Component
 
-이 경우, 각각을 따로 캐싱하는 대신 홈 화면 전용 API에서 다음처럼 설정할 수 있다.
+Server Component는 페이지를 렌더링하기 위해 필요한 데이터를 서버에서 조회하고, 그 결과를 바로 JSX로 그리는 역할을 한다.
 
-```
-export const revalidate = 60;
-```
+### Server Component가 담당하는 것들
+
+- 목록 조회
+
+- 상세 조회
+
+- 초기 화면 데이터
+
+- 화면 단위 데이터 조합 (BFF 역할)
+
+이런 로직은 Server Action이 아니라 Server Component의 책임이다.
+
+---
 
 ## Server Action
 
-Server Action은 URL을 만들지 않는다. 대신 UI 이벤트를 서버에서 바로 처리한다.
+Server Action은 UI 이벤트를 서버에서 처리하기 위한 장치다.
 
-```
-"use server";
-
-export async function createDiary(formData: FormData) {
-  // DB insert
-}
-
-```
-
-### Server Action이 잘 어울리는 경우는 다음과 같다.
+### Server Action이 잘 어울리는 경우
 
 - 버튼 클릭
 
@@ -120,44 +116,79 @@ export async function createDiary(formData: FormData) {
 
 - 생성 / 수정 / 삭제
 
-- 쿠키 / 세션을 다루는 로직
+- 쿠키 / 세션 기반 인증
 
-- 서비스 키, DB 직접 접근
+- DB 직접 접근이 필요한 변경 작업
 
-여기서 가장 중요한 포인트는 이거다.
+Server Action은 API라기 보다는 UI 이벤트 처리하는 도구이다.
 
-> 외부에서 이 로직을 URL로 호출할 이유가 없다면 굳이 API를 만들 필요가 없다.
+외부에서 이 로직을 URL로 직접 호출할 이유가 없다면 굳이 route.ts를 만들 필요는 없다.
+
+---
+
+## 내가 정리해본 기준
+
+여러 번 헷갈리다 보니 결국 기준을 한 번에 정하려고 하기보다는 **단계를 나눠서 생각하는 게 훨씬 편했다.**
+
+그래서 이렇게 두 가지 질문으로 정리해봤다.
+
+### 1️. 이 로직은 URL로 직접 호출될 필요가 있을까?
+
+- **있다** → `route.ts`
+- **없다** → Server Component 또는 Server Action
+
+### 2. URL로 노출되지 않는다면, 이 로직은 무엇을 하고 있을까?
+
+- **페이지를 그리기 위해 데이터를 조회한다면** → **Server Component**
+- **버튼 클릭이나 폼 제출처럼, 상태를 바꾸는 작업이라면** → **Server Action**
 
 ---
 
 ## 우리 프로젝트에 적용해보면
 
-우리 프로젝트에 적용해보면 우리 프로젝트는 별도의 백엔드 서버가 없고, Supabase를 사용하고 있다.
+우리 프로젝트는 **별도의 백엔드 서버 없이 Next.js + Supabase로 구성**되어 있다.
 
-이 구조에서는 대부분의 로직을 URL로 노출할 필요가 없다.
+이 구조에서는 대부분의 서버 로직을 굳이 URL로 노출할 필요가 없다.
 
-#### 굳이 만들 필요 없는 API들
+예를 들어, 예전에 만들었던 아래 같은 API들은
 
-- POST /api/diary/create
-- GET /api/diary/list
-- GET /api/tag
+- `POST /api/diary/create`
+- `POST /api/diary/update`
+- `POST /api/diary/delete`
 
-이 로직들의 공통점은 사용자 본인 데이터, 내부 UI 흐름, DB 직접 접근 이다.
+다시 생각해보면 공통점이 꽤 분명하다.
 
-#### 이렇게 하는 게 더 단순하다
+- 사용자 본인 데이터만 다룬다
+- 내부 UI 흐름에서만 호출된다
+- 버튼 클릭이나 폼 제출로 발생한다
+- DB에 직접 접근하는 변경 작업이다
 
-- features/diary/actions/createDiary.ts
-- features/diary/actions/getDiaryList.ts
-- features/tag/actions/getTags.ts
+이런 특징을 놓고 보면 이 로직들은 **API라기보다는 UI 이벤트 처리에 가깝다.**
 
-혹은 Server Component에서 바로 조회해도 충분하다.
+그래서 `route.ts`로 분리하기보다는 **Server Action으로 처리하는 쪽이 훨씬 자연스럽다.**
+
+```
+features/diary/actions/createDiary.ts    // Server Action (WRITE)
+features/diary/actions/updateDiary.ts    // Server Action (WRITE)
+
+features/diary/queries/getDiaryList.ts   // Server Component 전용 (READ)
+features/tag/queries/getTags.ts           // Server Component 전용 (READ)
+
+```
+
+또한 이 조회 로직들이 특정 페이지에서만 사용된다면, 굳이 분리하지 않고 Server Component 안에서 바로 조회해도 충분하다.
 
 ---
 
-## 마치며
+## 정리
 
-Next.js App Router를 쓰다 보니 프론트엔드와 서버를 나눠서 생각하던 예전 방식이 더 이상 잘 맞지 않는다는 느낌을 받았다.
+Next.js App Router를 사용하면서 프론트엔드와 서버를 명확히 나누던 예전 방식이 더 이상 잘 맞지 않는다는 걸 느꼈다.
 
-대신 요즘에는 **“이 로직을 굳이 외부에 열어둘 필요가 있을까?”** 를 먼저 고민하게 된다.
+처음에는 “API를 먼저 만들어야 하지 않을까?”라는 생각부터 했지만, 지금은 오히려 이런 질문을 먼저 하게 된다.
 
-API를 먼저 만들기보다 노출 경계를 먼저 정하니, 코드도 단순해지고 구조도 훨씬 이해하기 쉬워졌다.
+> **“이 로직은 굳이 외부에 열어둘 필요가 있을까?”**  
+> **“이건 페이지를 그리기 위한 조회인가, 아니면 UI 이벤트에 따른 변경인가?”**
+
+이 질문들에 답하다 보니 기준도 자연스럽게 정리됐다.
+
+API를 먼저 설계하기보다, **이 로직이 어디에 속하는지, 어떤 역할을 맡아야 하는지부터 정하는 것** 이 App Router를 제대로 활용하는 방법이라고 느꼈다.
