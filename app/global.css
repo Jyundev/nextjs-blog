@@ -40,7 +40,7 @@
 
 /* Tailwind darkMode: 'class' 기반 */
 html.dark {
-  --sh-class: #66d9ef;
+  --sh-class: #2ba778;
   --sh-identifier: #f8f8f2;
   --sh-sign: #f8f8f2;
   --sh-string: #6eff8b;
@@ -53,8 +53,8 @@ html.dark {
   --highlight-text-yellow: #3c3f5a;
   --highlight-text-sky: #264f78;
   --highlight-text-light-sky: #3b3f4c;
-  --callout-accent: #22d3ee;
-  --callout-bg: #0f172a;
+  --callout-accent: #c0c0c0;
+  --callout-bg: #49494996;
   --callout-fg: #e2e8f0;
 
   --callout-info: #60a5fa;
