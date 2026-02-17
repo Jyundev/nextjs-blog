@@ -15,18 +15,7 @@ tags: ["Frontend"]
 
 ## 기술 스택 차이
 
-<Table
-  data={{
-    headers: ["구분", "Jekyll + GitHub Actions", "Vercel Portfolio Starter Kit (Next.js)"],
-    rows: [
-      ["정적 생성기", "Ruby 기반 Jekyll", "React 기반 Next.js + MDX"],
-      ["템플릿 언어", "Liquid 템플릿", "React 컴포넌트, JSX, MDX"],
-      ["스타일링", "보통 SASS/SCSS, CSS", "Tailwind CSS"],
-      ["스크립트", "제한적 (JS 직접 삽입 가능)", "완전한 React 및 JavaScript/TypeScript 지원"],
-    ],
-
-}}
-/>
+<Table json='{"headers":["구분","Jekyll + GitHub Actions","Vercel Portfolio Starter Kit (Next.js)"],"rows":[["정적 생성기","Ruby 기반 Jekyll","React 기반 Next.js + MDX"],["템플릿 언어","Liquid 템플릿","React 컴포넌트, JSX, MDX"],["스타일링","보통 SASS/SCSS, CSS","Tailwind CSS"],["스크립트","제한적 (JS 직접 삽입 가능)","완전한 React 및 JavaScript/TypeScript 지원"]]}' />
 
 ## MDX 란?
 
@@ -36,54 +25,80 @@ MDX를 사용하면 컴포넌트 기반으로 블로그를 작성할 수 있다�
 
 현재 이 테이블도 컴포넌트를 활용해 구현한 예시이다.
 
-<Table
-  data={{
-    headers: ["구분", "Markdown", "MDX"],
-    rows: [
-      [
-        "문법",
-        "텍스트 기반, # 제목, *기울임 등",
-        "Markdown 문법 + JSX 태그/컴포넌트 가능",
-      ],
-      [
-        "확장성",
-        "제한적, 기본 텍스트 스타일링 위주	",
-        "React 컴포넌트를 포함해 동적 UI 가능",
-      ],
-      [
-        "사용",
-        "블로그, 문서, README 등",
-        "블로그, 문서, 컴포넌트 기반 UI 문서화",
-      ],
-    ],
-  }}
-/>
+<Table json='{"headers":["구분","Markdown","MDX"],"rows":[["문법","텍스트 기반, # 제목, *기울임 등","Markdown 문법 + JSX 태그/컴포넌트 가능"],["확장성","제한적, 기본 텍스트 스타일링 위주","React 컴포넌트를 포함해 동적 UI 가능"],["사용","블로그, 문서, README 등","블로그, 문서, 컴포넌트 기반 UI 문서화"]]}' />
 
 <p> </p>
 
-```React
-<Table
-  data={{
-    headers: ["구분", "Markdown", "MDX"],
-    rows: [
-      [
-        "문법",
-        "텍스트 기반, # 제목, *기울임 등",
-        "Markdown 문법 + JSX 태그/컴포넌트 가능",
-      ],
-      [
-        "확장성",
-        "제한적, 기본 텍스트 스타일링 위주	",
-        "React 컴포넌트를 포함해 동적 UI 가능",
-      ],
-      [
-        "사용",
-        "블로그, 문서, README 등",
-        "블로그, 문서, 컴포넌트 기반 UI 문서화",
-      ],
-    ],
-  }}
-/>
+```tsx
+type TableData = { headers: string[]; rows: string[][] };
+
+export function Table(props: {
+  headers?: string[];
+  rows?: string[][];
+  data?: TableData;
+  json?: string;
+}) {
+  let parsed: Partial<TableData> | null = null;
+
+  if (typeof props.json === "string" && props.json.trim().length > 0) {
+    try {
+      parsed = JSON.parse(props.json) as Partial<TableData>;
+    } catch (e) {
+      return (
+        <div className="my-6 rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-600 dark:text-red-300">
+          Table JSON 파싱 실패: {String(e)}
+        </div>
+      );
+    }
+  }
+
+  const headers = props.headers ?? props.data?.headers ?? parsed?.headers ?? [];
+  const rows = props.rows ?? props.data?.rows ?? parsed?.rows ?? [];
+
+  if (!headers.length || !rows.length) {
+    return (
+      <div className="my-6 rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-700 dark:text-amber-300">
+        Table: 데이터가 비었습니다. MDX 전달 형식/컴포넌트 매핑을 확인하세요.
+      </div>
+    );
+  }
+
+  return (
+    <div className="my-6 overflow-x-auto rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 shadow-sm">
+      <table className="min-w-full text-sm">
+        <thead className="bg-gray-50 dark:bg-white/5">
+          <tr className="border-b border-gray-200 dark:border-white/10">
+            {headers.map((h, i) => (
+              <th
+                key={i}
+                className="px-6 py-3 text-left font-semibold text-gray-900 dark:text-gray-100"
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+          {rows.map((row, i) => (
+            <tr
+              key={i}
+              className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+            >
+              {row.map((cell, j) => (
+                <td
+                  key={j}
+                  className="px-6 py-3 text-gray-700 dark:text-gray-300"
+                >
+                  {String(cell ?? "")}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
 ```
 
 ---

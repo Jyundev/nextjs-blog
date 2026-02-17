@@ -63,50 +63,66 @@ export function calculateReadingTime(content: string) {
   return `${minutes} min read`;
 }
 
-function Table({ data }) {
+type TableData = { headers: string[]; rows: string[][] };
+
+export function Table(props: {
+  headers?: string[];
+  rows?: string[][];
+  data?: TableData;
+  json?: string;
+}) {
+  let parsed: Partial<TableData> | null = null;
+
+  if (typeof props.json === "string" && props.json.trim().length > 0) {
+    try {
+      parsed = JSON.parse(props.json) as Partial<TableData>;
+    } catch (e) {
+      return (
+        <div className="my-6 rounded-xl border border-red-500/30 bg-red-500/5 p-4 text-sm text-red-600 dark:text-red-300">
+          Table JSON 파싱 실패: {String(e)}
+        </div>
+      );
+    }
+  }
+
+  const headers = props.headers ?? props.data?.headers ?? parsed?.headers ?? [];
+  const rows = props.rows ?? props.data?.rows ?? parsed?.rows ?? [];
+
+  if (!headers.length || !rows.length) {
+    return (
+      <div className="my-6 rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-700 dark:text-amber-300">
+        Table: 데이터가 비었습니다. MDX 전달 형식/컴포넌트 매핑을 확인하세요.
+      </div>
+    );
+  }
+
   return (
-    <div
-      className="overflow-x-auto rounded-2xl border 
-      border-gray-200 dark:border-white/10
-      bg-white dark:bg-neutral-900/60
-      shadow-sm dark:shadow-lg"
-    >
-      <table
-        className="min-w-full text-sm 
-        text-gray-800 dark:text-gray-200"
-      >
-        <thead>
-          <tr
-            className="border-b 
-            border-gray-200 dark:border-white/10"
-          >
-            {data.headers.map((header) => (
+    <div className="my-6 overflow-x-auto rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 shadow-sm">
+      <table className="min-w-full text-sm">
+        <thead className="bg-gray-50 dark:bg-white/5">
+          <tr className="border-b border-gray-200 dark:border-white/10">
+            {headers.map((h, i) => (
               <th
-                key={header}
-                className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider
-                  text-gray-500 dark:text-gray-400"
+                key={i}
+                className="px-6 py-3 text-left font-semibold text-gray-900 dark:text-gray-100"
               >
-                {header}
+                {h}
               </th>
             ))}
           </tr>
         </thead>
-
-        <tbody>
-          {data.rows.map((row, rowIndex) => (
+        <tbody className="divide-y divide-gray-100 dark:divide-white/5">
+          {rows.map((row, i) => (
             <tr
-              key={rowIndex}
-              className="border-b border-gray-100 dark:border-white/5
-                last:border-none
-                hover:bg-gray-50 dark:hover:bg-white/5
-                transition-colors"
+              key={i}
+              className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
-              {row.map((cell, cellIndex) => (
+              {row.map((cell, j) => (
                 <td
-                  key={cellIndex}
-                  className="px-6 py-4 align-top leading-relaxed"
+                  key={j}
+                  className="px-6 py-3 text-gray-700 dark:text-gray-300"
                 >
-                  {cell}
+                  {String(cell ?? "")}
                 </td>
               ))}
             </tr>
@@ -116,6 +132,7 @@ function Table({ data }) {
     </div>
   );
 }
+
 function CustomLink(props) {
   let href = props.href;
 

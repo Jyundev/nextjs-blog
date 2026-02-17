@@ -107,20 +107,7 @@ Layout이 완료된 후, 브라우저는 각 노드의 색상, 그림자, 배경
 
 <ImageWithCaption src="/images/rendering/pipeline.png" alt="렌더링 과정" />
 
-<Table
-  data={{
-    headers: ["색상", "의미", "역할"],
-    rows: [
-      ["노랑 (Scripting)", "JS 실행 시간", "DOM 조작, 이벤트 처리"],
-      ["보라 (Rendering)", "Layout 계산 ", "위치/크기 재계산 (Reflow)"],
-      ["초록 (Painting)", "화면에 픽셀로 그림", "실제 시각화 단계"],
-      ["파랑 (Loading)", "리소스 다운로드", "HTML/CSS/JS 요청"],
-      ["회색 (System)", "시스템 내부 연산", "브라우저 관리 등"],
-
-    ],
-
-}}
-/>
+<Table json='{"headers":["색상","의미","역할"],"rows":[["노랑 (Scripting)","JS 실행 시간","DOM 조작, 이벤트 처리"],["보라 (Rendering)","Layout 계산","위치/크기 재계산 (Reflow)"],["초록 (Painting)","화면에 픽셀로 그림","실제 시각화 단계"],["파랑 (Loading)","리소스 다운로드","HTML/CSS/JS 요청"],["회색 (System)","시스템 내부 연산","브라우저 관리 등"]]}' />
 
 ### 세로선(LCP, DCL 등) 지표
 
