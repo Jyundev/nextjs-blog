@@ -64,6 +64,10 @@ export function calculateReadingTime(content: string) {
 }
 
 function Table({ data }) {
+  if (!data || !Array.isArray(data.headers) || !Array.isArray(data.rows)) {
+    return null; // 혹은 안내 UI로 바꿔도 됨
+  }
+
   return (
     <div
       className="overflow-x-auto rounded-2xl border 
