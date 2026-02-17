@@ -1,0 +1,123 @@
+---
+title: "MDX에서 객체 props 전달이 빌드 환경에서 깨지는 문제"
+publishedAt: "2026-02-18"
+summary: "next-mdx-remote 6.x로 업데이트한 이후, MDX에서 객체 props가 빌드 환경에서 undefined로 전달되던 문제와 그 원인, 그리고 해결 방법을 정리했다."
+tags: ["Next.js", "MDX"]
+---
+
+## 문제 상황
+
+기존에는 MDX에서 아래처럼 객체를 직접 전달해 사용하고 있었다.
+
+```tsx
+<Table
+  data={{
+    headers: ["상황", "CDN 없음", "CDN 사용"],
+    rows: [
+      ["서울 사용자가 접속", "서버에서 직접 응답", "똑같이 빠름"],
+      ["뉴욕 사용자가 접속", "왕복 지연 300ms+", "뉴욕 POP에서 30ms"],
+    ],
+  }}
+/>
+```
+
+그리고 Table 컴포넌트는 단순하게 data.headers, data.rows에 바로 접근하는 구조였다.
+
+```tsx
+function Table({ data }) {
+return (
+<>
+{data.headers.map(...)}
+{data.rows.map(...)}
+</>
+);
+}
+```
+
+## 발생한 증상
+
+- Vercel 빌드 시 Cannot read properties of undefined (reading 'headers')
+
+- 방어 코드를 넣으면 에러는 사라지지만 표가 비어 있음
+
+- 로컬에서는 정상처럼 보이는데 배포 환경에서만 깨짐
+
+- props를 로그로 찍어보면 data가 undefined로 들어옴
+
+즉, MDX에서 전달한 객체 props가 빌드 환경에서 제대로 전달되지 않는 상황이었다.
+
+## 원인
+
+next-mdx-remote를 4.4.1 → 6.0.0으로 올리면서 내부 구조가 바뀌었고,
+특히 App Router / RSC(Server Component) 환경에서 MDX 인라인 객체 리터럴 전달이 안정적으로 보장되지 않는 케이스가 발생할 수 있다.
+
+로컬에서는 느슨하게 동작하지만, 프로덕션 빌드 단계에서는 직렬화 과정에서 props가 날아가거나 undefined로 처리될 수 있다.
+
+## 해결 방법
+
+### 1. Table 컴포넌트를 안전하게 수정
+
+기존처럼 data.headers에 바로 접근하지 않고,
+
+- headers
+- rows
+- data
+- json
+
+여러 형태를 받을 수 있도록 유연하게 처리했다.
+
+```tsx
+type TableData = { headers: string[]; rows: string[][] };
+
+export function Table(props: {
+  headers?: string[];
+  rows?: string[][];
+  data?: TableData;
+  json?: string;
+}) {
+  let parsed: Partial<TableData> | null = null;
+
+  if (typeof props.json === "string" && props.json.trim().length > 0) {
+    try {
+      parsed = JSON.parse(props.json) as Partial<TableData>;
+    } catch (e) {
+      return <div>Table JSON 파싱 실패</div>;
+    }
+  }
+
+  const headers = props.headers ?? props.data?.headers ?? parsed?.headers ?? [];
+  const rows = props.rows ?? props.data?.rows ?? parsed?.rows ?? [];
+
+  if (!headers.length || !rows.length) {
+    return <div>Table: 데이터가 비었습니다.</div>;
+  }
+
+  return <table>...</table>;
+}
+```
+
+이렇게 하면 props가 undefined여도 바로 크래시하지 않는다.
+
+### 2. MDX에서 객체 직접 전달을 피하기
+
+가장 안정적인 방식은 한 줄 JSON 문자열로 전달하는 방법이었다.
+
+```tsx
+<Table json='{"headers":["상황","CDN 없음","CDN 사용"],"rows":[["서울 사용자가 접속","서버에서 직접 응답","똑같이 빠름"],["뉴욕 사용자가 접속","왕복 지연 300ms+","뉴욕 POP에서 30ms"]]}' />
+```
+
+이 방식은 빌드/배포 환경에서도 안정적으로 동작했다.
+
+---
+
+## 정리
+
+next-mdx-remote 6.x 업데이트 이후 MDX에서 인라인 객체를 props로 직접 전달하는 방식이 빌드 환경에서 깨질 수 있다
+
+로컬환경에서는 정상처럼 보이기 때문에 더 헷갈린다
+
+해결 방법은
+
+- 컴포넌트를 방어적으로 수정하고
+
+- MDX에서는 객체 직접 전달을 피하는 것
