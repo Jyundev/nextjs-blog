@@ -13,6 +13,7 @@ type ImageWithCaptionProps = {
   className?: string;
   sourceUrl?: string; // 출처 URL
   sourceLabel?: string; // 출처 표시 텍스트
+  imgWidth?: string;
 };
 
 export function ImageWithCaption({
@@ -22,6 +23,7 @@ export function ImageWithCaption({
   className = "",
   sourceUrl,
   sourceLabel,
+  imgWidth = "75%",
 }: ImageWithCaptionProps) {
   return (
     <figure
@@ -30,25 +32,25 @@ export function ImageWithCaption({
       <img
         src={src}
         alt={alt}
-        className="mx-auto max-w-[75%] rounded-lg shadow-md"
+        style={{ width: imgWidth }}
+        className="mx-auto block max-w-full rounded-lg shadow-md h-auto"
       />
-      {
-        <figcaption className="mt-2 text-sm text-gray-500">
+
+      {(caption || sourceUrl) && (
+        <figcaption className="mt-2 text-sm text-gray-400">
           {caption}
           {sourceUrl && (
-            <>
-              <a
-                href={sourceUrl}
-                className="inline text-blue-500 underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {sourceLabel || "출처"}
-              </a>
-            </>
+            <a
+              href={sourceUrl}
+              className="ml-1 inline text-blue-500 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {sourceLabel || "출처"}
+            </a>
           )}
         </figcaption>
-      }
+      )}
     </figure>
   );
 }
@@ -63,30 +65,46 @@ export function calculateReadingTime(content: string) {
 
 function Table({ data }) {
   return (
-    <div className="overflow-x-auto overflow-y-auto max-h-96 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm custom-scrollbar">
-      <table className="min-w-full border-collapse text-sm text-gray-800 dark:text-gray-100 ">
-        <thead className="sticky top-0 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 text-left">
-          <tr>
+    <div
+      className="overflow-x-auto rounded-2xl border 
+      border-gray-200 dark:border-white/10
+      bg-white dark:bg-neutral-900/60
+      shadow-sm dark:shadow-lg"
+    >
+      <table
+        className="min-w-full text-sm 
+        text-gray-800 dark:text-gray-200"
+      >
+        <thead>
+          <tr
+            className="border-b 
+            border-gray-200 dark:border-white/10"
+          >
             {data.headers.map((header) => (
               <th
                 key={header}
-                className="px-4 py-3 font-semibold border-b border-gray-200 dark:border-gray-700"
+                className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider
+                  text-gray-500 dark:text-gray-400"
               >
                 {header}
               </th>
             ))}
           </tr>
         </thead>
+
         <tbody>
           {data.rows.map((row, rowIndex) => (
             <tr
               key={rowIndex}
-              className="even:bg-gray-50 dark:even:bg-gray-900/40 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="border-b border-gray-100 dark:border-white/5
+                last:border-none
+                hover:bg-gray-50 dark:hover:bg-white/5
+                transition-colors"
             >
               {row.map((cell, cellIndex) => (
                 <td
                   key={cellIndex}
-                  className="px-4 py-2 border-b border-gray-100 dark:border-gray-700 align-top"
+                  className="px-6 py-4 align-top leading-relaxed"
                 >
                   {cell}
                 </td>
@@ -98,7 +116,6 @@ function Table({ data }) {
     </div>
   );
 }
-
 function CustomLink(props) {
   let href = props.href;
 
