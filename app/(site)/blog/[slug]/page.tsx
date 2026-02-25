@@ -70,7 +70,7 @@ export default async function Blog({ params }) {
   const next = idx > 0 ? allPosts[idx - 1] : null;
 
   return (
-    <section>
+    <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -97,7 +97,7 @@ export default async function Blog({ params }) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="title font-semibold text-3xl tracking-tighter">
         {post.metadata.title}
       </h1>
       <div className="flex flex-col md:flex-row justify-between md:items-center mt-2 mb-8 text-sm gap-2">

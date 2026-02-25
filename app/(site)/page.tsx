@@ -8,7 +8,7 @@ export default function Page() {
       <header className="text-center sm:text-left space-y-3">
         <div className="h-1 w-10 bg-sky-500 rounded-full mx-auto sm:mx-0 mb-4" />
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-          Dev Blog
+          codeByYun
         </h1>
         <p className="text-base md:text-lg text-muted-foreground">
           배운 것을 기록하며 성장해가는 공간입니다.

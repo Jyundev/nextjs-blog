@@ -66,7 +66,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
   const next = idx > 0 ? allNotes[idx - 1] : null;
 
   return (
-    <section>
+    <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -92,7 +92,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
         }}
       />
 
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="title font-semibold text-3xl tracking-tighter">
         {post.metadata.title}
       </h1>
 

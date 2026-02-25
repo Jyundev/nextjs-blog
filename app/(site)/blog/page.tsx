@@ -21,7 +21,7 @@ export default function Page() {
           <span>Blog</span>
         </h1>
         <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
-          In-depth posts on frontend development, architecture, and things I've built.
+          학습하고 구현하며 정리한 기술 글. 주로 React, Next.js, TypeScript를 다룹니다.
         </p>
       </header>
 

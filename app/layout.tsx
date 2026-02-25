@@ -16,14 +16,14 @@ export const metadata: Metadata = {
     template: "%s | codeByYun",
   },
   description:
-    "Sharing insights, code, and clean solutions from my journey as a frontend developer.",
+    "배운 것을 기록하며 성장해가는 프론트엔드 개발자의 공간입니다.",
   openGraph: {
     title: "codeByYun",
     description:
-      "Frontend development tips, real-world projects, and insights on React, TypeScript, and more.",
+      "React, Next.js, TypeScript를 중심으로 학습한 내용을 정리하는 기술 블로그입니다.",
     url: baseUrl,
     siteName: "codeByYun",
-    locale: "en_US",
+    locale: "ko_KR",
     type: "website",
   },
   robots: {
@@ -48,7 +48,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="en"
+      lang="ko"
       className={cx(
         "bg-background text-foreground",
         GeistSans.variable,
