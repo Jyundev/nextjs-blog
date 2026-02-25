@@ -1,5 +1,6 @@
 import { formatDate, getNotePosts } from "@/utils/blog";
 import { calculateReadingTime, CustomMDX } from "app/components/mdx";
+import { PostNav } from "app/components/postNav";
 import { ViewCount } from "app/components/viewCount";
 import { baseUrl } from "app/sitemap";
 import { Clock3 } from "lucide-react";
@@ -53,11 +54,19 @@ export function generateMetadata({ params }: { params: { slug: string } }) {
 
 // 3) 본문도 노트에서 로드
 export default function NotePage({ params }: { params: { slug: string } }) {
-  const post = getNotePosts().find((p) => p.slug === params.slug);
+  const allNotes = getNotePosts().sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() -
+      new Date(a.metadata.publishedAt).getTime()
+  );
+  const idx = allNotes.findIndex((p) => p.slug === params.slug);
+  const post = allNotes[idx];
   if (!post) notFound();
+  const prev = idx < allNotes.length - 1 ? allNotes[idx + 1] : null;
+  const next = idx > 0 ? allNotes[idx - 1] : null;
 
   return (
-    <section>
+    <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -83,7 +92,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
         }}
       />
 
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="title font-semibold text-3xl tracking-tighter">
         {post.metadata.title}
       </h1>
 
@@ -105,6 +114,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
+      <PostNav prev={prev} next={next} basePath="/note" />
     </section>
   );
 }

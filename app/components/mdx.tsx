@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { highlight } from "sugar-high";
+import { CodeBlockPre } from "./codeBlockPre";
 import { mdxComponents } from "./mdxComponents";
 
 // 이미지 첨부
@@ -296,6 +297,7 @@ let components = {
   h6: createHeading(6),
   Image: RoundedImage,
   Link: CustomLink,
+  pre: CodeBlockPre,
   code: Code,
   Table,
   ImageWithCaption,

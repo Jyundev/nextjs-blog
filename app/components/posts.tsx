@@ -1,12 +1,21 @@
 import { formatDate, getBlogPosts } from "@/utils/blog";
+import { calculateReadingTime } from "app/components/mdx";
+import { Clock3 } from "lucide-react";
 import Link from "next/link";
 
-export function BlogPosts({ count }: { count?: number }) {
+export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
   const allBlogs = getBlogPosts();
+  const filtered = tag
+    ? allBlogs.filter((post) =>
+        post.metadata.tags?.some(
+          (t) => t.toLowerCase() === tag.toLowerCase()
+        )
+      )
+    : allBlogs;
 
   return (
     <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      {[...allBlogs]
+      {[...filtered]
         .sort(
           (a, b) =>
             new Date(b.metadata.publishedAt).getTime() -
@@ -24,7 +33,7 @@ export function BlogPosts({ count }: { count?: number }) {
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1">
                 <h3 className="text-base sm:text-lg font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
                   {post.metadata.title}
                 </h3>
@@ -33,6 +42,20 @@ export function BlogPosts({ count }: { count?: number }) {
                     {post.metadata.summary}
                   </p>
                 )}
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="flex items-center gap-1 text-xs text-neutral-400 dark:text-neutral-500">
+                    <Clock3 className="w-3 h-3" />
+                    {calculateReadingTime(post.content)}
+                  </span>
+                  {post.metadata.tags?.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs text-sky-600 dark:text-sky-400"
+                    >
+                      #{t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </Link>

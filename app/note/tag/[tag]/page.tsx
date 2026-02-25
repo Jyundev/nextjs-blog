@@ -47,10 +47,8 @@ export default function NotesByTagPage({
       {/* Header */}
       <header className="space-y-2">
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight flex items-center gap-2">
-          <span className="w-1 h-5 rounded-full bg-gradient-to-b from-sky-400 to-indigo-400" />
-          <span className="bg-gradient-to-r from-sky-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            #{tagLabel}
-          </span>
+          <span className="w-1 h-5 rounded-full bg-sky-500" />
+          <span>#{tagLabel}</span>
         </h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-400">
           {items.length} note{items.length > 1 ? "s" : ""} found

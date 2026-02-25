@@ -1,5 +1,6 @@
 import { formatDate, getBlogPosts } from "@/utils/blog";
 import { calculateReadingTime, CustomMDX } from "app/components/mdx";
+import { PostNav } from "app/components/postNav";
 import { baseUrl } from "app/sitemap";
 import { Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -55,12 +56,21 @@ export function generateMetadata({ params }) {
 }
 
 export default async function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
+  const allPosts = getBlogPosts().sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() -
+      new Date(a.metadata.publishedAt).getTime()
+  );
+  const idx = allPosts.findIndex((p) => p.slug === params.slug);
+  let post = allPosts[idx];
   if (!post) {
     notFound();
   }
+  const prev = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
+  const next = idx > 0 ? allPosts[idx - 1] : null;
+
   return (
-    <section>
+    <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <script
         type="application/ld+json"
         suppressHydrationWarning
@@ -87,7 +97,7 @@ export default async function Blog({ params }) {
           }),
         }}
       />
-      <h1 className="title font-semibold text-2xl tracking-tighter">
+      <h1 className="title font-semibold text-3xl tracking-tighter">
         {post.metadata.title}
       </h1>
       <div className="flex flex-col md:flex-row justify-between md:items-center mt-2 mb-8 text-sm gap-2">
@@ -105,6 +115,7 @@ export default async function Blog({ params }) {
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
+      <PostNav prev={prev} next={next} basePath="/blog" />
     </section>
   );
 }
