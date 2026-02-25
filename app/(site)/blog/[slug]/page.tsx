@@ -1,5 +1,6 @@
 import { formatDate, getBlogPosts } from "@/utils/blog";
 import { calculateReadingTime, CustomMDX } from "app/components/mdx";
+import { PostNav } from "app/components/postNav";
 import { baseUrl } from "app/sitemap";
 import { Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -55,10 +56,19 @@ export function generateMetadata({ params }) {
 }
 
 export default async function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
+  const allPosts = getBlogPosts().sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() -
+      new Date(a.metadata.publishedAt).getTime()
+  );
+  const idx = allPosts.findIndex((p) => p.slug === params.slug);
+  let post = allPosts[idx];
   if (!post) {
     notFound();
   }
+  const prev = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
+  const next = idx > 0 ? allPosts[idx - 1] : null;
+
   return (
     <section>
       <script
@@ -105,6 +115,7 @@ export default async function Blog({ params }) {
       <article className="prose">
         <CustomMDX source={post.content} />
       </article>
+      <PostNav prev={prev} next={next} basePath="/blog" />
     </section>
   );
 }

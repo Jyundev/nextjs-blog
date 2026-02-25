@@ -128,11 +128,15 @@ function getMDXData(dir) {
 }
 
 export function getBlogPosts() {
-  return getMDXData(path.join(process.cwd(), "posts"));
+  return getMDXData(path.join(process.cwd(), "posts")).filter(
+    (post) => !post.metadata.draft
+  );
 }
 
 export function getNotePosts() {
-  return getMDXData(path.join(process.cwd(), "notes"));
+  return getMDXData(path.join(process.cwd(), "notes")).filter(
+    (post) => !post.metadata.draft
+  );
 }
 
 export function formatDate(date: string, includeRelative = false) {

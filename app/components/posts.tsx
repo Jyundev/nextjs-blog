@@ -1,12 +1,19 @@
 import { formatDate, getBlogPosts } from "@/utils/blog";
 import Link from "next/link";
 
-export function BlogPosts({ count }: { count?: number }) {
+export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
   const allBlogs = getBlogPosts();
+  const filtered = tag
+    ? allBlogs.filter((post) =>
+        post.metadata.tags?.some(
+          (t) => t.toLowerCase() === tag.toLowerCase()
+        )
+      )
+    : allBlogs;
 
   return (
     <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      {[...allBlogs]
+      {[...filtered]
         .sort(
           (a, b) =>
             new Date(b.metadata.publishedAt).getTime() -
