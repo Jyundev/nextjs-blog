@@ -17,10 +17,8 @@ export default function Page() {
       {/* Header */}
       <header className="space-y-3">
         <h1 className="flex items-center gap-3 text-3xl md:text-4xl font-bold tracking-tight">
-          <span className="w-1 h-5 rounded-full bg-gradient-to-b from-sky-400 to-indigo-400" />
-          <span className="bg-gradient-to-r from-sky-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            Blog
-          </span>
+          <span className="w-1 h-5 rounded-full bg-sky-500" />
+          <span>Blog</span>
         </h1>
         <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
           In-depth posts on frontend development, architecture, and things I've built.
