@@ -1,4 +1,6 @@
 import { formatDate, getBlogPosts } from "@/utils/blog";
+import { calculateReadingTime } from "app/components/mdx";
+import { Clock3 } from "lucide-react";
 import Link from "next/link";
 
 export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
@@ -31,7 +33,7 @@ export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
                 {formatDate(post.metadata.publishedAt, false)}
               </p>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1">
                 <h3 className="text-base sm:text-lg font-medium text-neutral-900 dark:text-neutral-100 group-hover:text-sky-500 dark:group-hover:text-sky-400 transition-colors">
                   {post.metadata.title}
                 </h3>
@@ -40,6 +42,10 @@ export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
                     {post.metadata.summary}
                   </p>
                 )}
+                <span className="flex items-center gap-1 text-xs text-neutral-400 dark:text-neutral-500">
+                  <Clock3 className="w-3 h-3" />
+                  {calculateReadingTime(post.content)}
+                </span>
               </div>
             </div>
           </Link>

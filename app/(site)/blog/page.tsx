@@ -22,6 +22,9 @@ export default function Page() {
             Blog
           </span>
         </h1>
+        <p className="text-base text-neutral-600 dark:text-neutral-400 leading-relaxed">
+          In-depth posts on frontend development, architecture, and things I've built.
+        </p>
       </header>
 
       {/* Tag Filter */}
