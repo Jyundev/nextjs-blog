@@ -259,7 +259,7 @@ type Props = {
 export const Info = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout info ${className ?? ""}`}>
     <span className="title">
-      {isIcon ? "💡" : ""} {children}
+      {isIcon && "💡 "}{children}
     </span>
   </blockquote>
 );
@@ -267,7 +267,7 @@ export const Info = ({ isIcon = true, children, className }: Props) => (
 export const Tip = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout tip ${className ?? ""}`}>
     <span className="title">
-      {isIcon ? "🧩" : ""} {children}
+      {isIcon && "🧩 "}{children}
     </span>
   </blockquote>
 );
@@ -275,7 +275,7 @@ export const Tip = ({ isIcon = true, children, className }: Props) => (
 export const Warn = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout warn ${className ?? ""}`}>
     <span className="title">
-      {isIcon ? "⚠️" : ""} {children}
+      {isIcon && "⚠️ "}{children}
     </span>
   </blockquote>
 );
@@ -283,7 +283,7 @@ export const Warn = ({ isIcon = true, children, className }: Props) => (
 export const QA = ({ isIcon = true, children, className }: Props) => (
   <blockquote className={`prose callout qa ${className ?? ""}`}>
     <span className="title">
-      {isIcon ? "❓" : ""} {children}
+      {isIcon && "❓ "}{children}
     </span>
   </blockquote>
 );
