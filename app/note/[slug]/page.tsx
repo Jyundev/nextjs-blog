@@ -1,11 +1,9 @@
 import { formatDate, getNotePosts } from "@/utils/blog";
 import { calculateReadingTime, CustomMDX } from "app/components/mdx";
 import { PostNav } from "app/components/postNav";
-import { ViewCount } from "app/components/viewCount";
 import { baseUrl } from "app/sitemap";
 import { Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 // 1) 정적 파라미터: 노트에서만 슬러그 뽑기
 export async function generateStaticParams() {
@@ -106,9 +104,6 @@ export default function NotePage({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
-        <Suspense fallback={null}>
-          {/* <ViewCount slug={params.slug} /> */}
-        </Suspense>
       </div>
 
       <article className="prose">

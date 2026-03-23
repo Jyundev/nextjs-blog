@@ -4,7 +4,6 @@ import { PostNav } from "app/components/postNav";
 import { baseUrl } from "app/sitemap";
 import { Clock3 } from "lucide-react";
 import { notFound } from "next/navigation";
-import { Suspense } from "react";
 export async function generateStaticParams() {
   let posts = getBlogPosts();
 
@@ -110,7 +109,6 @@ export default async function Blog({ params }) {
           </div>
         </div>
 
-        <Suspense>{/* <ViewCount slug={params.slug} /> */}</Suspense>
       </div>
       <article className="prose">
         <CustomMDX source={post.content} />
