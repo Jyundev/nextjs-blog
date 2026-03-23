@@ -7,11 +7,6 @@ tags: ["Frontend"]
 
 CSS 기본기 다지기
 
-<i>모든 내용은 [1분코딩](https://studiomeal.com/archives/197) 을 참고한다.</i>
-
-<br />
-<br />
-
 ---
 
 ## 1. display: flex
@@ -173,8 +168,12 @@ z-index를 사용하면 요소의 Z축(앞뒤) 순서를 조정할 수 있다.
 
 블로그를 SNS에 공유할 때 썸네일로 보여줄 Open Graph 이미지를 만들어 봤다.
 
-이미지와 텍스트가 간단하게 배치된 형태다.
+다크 배경에 상단 accent 바, 제목과 작성자/날짜를 flex로 배치한 형태다.
 
 <OgOgCardNew />
 
-실제 썸네일은 이미지 형태라 배경이 이렇게 화려하진 않지만, 나름 깔끔한 배치로 완성했다. 이제는 확실히 flex 정렬 개념이 잡힌 것 같다.
+`flexDirection: "column"`과 `justifyContent: "space-between"`으로 상단 사이트명, 중앙 제목, 하단 메타 정보를 깔끔하게 분리했다.
+
+---
+
+<i>모든 내용은 [1분코딩](https://studiomeal.com/archives/197) 을 참고했다.</i>

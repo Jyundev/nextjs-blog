@@ -6,10 +6,10 @@ export async function GET() {
   let allBlogs = await getBlogPosts();
   let allNotes = await getNotePosts();
 
-  const createItemXml = (post, type) => `
+  const createItemXml = (post, type, path) => `
   <item>
     <title>${post.metadata.title}</title>
-    <link>${baseUrl}/blog/${post.slug}</link>
+    <link>${baseUrl}/${path}/${post.slug}</link>
     <pubDate>${new Date(post.metadata.publishedAt).toUTCString()}</pubDate>
     <category>${type}</category>
   </item>
@@ -21,7 +21,7 @@ export async function GET() {
         new Date(b.metadata.publishedAt).getTime() -
         new Date(a.metadata.publishedAt).getTime()
     )
-    .map((post) => createItemXml(post, "Blog"))
+    .map((post) => createItemXml(post, "Blog", "blog"))
     .join("\n");
 
   const noteItemsXml = allNotes
@@ -30,7 +30,7 @@ export async function GET() {
         new Date(b.metadata.publishedAt).getTime() -
         new Date(a.metadata.publishedAt).getTime()
     )
-    .map((post) => createItemXml(post, "Note"))
+    .map((post) => createItemXml(post, "Note", "note"))
     .join("\n");
 
   const rssFeed = `<?xml version="1.0" encoding="UTF-8" ?>
