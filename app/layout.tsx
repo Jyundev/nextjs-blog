@@ -25,6 +25,21 @@ export const metadata: Metadata = {
     siteName: "codeByYun",
     locale: "ko_KR",
     type: "website",
+    images: [
+      {
+        url: `${baseUrl}/api/og?title=codeByYun&author=YUN`,
+        width: 1200,
+        height: 630,
+        alt: "codeByYun",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "codeByYun",
+    description:
+      "React, Next.js, TypeScript를 중심으로 학습한 내용을 정리하는 기술 블로그입니다.",
+    images: [`${baseUrl}/api/og?title=codeByYun&author=YUN`],
   },
   robots: {
     index: true,
