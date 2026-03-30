@@ -3,7 +3,9 @@ import { calculateReadingTime } from "app/components/mdx";
 import { Clock3 } from "lucide-react";
 import Link from "next/link";
 
-export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
+const ITEMS_PER_PAGE = 10;
+
+export function BlogPosts({ count, tag, page }: { count?: number; tag?: string; page?: number }) {
   const allBlogs = getBlogPosts();
   const filtered = tag
     ? allBlogs.filter((post) =>
@@ -13,15 +15,21 @@ export function BlogPosts({ count, tag }: { count?: number; tag?: string }) {
       )
     : allBlogs;
 
+  const sorted = [...filtered].sort(
+    (a, b) =>
+      new Date(b.metadata.publishedAt).getTime() -
+      new Date(a.metadata.publishedAt).getTime()
+  );
+
+  const sliced = count != null
+    ? sorted.slice(0, count)
+    : page != null
+    ? sorted.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+    : sorted;
+
   return (
     <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      {[...filtered]
-        .sort(
-          (a, b) =>
-            new Date(b.metadata.publishedAt).getTime() -
-            new Date(a.metadata.publishedAt).getTime()
-        )
-        .slice(0, count ?? Infinity)
+      {sliced
         .map((post) => (
           <Link
             key={post.slug}

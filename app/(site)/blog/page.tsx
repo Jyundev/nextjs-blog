@@ -1,15 +1,29 @@
 import { getBlogPosts } from "@/utils/blog";
+import { Pagination } from "app/components/pagination";
 import { BlogPosts } from "app/components/posts";
 import Link from "next/link";
+
+const ITEMS_PER_PAGE = 10;
+const PAGINATION_THRESHOLD = 15;
 
 export const metadata = {
   title: "Blog",
   description: "Read my blog.",
 };
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const allPosts = getBlogPosts();
+  const totalPosts = allPosts.length;
+  const currentPage = Math.max(1, Number(searchParams.page) || 1);
+  const totalPages = Math.ceil(totalPosts / ITEMS_PER_PAGE);
+  const showPagination = totalPosts > PAGINATION_THRESHOLD;
+
   const allTags = Array.from(
-    new Set(getBlogPosts().flatMap((post) => post.metadata.tags ?? []))
+    new Set(allPosts.flatMap((post) => post.metadata.tags ?? []))
   ).sort();
 
   return (
@@ -51,8 +65,17 @@ export default function Page() {
 
       {/* Blog List */}
       <div className="pt-2">
-        <BlogPosts />
+        <BlogPosts page={showPagination ? currentPage : undefined} />
       </div>
+
+      {/* Pagination */}
+      {showPagination && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          basePath="/blog"
+        />
+      )}
     </section>
   );
 }

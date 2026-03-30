@@ -1,25 +1,34 @@
 import { formatDate, getNotePosts } from "@/utils/blog";
 import Link from "next/link";
 
-export function NotePosts({ count, tag }: { count?: number; tag?: string }) {
+const ITEMS_PER_PAGE = 10;
+
+export function NotePosts({ count, tag, page }: { count?: number; tag?: string; page?: number }) {
   const allNotes = getNotePosts();
+
+  const sorted = [...allNotes]
+    .sort(
+      (a, b) =>
+        new Date(b.metadata.publishedAt).getTime() -
+        new Date(a.metadata.publishedAt).getTime()
+    )
+    .filter((post) =>
+      tag
+        ? post.metadata.tags?.some(
+            (t) => t.toLowerCase() === tag.toLowerCase()
+          )
+        : true
+    );
+
+  const sliced = count != null
+    ? sorted.slice(0, count)
+    : page != null
+    ? sorted.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
+    : sorted;
 
   return (
     <div className="divide-y divide-neutral-200 dark:divide-neutral-800">
-      {[...allNotes]
-        .sort(
-          (a, b) =>
-            new Date(b.metadata.publishedAt).getTime() -
-            new Date(a.metadata.publishedAt).getTime()
-        )
-        .filter((post) =>
-          tag
-            ? post.metadata.tags?.some(
-                (t) => t.toLowerCase() === tag.toLowerCase()
-              )
-            : true
-        )
-        .slice(0, count ?? Infinity)
+      {sliced
         .map((post) => (
           <Link
             key={post.slug}
