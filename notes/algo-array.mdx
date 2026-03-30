@@ -1,0 +1,147 @@
+---
+title: "코딩테스트 — 배열 & 문자열"
+publishedAt: "2026-03-30"
+summary: "배열 순회, 문자 빈도 카운팅, 그리디, 소수 판별 패턴 정리"
+tags: ["코딩테스트"]
+---
+
+## 1. 배열에서 최대값 찾기
+
+배열을 순회하며 현재까지의 최대값과 비교하는 방법.
+
+```python
+def find_max_num(array):
+    max_num = array[0]
+    for num in array[1:]:
+        if num > max_num:
+            max_num = num
+    return max_num
+```
+
+`array.sort()[-1]` 처럼 내장 함수를 써도 되지만, 직접 구현하면 O(n) 탐색 흐름을 익힐 수 있다.
+
+---
+
+## 2. 가장 많이 등장하는 알파벳 찾기
+
+알파벳 26개짜리 배열을 만들어 빈도를 세는 방법. `ord()` 활용이 핵심.
+
+```python
+def find_max_occurred_alphabet(string):
+    array = [0] * 26
+    for letter in string:
+        if not letter.isalpha():
+            continue
+        array[ord(letter) - ord("a")] += 1
+    max_idx = 0
+    for idx, num in enumerate(array):
+        if num > array[max_idx]:
+            max_idx = idx
+    return chr(max_idx + ord("a"))
+```
+
+- `ord('a') = 97` 이므로 `ord(letter) - ord('a')`로 0~25 인덱스로 변환
+- 최빈값이 여러 개면 알파벳 순서가 앞인 것을 반환 (앞에서부터 탐색하므로 자동 처리)
+
+---
+
+## 3. 배열에 특정 숫자 존재 여부
+
+```python
+def is_number_exist(number, array):
+    for a in array:
+        if number == a:
+            return True
+    return False
+```
+
+Python에서는 `number in array`로 간단히 쓸 수 있지만, 직접 구현하면 O(n) 선형 탐색 이해에 도움.
+
+---
+
+## 4. 곱하거나 더해서 최대값 만들기
+
+왼쪽부터 순서대로 연산하되 곱이 더 유리하면 곱, 아니면 합. 0이나 1 처리가 핵심.
+
+```python
+def find_max_plus_or_multiply(array):
+    result = 0
+    for a in array:
+        if result > 0 and a >= 2:
+            result *= a
+        else:
+            result += a
+    return result
+```
+
+- `result > 0`이어야 곱셈이 의미 있음 (`0 * n = 0`)
+- `a >= 2`여야 곱이 합보다 크거나 같음
+
+---
+
+## 5. 반복되지 않는 첫 번째 문자 찾기
+
+빈도 배열로 각 문자 등장 횟수를 세고, 다시 순회하며 첫 번째 1인 문자를 반환.
+
+```python
+def find_not_repeating_first_character(string):
+    arr = [0] * 26
+    for s in string:
+        arr[ord(s) - ord('a')] += 1
+
+    for s in string:
+        if arr[ord(s) - ord('a')] == 1:
+            return s
+    return '-'
+```
+
+두 번 순회하는 게 포인트. 첫 번째 순회에서 빈도를 세고, 두 번째 순회에서 원래 순서를 유지한다.
+
+---
+
+## 6. 소수 목록 구하기
+
+소수 판별 시 루트 n까지만 나눠보면 충분 (O(√n) 최적화).
+
+```python
+def find_prime_list_under_number(number):
+    array = []
+    for n in range(2, number):
+        is_prime = True
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                is_prime = False
+                break
+        if is_prime:
+            array.append(n)
+    return array
+```
+
+더 큰 범위에서 소수를 구할 때는 에라토스테네스의 체 알고리즘이 효율적.
+
+---
+
+## 7. 0과 1 문자열을 모두 같게 만드는 최소 횟수
+
+핵심 아이디어: 인접한 숫자가 달라지는 구간 수 = 뒤집기 횟수.
+모두 0으로 만드는 경우와 모두 1로 만드는 경우 중 최솟값을 반환.
+
+```python
+def find_count_to_turn_out_to_all_zero_or_all_one(string):
+    count_to_all_zero = 0
+    count_to_all_one = 0
+
+    if string[0] == '0':
+        count_to_all_zero += 1
+    else:
+        count_to_all_one += 1
+
+    for i in range(len(string) - 1):
+        if string[i] != string[i + 1]:
+            if string[i + 1] == '0':
+                count_to_all_zero += 1
+            elif string[i + 1] == '1':
+                count_to_all_one += 1
+
+    return min(count_to_all_zero, count_to_all_one)
+```

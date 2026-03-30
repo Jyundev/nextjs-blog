@@ -1,15 +1,29 @@
+import { Pagination } from "@/components/pagination";
 import { NotePosts } from "@/components/notes";
 import { getNotePosts } from "@/utils/blog";
 import Link from "next/link";
+
+const ITEMS_PER_PAGE = 10;
+const PAGINATION_THRESHOLD = 15;
 
 export const metadata = {
   title: "Note",
   description: "Read my note.",
 };
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const allNotes = getNotePosts();
+  const totalNotes = allNotes.length;
+  const currentPage = Math.max(1, Number(searchParams.page) || 1);
+  const totalPages = Math.ceil(totalNotes / ITEMS_PER_PAGE);
+  const showPagination = totalNotes > PAGINATION_THRESHOLD;
+
   const allTags = Array.from(
-    new Set(getNotePosts().flatMap((post) => post.metadata.tags ?? []))
+    new Set(allNotes.flatMap((post) => post.metadata.tags ?? []))
   ).sort();
 
   return (
@@ -52,8 +66,17 @@ export default function Page() {
 
       {/* Notes List */}
       <div className="pt-2">
-        <NotePosts />
+        <NotePosts page={showPagination ? currentPage : undefined} />
       </div>
+
+      {/* Pagination */}
+      {showPagination && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          basePath="/note"
+        />
+      )}
     </section>
   );
 }

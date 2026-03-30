@@ -1,0 +1,55 @@
+---
+title: "코딩테스트 — 이진 탐색"
+publishedAt: "2026-03-30"
+summary: "정렬된 배열에서 O(log n)으로 값을 찾는 이진 탐색 패턴 정리"
+tags: ["코딩테스트"]
+---
+
+## 이진 탐색 (Binary Search)
+
+정렬된 배열에서 O(log n)으로 값을 찾는 알고리즘.
+
+```python
+def binary_search(array, target):
+    current_min = 0
+    current_max = len(array) - 1
+
+    while current_min <= current_max:
+        current_mid = (current_min + current_max) // 2
+        if target == array[current_mid]:
+            return True
+        elif target > array[current_mid]:
+            current_min = current_mid + 1
+        else:
+            current_max = current_mid - 1
+
+    return False
+```
+
+주의: 이진 탐색은 반드시 정렬된 배열에서만 사용 가능. 정렬 안 된 배열이라면 `array.sort()` 먼저.
+
+---
+
+## 활용 — 주문 가능 여부 확인
+
+```python
+def is_available_to_order(menus, orders):
+    menus.sort()
+    for order in orders:
+        if not binary_search(menus, order):
+            return False
+    return True
+```
+
+**더 간결한 방법: set 활용**
+
+```python
+def is_available_to_order_set(menus, orders):
+    menu_set = set(menus)
+    for order in orders:
+        if order not in menu_set:
+            return False
+    return True
+```
+
+탐색만 필요하다면 `set`이 O(1) 조회로 더 빠름.
