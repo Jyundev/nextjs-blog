@@ -1,0 +1,108 @@
+---
+title: "코딩테스트 — 링크드 리스트 & 투 포인터"
+publishedAt: "2026-03-30"
+summary: "링크드 리스트 직접 구현, 투 포인터, deque 활용 패턴 정리"
+tags: ["코딩테스트"]
+---
+
+## 1. 링크드 리스트 구현
+
+직접 `Node` 클래스와 `LinkedList` 클래스를 구현해서 구조를 이해하는 것이 목표.
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self, value):
+        self.head = Node(value)
+
+    def append(self, value):
+        cur = self.head
+        while cur.next is not None:
+            cur = cur.next
+        cur.next = Node(value)
+
+    def get_node(self, index):
+        cur = self.head
+        cur_idx = 0
+        while index != cur_idx and cur is not None:
+            cur = cur.next
+            cur_idx += 1
+        return cur
+
+    def add_node(self, index, value):
+        new_node = Node(value)
+        if index == 0:
+            new_node.next = self.head
+            self.head = new_node
+        else:
+            prev_node = self.get_node(index - 1)
+            next_node = prev_node.next
+            prev_node.next = new_node
+            new_node.next = next_node
+
+    def delete_node(self, index):
+        if index == 0:
+            self.head = self.head.next
+        else:
+            prev_node = self.get_node(index - 1)
+            prev_node.next = self.get_node(index).next
+```
+
+**두 링크드 리스트 합산**
+
+```python
+def get_sum(linked_list):
+    total = 0
+    cur = linked_list.head
+    while cur is not None:
+        total = total * 10 + cur.data
+        cur = cur.next
+    return total
+```
+
+`total * 10 + cur.data` 패턴은 링크드 리스트를 숫자로 변환할 때 핵심.
+
+---
+
+## 2. 끝에서 K번째 값 — 투 포인터
+
+```python
+def get_kth_node_from_last(self, k):
+    slow = self.head
+    fast = self.head
+
+    for _ in range(k):
+        fast = fast.next
+
+    while fast is not None:
+        slow = slow.next
+        fast = fast.next
+
+    return slow
+```
+
+- `fast`를 먼저 k칸 앞에 보내고, 이후 `slow`와 `fast`를 동시에 이동
+- `fast`가 끝에 도달하면 `slow`는 끝에서 k번째 위치
+
+---
+
+## 3. 요세푸스 순열 — deque 활용
+
+```python
+from collections import deque
+
+def josephus_permutation(k, n):
+    queue = deque(range(1, k + 1))
+    result = []
+    while queue:
+        queue.rotate(-(n - 1))  # n-1번 왼쪽으로 회전
+        result.append(queue.popleft())
+    return result
+```
+
+- `deque.rotate(-x)`: 왼쪽으로 x번 회전 → 제거할 대상을 맨 앞으로
+- 배열로 직접 구현하면 O(n²), deque를 쓰면 rotate가 효율적

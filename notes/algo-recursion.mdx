@@ -1,0 +1,52 @@
+---
+title: "코딩테스트 — 재귀 & DFS"
+publishedAt: "2026-03-30"
+summary: "재귀 기본 패턴과 DFS 완전 탐색 정리"
+tags: ["코딩테스트"]
+---
+
+## 1. 재귀 (Recursion)
+
+**팩토리얼**
+
+```python
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+```
+
+**팰린드롬 판별**
+
+```python
+def is_palindrome(string):
+    if len(string) < 2:
+        return True
+    if string[0] != string[-1]:
+        return False
+    return is_palindrome(string[1:-1])
+```
+
+---
+
+## 2. DFS — 더하거나 빼서 타겟 만들기
+
+모든 경우의 수를 탐색하는 완전 탐색 패턴.
+
+```python
+def get_count_of_ways_to_target(array, target):
+    result = []
+
+    def dfs(index, current_sum):
+        if index == len(array):
+            result.append(current_sum)
+            return
+        dfs(index + 1, current_sum + array[index])
+        dfs(index + 1, current_sum - array[index])
+
+    dfs(0, 0)
+    return result.count(target)
+```
+
+- 각 숫자에서 `+`와 `-` 두 갈래로 분기
+- 재귀 트리의 리프 노드(마지막 인덱스)에서 합계를 수집
