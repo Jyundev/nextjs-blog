@@ -39,7 +39,7 @@ const OGImageContent = () => {
           }}
         />
         <span style={{ fontSize: "14px", color: "#94a3b8", fontWeight: 500 }}>
-          codeByYun
+          jyundev
         </span>
       </div>
 

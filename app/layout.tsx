@@ -12,34 +12,34 @@ import { themeInitScript } from "./utils/themeScript";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "codeByYun",
-    template: "%s | codeByYun",
+    default: "jyundev",
+    template: "%s | jyundev",
   },
   description:
     "배운 것을 기록하며 성장해가는 프론트엔드 개발자의 공간입니다.",
   openGraph: {
-    title: "codeByYun",
+    title: "jyundev",
     description:
       "React, Next.js, TypeScript를 중심으로 학습한 내용을 정리하는 기술 블로그입니다.",
     url: baseUrl,
-    siteName: "codeByYun",
+    siteName: "jyundev",
     locale: "ko_KR",
     type: "website",
     images: [
       {
-        url: `${baseUrl}/api/og?title=codeByYun&author=YUN`,
+        url: `${baseUrl}/api/og?title=jyundev&author=YUN`,
         width: 1200,
         height: 630,
-        alt: "codeByYun",
+        alt: "jyundev",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "codeByYun",
+    title: "jyundev",
     description:
       "React, Next.js, TypeScript를 중심으로 학습한 내용을 정리하는 기술 블로그입니다.",
-    images: [`${baseUrl}/api/og?title=codeByYun&author=YUN`],
+    images: [`${baseUrl}/api/og?title=jyundev&author=YUN`],
   },
   robots: {
     index: true,

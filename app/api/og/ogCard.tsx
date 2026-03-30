@@ -55,7 +55,7 @@ const OGImageContent = ({ title, author, date }: OGImageContentProps) => {
             letterSpacing: "0.05em",
           }}
         >
-          codeByYun
+          jyundev
         </span>
       </div>
 

@@ -8,7 +8,7 @@ export default function Page() {
       <header className="text-center sm:text-left space-y-3">
         <div className="h-1 w-10 bg-sky-500 rounded-full mx-auto sm:mx-0 mb-4" />
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-          codeByYun
+          jyundev
         </h1>
         <p className="text-base md:text-lg text-muted-foreground">
           배운 것을 기록하며 성장해가는 공간입니다.
@@ -16,41 +16,35 @@ export default function Page() {
       </header>
 
       {/* ─────────────── Blog Section ─────────────── */}
-      <section className="space-y-6">
+      <section className="space-y-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg md:text-xl font-semibold tracking-tight text-foreground">
-            Blog
+          <h2 className="font-mono text-sm text-neutral-400 dark:text-neutral-500">
+            <span className="text-sky-500 dark:text-sky-400">// </span>blog
           </h2>
           <a
             href="/blog"
-            className="text-sm font-medium text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
+            className="font-mono text-xs text-neutral-400 hover:text-foreground dark:text-neutral-500 dark:hover:text-neutral-200 transition-colors"
           >
-            모든 글 보기 →
+            more →
           </a>
         </div>
-        <div className="border-t border-border" />
-        <div className="pt-4">
-          <BlogPosts count={3} />
-        </div>
+        <BlogPosts count={3} />
       </section>
 
       {/* ─────────────── Note Section ─────────────── */}
-      <section className="space-y-6">
+      <section className="space-y-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg md:text-xl font-semibold tracking-tight text-foreground">
-            Note
+          <h2 className="font-mono text-sm text-neutral-400 dark:text-neutral-500">
+            <span className="text-sky-500 dark:text-sky-400">// </span>note
           </h2>
           <a
             href="/note"
-            className="text-sm font-medium text-sky-500 hover:text-sky-600 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
+            className="font-mono text-xs text-neutral-400 hover:text-foreground dark:text-neutral-500 dark:hover:text-neutral-200 transition-colors"
           >
-            전체 보기 →
+            more →
           </a>
         </div>
-        <div className="border-t border-border" />
-        <div className="pt-4">
-          <NotePosts count={3} />
-        </div>
+        <NotePosts count={3} />
       </section>
     </main>
   );
